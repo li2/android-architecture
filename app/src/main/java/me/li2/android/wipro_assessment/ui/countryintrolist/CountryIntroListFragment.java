@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.ui.newslist;
+package me.li2.android.wipro_assessment.ui.countryintrolist;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import me.li2.android.wipro_assessment.R;
 
-public class NewsListFragment extends Fragment {
+public class CountryIntroListFragment extends Fragment {
 
-    public NewsListFragment() {
+    public CountryIntroListFragment() {
         // Required empty public constructor
     }
 
@@ -23,6 +23,6 @@ public class NewsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news_list, container, false);
+        return inflater.inflate(R.layout.fragment_country_intro_list, container, false);
     }
 }
