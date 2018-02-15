@@ -25,9 +25,23 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile "com.android.support:appcompat-v7:$support_version"
+    compile "com.android.support:design:$support_version"
+    compile "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+    compile "com.android.support:support-v4:$support_version"
+    testCompile "junit:junit:$junit_version"
+
+    // OkHttp
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+
+    // Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+
+    // Retrofit GSON converter
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+
+    // GSON
+    compile 'com.google.code.gson:gson:2.8.2'
 }
