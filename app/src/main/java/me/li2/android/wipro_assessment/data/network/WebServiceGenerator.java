@@ -24,6 +24,7 @@ public class WebServiceGenerator {
 
     private static Gson gson = new GsonBuilder()
             .setLenient()
+            .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
             .create();
 
     private static HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor()

@@ -2,6 +2,7 @@ package me.li2.android.wipro_assessment.ui.countryintrolist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,11 +54,17 @@ public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements V
         // loading the correct image into the appropriate ImageView.
         // Picasso uses three sources: memory, disk and network (ordered from fastest to slowest). and
         // there is nothing we'll have to do.
-        Picasso.with(mContext)
-                .load(intro.getImageHref())
-                .placeholder(R.drawable.ic_image_holder)
-                .error(R.drawable.ic_image_broken)
-                .into(mImageView);
+
+        if (TextUtils.isEmpty(intro.getImageHref())) {
+            // Path must not be empty in Picasso
+            mImageView.setImageResource(R.drawable.ic_image_broken);
+        } else {
+            Picasso.with(mContext)
+                    .load(intro.getImageHref())
+                    .placeholder(R.drawable.ic_image_holder)
+                    .error(R.drawable.ic_image_broken)
+                    .into(mImageView);
+        }
     }
 
     @Override
