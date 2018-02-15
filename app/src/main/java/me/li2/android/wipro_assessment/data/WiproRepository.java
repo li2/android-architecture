@@ -88,11 +88,16 @@ public class WiproRepository {
         return mCountryIntroDao.getAllCountryIntro();
     }
 
+    public LiveData<List<CountryIntroEntry>> refreshAllCountryIntro() {
+        mInitialized = false;
+        return getAllCountryIntro();
+    }
+
     public void deleteOldData() {
         // no need to delete old data, because @Insert(onConflict = OnConflictStrategy.REPLACE)
     }
 
-    public boolean isFetchNeeded() {
+    private boolean isFetchNeeded() {
         return true; // for debug purpose
     }
 }

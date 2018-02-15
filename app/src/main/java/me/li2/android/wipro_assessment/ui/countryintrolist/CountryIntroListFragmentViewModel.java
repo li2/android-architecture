@@ -26,4 +26,8 @@ public class CountryIntroListFragmentViewModel extends ViewModel {
     public LiveData<List<CountryIntroEntry>> getAllCountryIntro() {
         return mCountryIntros;
     }
+
+    public LiveData<List<CountryIntroEntry>> refreshAllCountryIntro() {
+        return mRepository.refreshAllCountryIntro();
+    }
 }

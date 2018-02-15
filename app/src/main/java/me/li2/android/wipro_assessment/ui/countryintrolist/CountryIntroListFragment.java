@@ -3,6 +3,7 @@ package me.li2.android.wipro_assessment.ui.countryintrolist;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +24,9 @@ public class CountryIntroListFragment extends Fragment {
     @BindView(R.id.country_intro_recycler_view)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.country_intro_swiperefresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     public CountryIntroListFragment() {
         // Required empty public constructor
     }
@@ -42,6 +46,8 @@ public class CountryIntroListFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mAdapter);
 
+        mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+
         return view;
     }
 
@@ -54,4 +60,14 @@ public class CountryIntroListFragment extends Fragment {
             mAdapter.update(allCountryIntro);
         });
     }
+
+    private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            mViewModel.refreshAllCountryIntro().observe(CountryIntroListFragment.this, allCountryIntro -> {
+                mAdapter.update(allCountryIntro);
+                mSwipeRefreshLayout.setRefreshing(false);
+            });
+        }
+    };
 }
