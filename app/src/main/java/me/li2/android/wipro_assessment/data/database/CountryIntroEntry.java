@@ -1,5 +1,10 @@
 package me.li2.android.wipro_assessment.data.database;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,7 +12,12 @@ import com.google.gson.annotations.SerializedName;
  * https://github.com/li2
  */
 
+@Entity(tableName = "countryIntroTable", indices = {@Index(value = {"title"}, unique = true)})
 public class CountryIntroEntry {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
     /**
      * title : Beavers
      * description : Beavers are second only to humans in their ability to manipulate and change their environment. They can measure up to 1.3 metres long. A group of beavers is called a colony
@@ -21,10 +31,22 @@ public class CountryIntroEntry {
     @SerializedName("imageHref")
     private String imageHref;
 
+    public CountryIntroEntry(int id, String title, String description, String imageHref) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.imageHref = imageHref;
+    }
+
+    @Ignore
     public CountryIntroEntry(String title, String description, String imageHref) {
         this.title = title;
         this.description = description;
         this.imageHref = imageHref;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {

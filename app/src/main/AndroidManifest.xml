@@ -18,6 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!--This is required for immediate syncs -->
+        <service
+            android:name=".data.network.WiproSyncIntentService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

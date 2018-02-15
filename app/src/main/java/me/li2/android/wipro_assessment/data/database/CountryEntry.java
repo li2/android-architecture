@@ -7,6 +7,8 @@ import java.util.List;
 /**
  * Created by weiyi on 15/02/2018.
  * https://github.com/li2
+ *
+ * Sample Json: https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json
  */
 
 public class CountryEntry {
