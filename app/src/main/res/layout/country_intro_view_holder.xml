@@ -5,10 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
+    android:layout_margin="8dp"
     android:foreground="?android:selectableItemBackground"
     card_view:cardBackgroundColor="@android:color/white">
 
@@ -16,16 +13,16 @@
         android:id="@+id/linearLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/country_intro_title_view"
+            style="@style/CountryIntroTitleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="title"
             app:layout_constraintEnd_toStartOf="@+id/country_intro_button"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,10 +30,12 @@
 
         <TextView
             android:id="@+id/country_intro_description_view"
+            style="@style/CountryIntroDescriptionText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="description"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="@+id/country_intro_title_view"
             app:layout_constraintTop_toBottomOf="@+id/country_intro_title_view"/>
@@ -44,9 +43,10 @@
         <ImageView
             android:id="@+id/country_intro_image_view"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/country_intro_description_view"
             app:layout_constraintEnd_toEndOf="@+id/country_intro_title_view"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/country_intro_description_view"
@@ -67,14 +67,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.55"/>
+            app:layout_constraintGuide_percent="0.5"/>
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5"/>
+            app:layout_constraintGuide_percent="0.55"/>
 
     </android.support.constraint.ConstraintLayout>
 
