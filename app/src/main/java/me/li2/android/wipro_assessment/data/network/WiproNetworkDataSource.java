@@ -6,10 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import java.util.List;
-
 import me.li2.android.wipro_assessment.data.database.CountryEntry;
-import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
 import me.li2.android.wipro_assessment.utils.AppExecutors;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,12 +29,12 @@ public class WiproNetworkDataSource {
     private final AppExecutors mExecutors;
 
     // LiveData storing the latest downloaded countryIntro
-    private MutableLiveData<List<CountryIntroEntry>> mDownloadedCountryIntros;
+    private MutableLiveData<CountryEntry> mDownloadedCountry;
 
     private WiproNetworkDataSource(Context context, AppExecutors executors) {
         mContext = context;
         mExecutors = executors;
-        mDownloadedCountryIntros = new MutableLiveData<>();
+        mDownloadedCountry = new MutableLiveData<>();
     }
 
     public static WiproNetworkDataSource getInstance(Context context, AppExecutors executors) {
@@ -51,8 +48,8 @@ public class WiproNetworkDataSource {
         return sInstance;
     }
 
-    public LiveData<List<CountryIntroEntry>> getCurrentCountryIntros() {
-        return mDownloadedCountryIntros;
+    public LiveData<CountryEntry> getCurrentCountry() {
+        return mDownloadedCountry;
     }
 
     /**
@@ -73,7 +70,7 @@ public class WiproNetworkDataSource {
             @Override
             public void onResponse(Call<CountryEntry> call, Response<CountryEntry> response) {
                 Log.d(LOG_TAG, "title: " + response.body().getTitle());
-                mDownloadedCountryIntros.postValue(response.body().getIntros());
+                mDownloadedCountry.postValue(response.body());
             }
 
             @Override

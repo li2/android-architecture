@@ -29,4 +29,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
             fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
         }
     }
-}
+
+    public void setTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+ }

@@ -30,4 +30,8 @@ public class CountryIntroListFragmentViewModel extends ViewModel {
     public LiveData<List<CountryIntroEntry>> refreshAllCountryIntro() {
         return mRepository.refreshAllCountryIntro();
     }
+
+    public String getCountryTitle() {
+        return mRepository.getCountryTitle();
+    }
 }

@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.wipro_assessment.R;
+import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
 import me.li2.android.wipro_assessment.utils.InjectorUtils;
 
 public class CountryIntroListFragment extends Fragment {
@@ -57,7 +60,7 @@ public class CountryIntroListFragment extends Fragment {
         CountryIntroListViewModelFactory factory = InjectorUtils.provideCountryListViewModelFactory(getContext());
         mViewModel = ViewModelProviders.of(this, factory).get(CountryIntroListFragmentViewModel.class);
         mViewModel.getAllCountryIntro().observe(this, allCountryIntro -> {
-            mAdapter.update(allCountryIntro);
+            updateUI(allCountryIntro);
         });
     }
 
@@ -65,9 +68,17 @@ public class CountryIntroListFragment extends Fragment {
         @Override
         public void onRefresh() {
             mViewModel.refreshAllCountryIntro().observe(CountryIntroListFragment.this, allCountryIntro -> {
-                mAdapter.update(allCountryIntro);
+                updateUI(allCountryIntro);
                 mSwipeRefreshLayout.setRefreshing(false);
             });
         }
     };
+
+    private void updateUI(List<CountryIntroEntry> allCountryIntro) {
+        // update recycler view
+        mAdapter.update(allCountryIntro);
+
+        // update actionbar title
+        ((CountryIntroListActivity)getActivity()).setTitle(mViewModel.getCountryTitle());
+    }
 }

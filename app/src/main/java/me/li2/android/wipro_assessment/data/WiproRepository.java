@@ -2,10 +2,12 @@ package me.li2.android.wipro_assessment.data;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.List;
 
+import me.li2.android.wipro_assessment.data.database.CountryEntry;
 import me.li2.android.wipro_assessment.data.database.CountryIntroDao;
 import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
 import me.li2.android.wipro_assessment.data.network.WiproNetworkDataSource;
@@ -37,11 +39,16 @@ public class WiproRepository {
         mWiproNetworkDataSource = wiproNetworkDataSource;
         mExecutors = executors;
 
-        LiveData<List<CountryIntroEntry>> networkData = mWiproNetworkDataSource.getCurrentCountryIntros();
-        networkData.observeForever(newCountryIntrosFromNetwork -> {
+        LiveData<CountryEntry> networkData = mWiproNetworkDataSource.getCurrentCountry();
+        networkData.observeForever(newCountryFromNetwork -> {
             mExecutors.diskIO().execute(() -> {
                 // Insert new country intro data into the database
-                mCountryIntroDao.bulkInsert(newCountryIntrosFromNetwork.toArray(new CountryIntroEntry[newCountryIntrosFromNetwork.size()]));
+                List<CountryIntroEntry> intros = newCountryFromNetwork.getIntros();
+                mCountryIntroDao.bulkInsert(intros.toArray(new CountryIntroEntry[intros.size()]));
+
+                // TODO refactor with DB
+                setCountryTitle(newCountryFromNetwork.getTitle());
+
                 Log.d(LOG_TAG, "new values inserted");
             });
         });
@@ -99,5 +106,19 @@ public class WiproRepository {
 
     private boolean isFetchNeeded() {
         return true; // for debug purpose
+    }
+
+    private static final String PREF_KEY_COUNTRY_TITLE = "pref_key_country_title";
+
+    private void setCountryTitle(String title) {
+        PreferenceManager.getDefaultSharedPreferences(mContext)
+                .edit()
+                .putString(PREF_KEY_COUNTRY_TITLE, title)
+                .apply();
+    }
+
+    public String getCountryTitle() {
+        return PreferenceManager.getDefaultSharedPreferences(mContext)
+                .getString(PREF_KEY_COUNTRY_TITLE, "");
     }
 }
