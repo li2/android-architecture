@@ -1,7 +1,12 @@
 package me.li2.android.wipro_assessment.ui.countryintrolist;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,6 +22,7 @@ import butterknife.ButterKnife;
 import me.li2.android.wipro_assessment.R;
 import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
 import me.li2.android.wipro_assessment.utils.InjectorUtils;
+import me.li2.android.wipro_assessment.utils.InternetUtils;
 
 public class CountryIntroListFragment extends Fragment {
     private static final String LOG_TAG = CountryIntroListFragment.class.getSimpleName();
@@ -32,6 +38,13 @@ public class CountryIntroListFragment extends Fragment {
 
     public CountryIntroListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        CountryIntroListViewModelFactory factory = InjectorUtils.provideCountryListViewModelFactory(getContext());
+        mViewModel = ViewModelProviders.of(this, factory).get(CountryIntroListFragmentViewModel.class);
     }
 
     @Override
@@ -57,20 +70,41 @@ public class CountryIntroListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        CountryIntroListViewModelFactory factory = InjectorUtils.provideCountryListViewModelFactory(getContext());
-        mViewModel = ViewModelProviders.of(this, factory).get(CountryIntroListFragmentViewModel.class);
         mViewModel.getAllCountryIntro().observe(this, allCountryIntro -> {
             updateUI(allCountryIntro);
         });
+
+        getContext().registerReceiver(mConnectivityChangeReceiver, InternetUtils.connectivityChangeFilter());
+
+        checkConnectivity();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getContext().unregisterReceiver(mConnectivityChangeReceiver);
     }
 
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            mViewModel.refreshAllCountryIntro().observe(CountryIntroListFragment.this, allCountryIntro -> {
-                updateUI(allCountryIntro);
+            if (checkConnectivity()) {
+                mViewModel.refreshAllCountryIntro().observe(CountryIntroListFragment.this, allCountryIntro -> {
+                    updateUI(allCountryIntro);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                });
+            } else {
                 mSwipeRefreshLayout.setRefreshing(false);
-            });
+            }
+        }
+    };
+
+    private BroadcastReceiver mConnectivityChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (InternetUtils.isConnectivityChangeAction(intent.getAction())) {
+                checkConnectivity();
+            }
         }
     };
 
@@ -80,5 +114,14 @@ public class CountryIntroListFragment extends Fragment {
 
         // update actionbar title
         ((CountryIntroListActivity)getActivity()).setTitle(mViewModel.getCountryTitle());
+    }
+
+    private boolean checkConnectivity() {
+        boolean isConnected = InternetUtils.isConnected(getContext());
+        if (!isConnected) {
+            Snackbar.make(getView(), R.string.internet_connection_enable_tip, Snackbar.LENGTH_LONG)
+                    .show();
+        }
+        return isConnected;
     }
 }
