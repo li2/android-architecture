@@ -70,9 +70,7 @@ public class CountryIntroListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mViewModel.getAllCountryIntro().observe(this, allCountryIntro -> {
-            updateUI(allCountryIntro);
-        });
+        mViewModel.getCountryIntroList().observe(this, countryIntroList -> updateUI(countryIntroList));
 
         getContext().registerReceiver(mConnectivityChangeReceiver, InternetUtils.connectivityChangeFilter());
 
@@ -89,13 +87,9 @@ public class CountryIntroListFragment extends Fragment {
         @Override
         public void onRefresh() {
             if (checkConnectivity()) {
-                mViewModel.refreshAllCountryIntro().observe(CountryIntroListFragment.this, allCountryIntro -> {
-                    updateUI(allCountryIntro);
-                    mSwipeRefreshLayout.setRefreshing(false);
-                });
-            } else {
-                mSwipeRefreshLayout.setRefreshing(false);
+                mViewModel.refreshCountryIntroList().observe(CountryIntroListFragment.this, countryIntroList -> updateUI(countryIntroList));
             }
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     };
 
@@ -108,9 +102,9 @@ public class CountryIntroListFragment extends Fragment {
         }
     };
 
-    private void updateUI(List<CountryIntroEntry> allCountryIntro) {
+    private void updateUI(List<CountryIntroEntry> countryIntroList) {
         // update recycler view
-        mAdapter.update(allCountryIntro);
+        mAdapter.update(countryIntroList);
 
         // update actionbar title
         ((CountryIntroListActivity)getActivity()).setTitle(mViewModel.getCountryTitle());

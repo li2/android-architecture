@@ -69,13 +69,20 @@ public class WiproNetworkDataSource {
         service.getCountry().enqueue(new Callback<CountryEntry>() {
             @Override
             public void onResponse(Call<CountryEntry> call, Response<CountryEntry> response) {
-                Log.d(LOG_TAG, "title: " + response.body().getTitle());
-                mDownloadedCountry.postValue(response.body());
+                Log.d(LOG_TAG, "title: " + response.body().getTitle() + ", response code " + response.code());
+                // how can i get status code on failure in retrofit 2? https://github.com/square/retrofit/issues/1612
+                // must check isSuccess() (or the status code) to determine if the response was successful or not.
+                if (response.isSuccessful()) {
+                    mDownloadedCountry.postValue(response.body());
+                } else {
+                    // TODO handle error
+                }
             }
 
             @Override
             public void onFailure(Call<CountryEntry> call, Throwable t) {
-                Log.e(LOG_TAG, "failed to get country intros : " + t.getMessage());
+                Log.e(LOG_TAG, "failed to fetch country intros : " + t.getMessage());
+                // TODO Invoked when a network exception occurred without response. t instance of 
             }
         });
     }

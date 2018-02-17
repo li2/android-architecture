@@ -20,15 +20,15 @@ public class CountryIntroListFragmentViewModel extends ViewModel {
 
     public CountryIntroListFragmentViewModel(WiproRepository repository) {
         mRepository = repository;
-        mCountryIntros = mRepository.getAllCountryIntro();
+        mCountryIntros = mRepository.getCountryIntroList();
     }
 
-    public LiveData<List<CountryIntroEntry>> getAllCountryIntro() {
+    public LiveData<List<CountryIntroEntry>> getCountryIntroList() {
         return mCountryIntros;
     }
 
-    public LiveData<List<CountryIntroEntry>> refreshAllCountryIntro() {
-        return mRepository.refreshAllCountryIntro();
+    public LiveData<List<CountryIntroEntry>> refreshCountryIntroList() {
+        return mRepository.refreshCountryIntroList();
     }
 
     public String getCountryTitle() {

@@ -24,5 +24,5 @@ public interface CountryIntroDao {
     LiveData<CountryIntroEntry> getCountryIntro(String title);
 
     @Query("SELECT * FROM countryIntroTable")
-    LiveData<List<CountryIntroEntry>> getAllCountryIntro();
+    LiveData<List<CountryIntroEntry>> getCountryIntroList();
 }

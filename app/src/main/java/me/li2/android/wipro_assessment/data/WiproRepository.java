@@ -90,14 +90,14 @@ public class WiproRepository {
         return mCountryIntroDao.getCountryIntro(title);
     }
 
-    public LiveData<List<CountryIntroEntry>> getAllCountryIntro() {
+    public LiveData<List<CountryIntroEntry>> getCountryIntroList() {
         initializeData();
-        return mCountryIntroDao.getAllCountryIntro();
+        return mCountryIntroDao.getCountryIntroList();
     }
 
-    public LiveData<List<CountryIntroEntry>> refreshAllCountryIntro() {
+    public LiveData<List<CountryIntroEntry>> refreshCountryIntroList() {
         mInitialized = false;
-        return getAllCountryIntro();
+        return getCountryIntroList();
     }
 
     public void deleteOldData() {
