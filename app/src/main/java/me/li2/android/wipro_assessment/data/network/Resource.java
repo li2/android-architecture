@@ -19,6 +19,8 @@ package me.li2.android.wipro_assessment.data.network;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.net.HttpURLConnection;
+
 import static me.li2.android.wipro_assessment.data.network.Status.ERROR;
 import static me.li2.android.wipro_assessment.data.network.Status.LOADING;
 import static me.li2.android.wipro_assessment.data.network.Status.SUCCESS;
@@ -34,26 +36,31 @@ public class Resource<T> {
 
     @Nullable
     public final String message;
+    public final int code;
+    public final Throwable throwable;
 
     @Nullable
     public final T data;
 
-    public Resource(@NonNull Status status, @Nullable T data, @Nullable String message) {
+    public Resource(@NonNull Status status, @Nullable T data, @Nullable String message, int code, Throwable throwable) {
         this.status = status;
         this.data = data;
         this.message = message;
+        this.code = code;
+        this.throwable = throwable;
     }
 
     public static <T> Resource<T> success(@Nullable T data) {
-        return new Resource<>(SUCCESS, data, null);
+        return new Resource<>(SUCCESS, data, null, HttpURLConnection.HTTP_OK, null);
     }
 
-    public static <T> Resource<T> error(String msg, @Nullable T data) {
-        return new Resource<>(ERROR, data, msg);
+    // notebyweiyi: add two more fields to let client know the error code / throwable (especially for custom Throwable).
+    public static <T> Resource<T> error(@Nullable T data, String msg, int code, Throwable throwable) {
+        return new Resource<>(ERROR, data, msg, code, throwable);
     }
 
     public static <T> Resource<T> loading(@Nullable T data) {
-        return new Resource<>(LOADING, data, null);
+        return new Resource<>(LOADING, data, null, HttpURLConnection.HTTP_OK, null);
     }
 
     @Override

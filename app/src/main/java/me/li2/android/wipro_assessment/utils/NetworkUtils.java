@@ -10,10 +10,10 @@ import android.net.NetworkInfo;
  * https://github.com/li2
  */
 
-public class InternetUtils {
+public class NetworkUtils {
 
-    public static boolean isConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager)WiproApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return  activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }

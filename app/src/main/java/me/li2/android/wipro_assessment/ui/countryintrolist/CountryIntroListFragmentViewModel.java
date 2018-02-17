@@ -21,11 +21,12 @@ public class CountryIntroListFragmentViewModel extends ViewModel {
 
     public CountryIntroListFragmentViewModel(WiproRepository repository) {
         mRepository = repository;
-        mCountryIntros = mRepository.loadCountryIntros();
+        //mCountryIntros = mRepository.loadCountryIntros();
     }
 
     public LiveData<Resource<List<CountryIntroEntry>>> getCountryIntroList() {
-        return mCountryIntros;
+        //return mCountryIntros;
+        return mRepository.loadCountryIntros();
     }
 
     public String getCountryTitle() {

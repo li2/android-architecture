@@ -76,15 +76,14 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
             notebyweiyi: how can i get status code on failure in retrofit 2? https://github.com/square/retrofit/issues/1612
             Callback.onResponse must check isSuccessful() (or the status code) to determine if the response was successful or not.
             Callback.onFailure invoked when a network exception occurred without response. t instance of Throwable
-            TODO the following part is same in Callback.onResponse, however, where is Callback.onFailure?
              */
-            if (response.isSuccessful()) {
+
+            if (response.isSuccessful()) { // handle response, same as Callback.onResponse
                 saveResultAndReInit(response);
-            } else {
-                // handle error
+            } else { // handle error, same as Callback.onFailure, wrapped by LiveDataCallAdapter
                 onFetchFailed();
-                result.addSource(dbSource,
-                        newData -> setValue(Resource.error(response.errorMessage, newData)));
+                result.addSource(dbSource, newData -> setValue(
+                        Resource.error(newData, response.errorMessage, response.code, response.throwable)));
             }
         });
     }

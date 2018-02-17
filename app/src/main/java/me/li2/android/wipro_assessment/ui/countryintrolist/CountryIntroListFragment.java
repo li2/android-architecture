@@ -11,16 +11,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.wipro_assessment.R;
 import me.li2.android.wipro_assessment.utils.InjectorUtils;
-import me.li2.android.wipro_assessment.utils.InternetUtils;
+import me.li2.android.wipro_assessment.utils.NetworkUtils;
+import me.li2.android.wipro_assessment.utils.NoNetworkException;
 
 public class CountryIntroListFragment extends Fragment {
     private static final String LOG_TAG = CountryIntroListFragment.class.getSimpleName();
@@ -68,8 +70,7 @@ public class CountryIntroListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getContext().registerReceiver(mConnectivityChangeReceiver, InternetUtils.connectivityChangeFilter());
-        checkConnectivity();
+        getContext().registerReceiver(mConnectivityChangeReceiver, NetworkUtils.connectivityChangeFilter());
         loadData();
     }
 
@@ -82,7 +83,9 @@ public class CountryIntroListFragment extends Fragment {
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            if (checkConnectivity()) {
+            if (!NetworkUtils.isConnected()) {
+                showMessage(R.string.status_no_connect);
+            } else {
                 loadData();
             }
             mSwipeRefreshLayout.setRefreshing(false);
@@ -92,30 +95,47 @@ public class CountryIntroListFragment extends Fragment {
     private BroadcastReceiver mConnectivityChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (InternetUtils.isConnectivityChangeAction(intent.getAction())) {
-                checkConnectivity();
+            if (NetworkUtils.isConnectivityChangeAction(intent.getAction())) {
+                showMessage(!NetworkUtils.isConnected() ? R.string.status_no_connect : R.string.status_connected);
             }
         }
     };
 
     private void loadData() {
-        mViewModel.getCountryIntroList().observe(getActivity(), countryIntroList -> {
-            Toast.makeText(getContext(), "loading status: " + countryIntroList.status, Toast.LENGTH_SHORT).show();
+        mViewModel.getCountryIntroList().observe(getActivity(), resource -> {
+            Log.d(LOG_TAG, "loading status: " + resource.status + ", code " + resource.code);
+
+            switch (resource.status) {
+                case LOADING:
+                    showMessage(R.string.status_loading);
+                    break;
+
+                case SUCCESS:
+                    showMessage(R.string.status_success);
+                    if (resource.data == null) {
+                        showMessage(R.string.status_no_response);
+                    }
+                    break;
+
+                case ERROR:
+                    if (resource.throwable instanceof NoNetworkException) {
+                        showMessage(R.string.status_no_connect);
+                    }
+                    break;
+            }
 
             // update recycler view
-            mAdapter.update(countryIntroList.data);
+            mAdapter.update(resource.data);
 
             // update actionbar title
-            ((CountryIntroListActivity)getActivity()).setTitle(mViewModel.getCountryTitle());
+            if (!TextUtils.isEmpty(mViewModel.getCountryTitle())) {
+                ((CountryIntroListActivity)getActivity()).setTitle(mViewModel.getCountryTitle());
+            }
         });
     }
 
-    private boolean checkConnectivity() {
-        boolean isConnected = InternetUtils.isConnected(getContext());
-        if (!isConnected) {
-            Snackbar.make(getView(), R.string.internet_connection_enable_tip, Snackbar.LENGTH_LONG)
-                    .show();
-        }
-        return isConnected;
+    private void showMessage(int stringResId) {
+        Snackbar.make(getView(), stringResId, Snackbar.LENGTH_LONG)
+                .show();
     }
 }

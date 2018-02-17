@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import me.li2.android.wipro_assessment.utils.LiveDataCallAdapterFactory;
+import me.li2.android.wipro_assessment.utils.NetworkConnectivityInterceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -32,6 +33,7 @@ public class WebServiceGenerator {
             .setLevel(HttpLoggingInterceptor.Level.BODY);
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+            .addInterceptor(new NetworkConnectivityInterceptor())
             .addInterceptor(loggingInterceptor);
 
     private static Retrofit.Builder builder =
