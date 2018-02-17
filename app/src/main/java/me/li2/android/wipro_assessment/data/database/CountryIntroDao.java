@@ -20,9 +20,6 @@ public interface CountryIntroDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void bulkInsert(CountryIntroEntry... countryIntro);
 
-    @Query("SELECT * FROM countryIntroTable WHERE title = :title")
-    LiveData<CountryIntroEntry> getCountryIntro(String title);
-
     @Query("SELECT * FROM countryIntroTable")
     LiveData<List<CountryIntroEntry>> getCountryIntroList();
 }

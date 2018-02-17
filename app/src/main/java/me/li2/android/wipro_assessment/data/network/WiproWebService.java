@@ -1,7 +1,8 @@
 package me.li2.android.wipro_assessment.data.network;
 
+import android.arch.lifecycle.LiveData;
+
 import me.li2.android.wipro_assessment.data.database.CountryEntry;
-import retrofit2.Call;
 import retrofit2.http.GET;
 
 /**
@@ -11,5 +12,5 @@ import retrofit2.http.GET;
 
 public interface WiproWebService {
     @GET("facts.json")
-    Call<CountryEntry> getCountry();
+    LiveData<ApiResponse<CountryEntry>> getCountry();
 }

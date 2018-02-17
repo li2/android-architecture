@@ -5,7 +5,8 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
-import me.li2.android.wipro_assessment.data.WiproRepository;
+import me.li2.android.wipro_assessment.data.network.Resource;
+import me.li2.android.wipro_assessment.data.repository.WiproRepository;
 import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
 
 /**
@@ -16,19 +17,15 @@ import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
 public class CountryIntroListFragmentViewModel extends ViewModel {
 
     private WiproRepository mRepository;
-    private LiveData<List<CountryIntroEntry>> mCountryIntros;
+    private LiveData<Resource<List<CountryIntroEntry>>> mCountryIntros;
 
     public CountryIntroListFragmentViewModel(WiproRepository repository) {
         mRepository = repository;
-        mCountryIntros = mRepository.getCountryIntroList();
+        mCountryIntros = mRepository.loadCountryIntros();
     }
 
-    public LiveData<List<CountryIntroEntry>> getCountryIntroList() {
+    public LiveData<Resource<List<CountryIntroEntry>>> getCountryIntroList() {
         return mCountryIntros;
-    }
-
-    public LiveData<List<CountryIntroEntry>> refreshCountryIntroList() {
-        return mRepository.refreshCountryIntroList();
     }
 
     public String getCountryTitle() {

@@ -14,13 +14,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.List;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.wipro_assessment.R;
-import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
 import me.li2.android.wipro_assessment.utils.InjectorUtils;
 import me.li2.android.wipro_assessment.utils.InternetUtils;
 
@@ -70,11 +68,9 @@ public class CountryIntroListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mViewModel.getCountryIntroList().observe(this, countryIntroList -> updateUI(countryIntroList));
-
         getContext().registerReceiver(mConnectivityChangeReceiver, InternetUtils.connectivityChangeFilter());
-
         checkConnectivity();
+        loadData();
     }
 
     @Override
@@ -87,7 +83,7 @@ public class CountryIntroListFragment extends Fragment {
         @Override
         public void onRefresh() {
             if (checkConnectivity()) {
-                mViewModel.refreshCountryIntroList().observe(CountryIntroListFragment.this, countryIntroList -> updateUI(countryIntroList));
+                loadData();
             }
             mSwipeRefreshLayout.setRefreshing(false);
         }
@@ -102,12 +98,16 @@ public class CountryIntroListFragment extends Fragment {
         }
     };
 
-    private void updateUI(List<CountryIntroEntry> countryIntroList) {
-        // update recycler view
-        mAdapter.update(countryIntroList);
+    private void loadData() {
+        mViewModel.getCountryIntroList().observe(getActivity(), countryIntroList -> {
+            Toast.makeText(getContext(), "loading status: " + countryIntroList.status, Toast.LENGTH_SHORT).show();
 
-        // update actionbar title
-        ((CountryIntroListActivity)getActivity()).setTitle(mViewModel.getCountryTitle());
+            // update recycler view
+            mAdapter.update(countryIntroList.data);
+
+            // update actionbar title
+            ((CountryIntroListActivity)getActivity()).setTitle(mViewModel.getCountryTitle());
+        });
     }
 
     private boolean checkConnectivity() {

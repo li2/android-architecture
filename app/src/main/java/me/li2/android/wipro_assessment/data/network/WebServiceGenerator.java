@@ -3,6 +3,7 @@ package me.li2.android.wipro_assessment.data.network;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import me.li2.android.wipro_assessment.utils.LiveDataCallAdapterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -37,6 +38,7 @@ public class WebServiceGenerator {
             new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addCallAdapterFactory(new LiveDataCallAdapterFactory()) // notebyweiyi Unable to create call adapter for android.arch.lifecycle.LiveData
                     .client(httpClient.build())
             ;
 

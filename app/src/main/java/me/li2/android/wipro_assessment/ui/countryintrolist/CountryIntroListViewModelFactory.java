@@ -3,7 +3,7 @@ package me.li2.android.wipro_assessment.ui.countryintrolist;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import me.li2.android.wipro_assessment.data.WiproRepository;
+import me.li2.android.wipro_assessment.data.repository.WiproRepository;
 
 /**
  * The constructor that is automatically called by ViewModelProvider is the default one -
