@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -14,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.wipro_assessment.R;
 import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by weiyi on 15/02/2018.
@@ -55,10 +57,16 @@ public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements V
         // Picasso uses three sources: memory, disk and network (ordered from fastest to slowest). and
         // there is nothing we'll have to do.
 
+        // notebyweiyi: fix image cannot download issue that com.squareup.picasso.Downloader$ResponseException: 301 TLS Redirect
+        Picasso picasso = new Picasso.Builder(mContext)
+                .loggingEnabled(true)
+                .downloader(new OkHttp3Downloader(new OkHttpClient()))
+                .listener((picasso1, uri, exception) -> exception.printStackTrace())
+                .build();
+
         mImageView.setVisibility(View.GONE);
 
-        Picasso.with(mContext)
-                .load(intro.getImageHref())
+        picasso.load(intro.getImageHref())
                 .into(mImageView, new Callback() {
                     @Override
                     public void onSuccess() {
