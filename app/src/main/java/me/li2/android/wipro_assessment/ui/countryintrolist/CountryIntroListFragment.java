@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +26,7 @@ import me.li2.android.wipro_assessment.utils.NoNetworkException;
 
 public class CountryIntroListFragment extends Fragment {
     private static final String LOG_TAG = CountryIntroListFragment.class.getSimpleName();
+    private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
     private CountryIntroListAdapter mAdapter;
     private CountryIntroListFragmentViewModel mViewModel;
@@ -48,6 +49,13 @@ public class CountryIntroListFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(BUNDLE_RECYCLER_POSITION,
+                ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.country_intro_list_fragment, container, false);
@@ -55,13 +63,19 @@ public class CountryIntroListFragment extends Fragment {
 
         final RecyclerView recyclerView = mRecyclerView;
         mAdapter = new CountryIntroListAdapter(getContext());
-        GridLayoutManager layoutManager = new GridLayoutManager(
-                getActivity(), 1, GridLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setScrollContainer(false);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mAdapter);
 
+        if (savedInstanceState != null) {
+            // notebyweiyi: IllegalArgumentException: Invalid target position -1, scrollToPosition() not works
+            int position = savedInstanceState.getInt(BUNDLE_RECYCLER_POSITION);
+            if (position > 0) {
+                mRecyclerView.smoothScrollToPosition(position);
+            }
+        }
         mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
 
         return view;
