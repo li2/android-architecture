@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import me.li2.android.wipro_assessment.data.database.CountryEntry;
 import me.li2.android.wipro_assessment.data.database.CountryIntroDao;
@@ -16,6 +17,7 @@ import me.li2.android.wipro_assessment.data.network.ApiResponse;
 import me.li2.android.wipro_assessment.data.network.Resource;
 import me.li2.android.wipro_assessment.data.network.WiproWebService;
 import me.li2.android.wipro_assessment.utils.AppExecutors;
+import me.li2.android.wipro_assessment.utils.RateLimiter;
 
 /**
  * Handles data operations in Wipro App
@@ -33,6 +35,7 @@ public class WiproRepository {
     private final WiproWebService mWiproWebService;
     private final AppExecutors mExecutors;
     private final Context mContext;
+    private RateLimiter<String> repoListRateLimit = new RateLimiter<>(2, TimeUnit.MINUTES);
 
     public WiproRepository(
             Context context, CountryIntroDao countryIntroDao, WiproWebService wiproWebService, AppExecutors executors) {
@@ -86,7 +89,7 @@ public class WiproRepository {
              */
             @Override
             protected boolean shouldFetch(@Nullable List<CountryIntroEntry> data) {
-                return data == null || data.isEmpty();
+                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(getCountryTitle());
             }
 
             /**
@@ -108,6 +111,11 @@ public class WiproRepository {
             @Override
             protected LiveData<ApiResponse<CountryEntry>> createCall() {
                 return mWiproWebService.getCountry();
+            }
+
+            @Override
+            protected void onFetchFailed() {
+                repoListRateLimit.reset(getCountryTitle());
             }
         }.asLiveData();
     }
