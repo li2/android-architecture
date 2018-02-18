@@ -3,6 +3,8 @@ package me.li2.android.wipro_assessment.data.network;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import me.li2.android.wipro_assessment.data.database.CountryEntry;
+import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
 import me.li2.android.wipro_assessment.utils.LiveDataCallAdapterFactory;
 import me.li2.android.wipro_assessment.utils.NetworkConnectivityInterceptor;
 import okhttp3.OkHttpClient;
@@ -26,7 +28,8 @@ public class WebServiceGenerator {
 
     private static Gson gson = new GsonBuilder()
             .setLenient()
-            .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+            .registerTypeAdapter(CountryEntry.class, new CountryDeserializer())
+            .registerTypeAdapter(CountryIntroEntry.class, new CountryIntroDeserializer())
             .create();
 
     private static HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor()
