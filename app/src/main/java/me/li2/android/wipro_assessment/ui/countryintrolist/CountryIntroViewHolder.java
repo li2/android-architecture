@@ -7,15 +7,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.wipro_assessment.R;
 import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
-import okhttp3.OkHttpClient;
 
 /**
  * Created by weiyi on 15/02/2018.
@@ -51,31 +50,46 @@ public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements V
         mCountryIntro = intro;
         mTitleView.setText(intro.getTitle());
         mDescriptionView.setText(intro.getDescription());
+        loadImage(mImageView, intro.getImageHref());
+    }
 
-        // Picasso is that it automatically takes care of the request canceling, clearing of the ImageViews, and
-        // loading the correct image into the appropriate ImageView.
-        // Picasso uses three sources: memory, disk and network (ordered from fastest to slowest). and
-        // there is nothing we'll have to do.
+    /**
+     * Load image.
+     *
+     * Step1: Forces the request through the disk cache only, skipping network.
+     * the reason to force cache firstly, because there is a issue that cached image cannot load succeed when offline.
+     * Step2: then try online if cache failed.
+     * https://stackoverflow.com/a/30686992/2722270
+     * @param imageView
+     * @param imageHref
+     */
+    private void loadImage(final ImageView imageView, final String imageHref) {
+        imageView.setVisibility(View.GONE);
 
-        // notebyweiyi: fix image cannot download issue that com.squareup.picasso.Downloader$ResponseException: 301 TLS Redirect
-        Picasso picasso = new Picasso.Builder(mContext)
-                .loggingEnabled(true)
-                .downloader(new OkHttp3Downloader(new OkHttpClient()))
-                .listener((picasso1, uri, exception) -> exception.printStackTrace())
-                .build();
-
-        mImageView.setVisibility(View.GONE);
-
-        picasso.load(intro.getImageHref())
-                .into(mImageView, new Callback() {
+        Picasso.with(mContext)
+                .load(imageHref)
+                .networkPolicy(NetworkPolicy.OFFLINE) // force offline
+                .into(imageView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        mImageView.setVisibility(View.VISIBLE);
+                        imageView.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onError() {
-                        mImageView.setVisibility(View.GONE);
+                        Picasso.with(mContext)
+                                .load(imageHref)
+                                .into(imageView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        imageView.setVisibility(View.VISIBLE);
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        imageView.setVisibility(View.GONE);
+                                    }
+                                });
                     }
                 });
     }
