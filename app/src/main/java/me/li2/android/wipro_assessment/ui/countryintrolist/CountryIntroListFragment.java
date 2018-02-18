@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.wipro_assessment.R;
+import me.li2.android.wipro_assessment.ui.basic.RecyclerViewMarginDecoration;
 import me.li2.android.wipro_assessment.utils.InjectorUtils;
 import me.li2.android.wipro_assessment.utils.NetworkUtils;
 import me.li2.android.wipro_assessment.utils.NoNetworkException;
@@ -67,6 +68,10 @@ public class CountryIntroListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setScrollContainer(false);
         recyclerView.setNestedScrollingEnabled(false);
+        // setup RecyclerView item margin
+        int margin = (int)getResources().getDimension(R.dimen.default_margin);
+        recyclerView.addItemDecoration(new RecyclerViewMarginDecoration(margin));
+        // setup adapter
         recyclerView.setAdapter(mAdapter);
 
         if (savedInstanceState != null) {

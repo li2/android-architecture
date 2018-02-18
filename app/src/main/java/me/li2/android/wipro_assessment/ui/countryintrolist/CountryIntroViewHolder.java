@@ -55,15 +55,21 @@ public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements V
         // loading the correct image into the appropriate ImageView.
         // Picasso uses three sources: memory, disk and network (ordered from fastest to slowest). and
         // there is nothing we'll have to do.
-        Picasso.with(mContext)
+
+        mImageView.setVisibility(View.GONE);
+
+        new Picasso.Builder(mContext)
+                .listener((picasso1, uri, exception) -> mImageView.setVisibility(View.GONE))
+                .build()
                 .load(TextUtils.isEmpty(intro.getImageHref()) ? null : intro.getImageHref())
                 .into(mImageView, new Callback() {
                     @Override
                     public void onSuccess() {
+                        mImageView.setVisibility(View.VISIBLE);
                     }
+
                     @Override
                     public void onError() {
-                        mImageView.setVisibility(View.GONE);
                     }
                 });
     }
