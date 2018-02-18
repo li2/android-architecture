@@ -15,7 +15,7 @@ public class NetworkUtils {
     public static boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager)WiproApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return  activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        return  activeNetwork != null && activeNetwork.isConnected();
     }
 
     public static IntentFilter connectivityChangeFilter() {

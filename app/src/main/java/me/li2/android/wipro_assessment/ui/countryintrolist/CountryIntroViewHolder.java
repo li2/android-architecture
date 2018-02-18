@@ -2,7 +2,6 @@ package me.li2.android.wipro_assessment.ui.countryintrolist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,10 +57,8 @@ public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements V
 
         mImageView.setVisibility(View.GONE);
 
-        new Picasso.Builder(mContext)
-                .listener((picasso1, uri, exception) -> mImageView.setVisibility(View.GONE))
-                .build()
-                .load(TextUtils.isEmpty(intro.getImageHref()) ? null : intro.getImageHref())
+        Picasso.with(mContext)
+                .load(intro.getImageHref())
                 .into(mImageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -70,6 +67,7 @@ public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements V
 
                     @Override
                     public void onError() {
+                        mImageView.setVisibility(View.GONE);
                     }
                 });
     }

@@ -39,6 +39,9 @@ public class CountryIntroDeserializer implements JsonDeserializer {
             element = jsonObject.get("imageHref");
             if (!element.isJsonNull()) {
                 imageHref = element.getAsString();
+                if (TextUtils.isEmpty(imageHref)) {
+                    imageHref = null; // Picasso.load path must not be empty.
+                }
             }
         }
 
