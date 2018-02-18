@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -56,9 +57,15 @@ public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements V
         // there is nothing we'll have to do.
         Picasso.with(mContext)
                 .load(TextUtils.isEmpty(intro.getImageHref()) ? null : intro.getImageHref())
-                .placeholder(R.drawable.ic_image_holder)
-                .error(R.drawable.ic_image_broken)
-                .into(mImageView);
+                .into(mImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+                    @Override
+                    public void onError() {
+                        mImageView.setVisibility(View.GONE);
+                    }
+                });
     }
 
     @Override
