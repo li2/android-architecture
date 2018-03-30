@@ -23,7 +23,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
-import me.li2.android.wipro_assessment.utils.AppExecutors;
+import me.li2.android.architecture.utils.AppExecutors;
 
 /**
  * A generic class that can provide a resource backed by both the sqlite database and the network.

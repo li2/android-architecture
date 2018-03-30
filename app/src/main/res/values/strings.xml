@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wipro Assessment</string>
+    <string name="app_name">Architecture</string>
     <string name="status_no_connect">Please enable internet connection</string>
     <string name="status_connected">Internet connected</string>
     <string name="status_no_response">No Data available</string>
