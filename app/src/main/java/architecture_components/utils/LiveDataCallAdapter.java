@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
-package me.li2.android.wipro_assessment.utils;
+package architecture_components.utils;
 
 
 import android.arch.lifecycle.LiveData;
 import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import me.li2.android.wipro_assessment.data.network.ApiResponse;
+import architecture_components.utils.ApiResponse;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A Retrofit adapterthat converts the Call into a LiveData of ApiResponse.
+ * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
  * @param <R>
+ *
+ * https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/util/LiveDataCallAdapter.java
  */
-public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiResponse<R>>> {
+class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiResponse<R>>> {
     private final Type responseType;
     public LiveDataCallAdapter(Type responseType) {
         this.responseType = responseType;

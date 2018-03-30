@@ -10,12 +10,13 @@ import android.util.Log;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import me.li2.android.wipro_assessment.data.database.CountryEntry;
-import me.li2.android.wipro_assessment.data.database.CountryIntroDao;
-import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
-import me.li2.android.wipro_assessment.data.network.ApiResponse;
-import me.li2.android.wipro_assessment.data.network.Resource;
-import me.li2.android.wipro_assessment.data.network.WiproWebService;
+import architecture_components.utils.NetworkBoundResource;
+import me.li2.android.wipro_assessment.data.model.CountryEntry;
+import me.li2.android.wipro_assessment.data.source.local.CountryIntroDao;
+import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import architecture_components.utils.ApiResponse;
+import architecture_components.utils.Resource;
+import me.li2.android.wipro_assessment.data.source.remote.WiproWebService;
 import me.li2.android.wipro_assessment.utils.AppExecutors;
 import me.li2.android.wipro_assessment.utils.RateLimiter;
 

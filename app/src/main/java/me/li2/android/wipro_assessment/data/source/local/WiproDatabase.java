@@ -1,9 +1,11 @@
-package me.li2.android.wipro_assessment.data.database;
+package me.li2.android.wipro_assessment.data.source.local;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+
+import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
 
 /**
  * Create a singleton Database

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.li2.android.wipro_assessment.data.network;
+package architecture_components.utils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +33,8 @@ import timber.log.Timber;
 /**
  * Common class used by API responses.
  * @param <T>
+ *
+ * https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/api/ApiResponse.java
  */
 public class ApiResponse<T> {
     private static final Pattern LINK_PATTERN = Pattern

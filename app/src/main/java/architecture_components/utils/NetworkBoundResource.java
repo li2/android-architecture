@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.li2.android.wipro_assessment.data.repository;
+package architecture_components.utils;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -23,10 +23,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
-import me.li2.android.wipro_assessment.data.network.ApiResponse;
-import me.li2.android.wipro_assessment.data.network.Resource;
 import me.li2.android.wipro_assessment.utils.AppExecutors;
-import me.li2.android.wipro_assessment.utils.Objects;
 
 /**
  * A generic class that can provide a resource backed by both the sqlite database and the network.
@@ -35,6 +32,8 @@ import me.li2.android.wipro_assessment.utils.Objects;
  * Guide</a>.
  * @param <ResultType> Type for the Resource data (normally represents db)
  * @param <RequestType> Type for the web service API response
+ *
+ * https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/repository/NetworkBoundResource.java
  */
 public abstract class NetworkBoundResource<ResultType, RequestType> {
     private final AppExecutors appExecutors;
@@ -42,7 +41,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
 
     @MainThread
-    NetworkBoundResource(AppExecutors appExecutors) {
+    public NetworkBoundResource(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
         result.setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();

@@ -1,11 +1,11 @@
-package me.li2.android.wipro_assessment.data.network;
+package me.li2.android.wipro_assessment.data.source.remote;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import me.li2.android.wipro_assessment.data.database.CountryEntry;
-import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
-import me.li2.android.wipro_assessment.utils.LiveDataCallAdapterFactory;
+import me.li2.android.wipro_assessment.data.model.CountryEntry;
+import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import architecture_components.utils.LiveDataCallAdapterFactory;
 import me.li2.android.wipro_assessment.utils.NetworkConnectivityInterceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

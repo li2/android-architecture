@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package me.li2.android.wipro_assessment.utils;
+package architecture_components.utils;
 
 import android.arch.lifecycle.LiveData;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import me.li2.android.wipro_assessment.data.network.ApiResponse;
 import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 

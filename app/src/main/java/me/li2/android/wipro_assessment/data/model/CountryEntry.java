@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.data.database;
+package me.li2.android.wipro_assessment.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

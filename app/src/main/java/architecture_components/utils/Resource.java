@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package me.li2.android.wipro_assessment.data.network;
+package architecture_components.utils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.net.HttpURLConnection;
 
-import static me.li2.android.wipro_assessment.data.network.Status.ERROR;
-import static me.li2.android.wipro_assessment.data.network.Status.LOADING;
-import static me.li2.android.wipro_assessment.data.network.Status.SUCCESS;
-
 /**
  * A generic class that holds a value with its loading status.
  * @param <T>
+ *
+ * https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/vo/Resource.java
  */
 public class Resource<T> {
 
@@ -51,16 +49,16 @@ public class Resource<T> {
     }
 
     public static <T> Resource<T> success(@Nullable T data) {
-        return new Resource<>(SUCCESS, data, null, HttpURLConnection.HTTP_OK, null);
+        return new Resource<>(Status.SUCCESS, data, null, HttpURLConnection.HTTP_OK, null);
     }
 
     // notebyweiyi: add two more fields to let client know the error code / throwable (especially for custom Throwable).
     public static <T> Resource<T> error(@Nullable T data, String msg, int code, Throwable throwable) {
-        return new Resource<>(ERROR, data, msg, code, throwable);
+        return new Resource<>(Status.ERROR, data, msg, code, throwable);
     }
 
     public static <T> Resource<T> loading(@Nullable T data) {
-        return new Resource<>(LOADING, data, null, HttpURLConnection.HTTP_OK, null);
+        return new Resource<>(Status.LOADING, data, null, HttpURLConnection.HTTP_OK, null);
     }
 
     @Override

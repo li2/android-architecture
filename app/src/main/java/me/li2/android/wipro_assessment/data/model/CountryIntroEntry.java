@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.data.database;
+package me.li2.android.wipro_assessment.data.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;

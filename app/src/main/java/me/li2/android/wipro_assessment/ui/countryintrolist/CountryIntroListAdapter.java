@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import me.li2.android.wipro_assessment.R;
-import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
 
 /**
  * Created by weiyi on 15/02/2018.

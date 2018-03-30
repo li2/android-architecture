@@ -1,8 +1,9 @@
-package me.li2.android.wipro_assessment.data.network;
+package me.li2.android.wipro_assessment.data.source.remote;
 
 import android.arch.lifecycle.LiveData;
 
-import me.li2.android.wipro_assessment.data.database.CountryEntry;
+import architecture_components.utils.ApiResponse;
+import me.li2.android.wipro_assessment.data.model.CountryEntry;
 import retrofit2.http.GET;
 
 /**

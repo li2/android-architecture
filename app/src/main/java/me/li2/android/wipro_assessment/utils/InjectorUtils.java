@@ -2,9 +2,9 @@ package me.li2.android.wipro_assessment.utils;
 
 import android.content.Context;
 
-import me.li2.android.wipro_assessment.data.database.WiproDatabase;
-import me.li2.android.wipro_assessment.data.network.WebServiceGenerator;
-import me.li2.android.wipro_assessment.data.network.WiproWebService;
+import me.li2.android.wipro_assessment.data.source.local.WiproDatabase;
+import me.li2.android.wipro_assessment.data.source.remote.WebServiceGenerator;
+import me.li2.android.wipro_assessment.data.source.remote.WiproWebService;
 import me.li2.android.wipro_assessment.data.repository.WiproRepository;
 import me.li2.android.wipro_assessment.ui.countryintrolist.CountryIntroListViewModelFactory;
 

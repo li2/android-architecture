@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.data.network;
+package me.li2.android.wipro_assessment.data.source.remote;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import me.li2.android.wipro_assessment.data.database.CountryEntry;
-import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.CountryEntry;
+import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
 
 /**
  * Created by weiyi on 18/2/18.

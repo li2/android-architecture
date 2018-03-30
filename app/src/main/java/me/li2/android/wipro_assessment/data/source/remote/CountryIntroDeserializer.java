@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.data.network;
+package me.li2.android.wipro_assessment.data.source.remote;
 
 import android.text.TextUtils;
 
@@ -10,7 +10,7 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
-import me.li2.android.wipro_assessment.data.database.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
 
 /**
  * Created by weiyi on 18/2/18.

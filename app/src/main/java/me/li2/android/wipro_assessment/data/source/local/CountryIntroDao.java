@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.data.database;
+package me.li2.android.wipro_assessment.data.source.local;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -7,6 +7,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
+
+import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
 
 /**
  * Database access object.
