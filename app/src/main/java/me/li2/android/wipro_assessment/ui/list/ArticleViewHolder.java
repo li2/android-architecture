@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.ui.countryintrolist;
+package me.li2.android.wipro_assessment.ui.list;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,43 +14,43 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.wipro_assessment.R;
-import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.Article;
 
 /**
  * Created by weiyi on 15/02/2018.
  * https://github.com/li2
  */
 
-public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private static final String LOG_TAG = CountryIntroViewHolder.class.getSimpleName();
+public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private static final String LOG_TAG = ArticleViewHolder.class.getSimpleName();
 
     private Context mContext;
-    private CountryIntroEntry mCountryIntro;
+    private Article mArticle;
 
-    @BindView(R.id.country_intro_title_view)
+    @BindView(R.id.article_title_view)
     TextView mTitleView;
 
-    @BindView(R.id.country_intro_description_view)
+    @BindView(R.id.article_description_view)
     TextView mDescriptionView;
 
-    @BindView(R.id.country_intro_image_view)
+    @BindView(R.id.article_image_view)
     ImageView mImageView;
 
-    public CountryIntroViewHolder(View itemView) {
+    public ArticleViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         itemView.setOnClickListener(this);
         mContext = itemView.getContext();
     }
 
-    public void bindCountryIntro(CountryIntroEntry intro) {
-        if (intro == null) {
+    public void bindArticle(Article article) {
+        if (article == null) {
             return;
         }
-        mCountryIntro = intro;
-        mTitleView.setText(intro.getTitle());
-        mDescriptionView.setText(intro.getDescription());
-        loadImage(mImageView, intro.getImageHref());
+        mArticle = article;
+        mTitleView.setText(article.getTitle());
+        mDescriptionView.setText(article.getDescription());
+        loadImage(mImageView, article.getImageHref());
     }
 
     /**
@@ -96,6 +96,6 @@ public class CountryIntroViewHolder extends RecyclerView.ViewHolder implements V
 
     @Override
     public void onClick(View view) {
-        Toast.makeText(view.getContext(), mCountryIntro.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), mArticle.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
     }
 }

@@ -5,7 +5,7 @@ import android.arch.lifecycle.LiveData;
 import java.util.List;
 
 import architecture_components.utils.ApiResponse;
-import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.Article;
 import retrofit2.http.GET;
 
 /**
@@ -15,5 +15,5 @@ import retrofit2.http.GET;
 
 public interface WiproWebService {
     @GET("articles.json")
-    LiveData<ApiResponse<List<CountryIntroEntry>>> getCountry();
+    LiveData<ApiResponse<List<Article>>> getArticleList();
 }

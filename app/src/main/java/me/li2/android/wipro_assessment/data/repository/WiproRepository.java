@@ -2,7 +2,6 @@ package me.li2.android.wipro_assessment.data.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,8 +10,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import architecture_components.utils.NetworkBoundResource;
-import me.li2.android.wipro_assessment.data.source.local.CountryIntroDao;
-import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.Article;
+import me.li2.android.wipro_assessment.data.source.local.ArticleDao;
 import architecture_components.utils.ApiResponse;
 import architecture_components.utils.Resource;
 import me.li2.android.wipro_assessment.data.source.remote.WiproWebService;
@@ -31,27 +30,27 @@ public class WiproRepository {
 
     private static final Object LOCK = new Object();
     private static WiproRepository sInstance;
-    private final CountryIntroDao mCountryIntroDao;
+    private final ArticleDao mArticleDao;
     private final WiproWebService mWiproWebService;
     private final AppExecutors mExecutors;
     private final Context mContext;
     private RateLimiter<String> repoListRateLimit = new RateLimiter<>(2, TimeUnit.MINUTES);
 
     public WiproRepository(
-            Context context, CountryIntroDao countryIntroDao, WiproWebService wiproWebService, AppExecutors executors) {
+            Context context, ArticleDao articleDao, WiproWebService wiproWebService, AppExecutors executors) {
         mContext = context;
-        mCountryIntroDao = countryIntroDao;
+        mArticleDao = articleDao;
         mWiproWebService = wiproWebService;
         mExecutors = executors;
     }
 
     public synchronized static WiproRepository getInstance(
-            Context context, CountryIntroDao countryIntroDao, WiproWebService wiproWebService, AppExecutors executors) {
+            Context context, ArticleDao articleDao, WiproWebService wiproWebService, AppExecutors executors) {
         Log.d(LOG_TAG, "Getting the repository");
         if (sInstance == null) {
             synchronized (LOCK) {
                 if (sInstance == null) {
-                    sInstance = new WiproRepository(context, countryIntroDao, wiproWebService, executors);
+                    sInstance = new WiproRepository(context, articleDao, wiproWebService, executors);
                     Log.d(LOG_TAG, "Made new repository");
                 }
             }
@@ -63,17 +62,17 @@ public class WiproRepository {
      *
      * @return
      */
-    public LiveData<Resource<List<CountryIntroEntry>>> loadCountryIntros() {
-        return new NetworkBoundResource<List<CountryIntroEntry>, List<CountryIntroEntry>>(mExecutors) {
+    public LiveData<Resource<List<Article>>> loadArticleList() {
+        return new NetworkBoundResource<List<Article>, List<Article>>(mExecutors) {
             /**
              * Called to save the result of the API response into the database
              *
-             * @param intros
+             * @param articles
              */
             @Override
-            protected void saveCallResult(@NonNull List<CountryIntroEntry> intros) {
-                // Insert new country intro data into the database
-                mCountryIntroDao.bulkInsert(intros.toArray(new CountryIntroEntry[intros.size()]));
+            protected void saveCallResult(@NonNull List<Article> articles) {
+                // Insert new article data into the database
+                mArticleDao.bulkInsert(articles.toArray(new Article[articles.size()]));
                 Log.d(LOG_TAG, "new values inserted");
             }
 
@@ -84,8 +83,8 @@ public class WiproRepository {
              * @return
              */
             @Override
-            protected boolean shouldFetch(@Nullable List<CountryIntroEntry> data) {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(getCountryTitle());
+            protected boolean shouldFetch(@Nullable List<Article> data) {
+                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(LOG_TAG);
             }
 
             /**
@@ -95,8 +94,8 @@ public class WiproRepository {
              */
             @NonNull
             @Override
-            protected LiveData<List<CountryIntroEntry>> loadFromDb() {
-                return mCountryIntroDao.getCountryIntroList();
+            protected LiveData<List<Article>> loadFromDb() {
+                return mArticleDao.getArticleList();
             }
 
             /**
@@ -105,28 +104,15 @@ public class WiproRepository {
              */
             @NonNull
             @Override
-            protected LiveData<ApiResponse<List<CountryIntroEntry>>> createCall() {
-                return mWiproWebService.getCountry();
+            protected LiveData<ApiResponse<List<Article>>> createCall() {
+                return mWiproWebService.getArticleList();
             }
 
             @Override
             protected void onFetchFailed() {
-                repoListRateLimit.reset(getCountryTitle());
+                repoListRateLimit.reset(LOG_TAG);
+                
             }
         }.asLiveData();
-    }
-
-    private static final String PREF_KEY_COUNTRY_TITLE = "pref_key_country_title";
-
-    private void setCountryTitle(String title) {
-        PreferenceManager.getDefaultSharedPreferences(mContext)
-                .edit()
-                .putString(PREF_KEY_COUNTRY_TITLE, title)
-                .apply();
-    }
-
-    public String getCountryTitle() {
-        return PreferenceManager.getDefaultSharedPreferences(mContext)
-                .getString(PREF_KEY_COUNTRY_TITLE, "");
     }
 }

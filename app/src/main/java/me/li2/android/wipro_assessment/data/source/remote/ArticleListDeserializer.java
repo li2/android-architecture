@@ -12,26 +12,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.Article;
 
 /**
  * Created by weiyi on 18/2/18.
  * https://github.com/li2
  */
 
-public class CountryDeserializer implements JsonDeserializer<List<CountryIntroEntry>> {
+public class ArticleListDeserializer implements JsonDeserializer<List<Article>> {
     @Override
-    public List<CountryIntroEntry> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public List<Article> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         final JsonObject jsonObject = json.getAsJsonObject();
         String title;
         title = jsonObject.get("title").getAsString();
 
-        Type type = new TypeToken<ArrayList<CountryIntroEntry>>() {}.getType();
-        List<CountryIntroEntry> intros = context.deserialize(jsonObject.get("rows"), type);
+        Type type = new TypeToken<ArrayList<Article>>() {}.getType();
+        List<Article> articleList = context.deserialize(jsonObject.get("rows"), type);
 
         // remove all null elements
-        intros.removeAll(Collections.singleton(null));
+        articleList.removeAll(Collections.singleton(null));
 
-        return intros;
+        return articleList;
     }
 }

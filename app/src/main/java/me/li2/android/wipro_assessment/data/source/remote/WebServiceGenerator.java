@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.Article;
 import architecture_components.utils.LiveDataCallAdapterFactory;
 import me.li2.android.wipro_assessment.utils.NetworkConnectivityInterceptor;
 import okhttp3.OkHttpClient;
@@ -31,12 +31,12 @@ public class WebServiceGenerator {
     private static final String BASE_URL = "https://raw.githubusercontent.com/li2/li2.github.io/master/assets/file/";
 
     //registerTypeAdapter with list https://stackoverflow.com/a/7668766/2722270
-    private static Type type = new TypeToken<List<CountryIntroEntry>>() {}.getType();
+    private static Type type = new TypeToken<List<Article>>() {}.getType();
 
     private static Gson gson = new GsonBuilder()
             .setLenient()
-            .registerTypeAdapter(type, new CountryDeserializer())
-            .registerTypeAdapter(CountryIntroEntry.class, new CountryIntroDeserializer())
+            .registerTypeAdapter(type, new ArticleListDeserializer())
+            .registerTypeAdapter(Article.class, new ArticleDeserializer())
             .create();
 
     private static HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor()

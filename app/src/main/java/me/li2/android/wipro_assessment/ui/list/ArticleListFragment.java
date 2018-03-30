@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.ui.countryintrolist;
+package me.li2.android.wipro_assessment.ui.list;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,28 +24,28 @@ import me.li2.android.wipro_assessment.utils.InjectorUtils;
 import me.li2.android.wipro_assessment.utils.NetworkUtils;
 import me.li2.android.wipro_assessment.utils.NoNetworkException;
 
-public class CountryIntroListFragment extends Fragment {
-    private static final String LOG_TAG = CountryIntroListFragment.class.getSimpleName();
+public class ArticleListFragment extends Fragment {
+    private static final String LOG_TAG = ArticleListFragment.class.getSimpleName();
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
-    private CountryIntroListAdapter mAdapter;
-    private CountryIntroListFragmentViewModel mViewModel;
+    private ArticleListAdapter mAdapter;
+    private ArticleListFragmentViewModel mViewModel;
 
-    @BindView(R.id.country_intro_recycler_view)
+    @BindView(R.id.article_list_view)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.country_intro_swiperefresh)
+    @BindView(R.id.article_list_swiperefresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    public CountryIntroListFragment() {
+    public ArticleListFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CountryIntroListViewModelFactory factory = InjectorUtils.provideCountryListViewModelFactory(getContext());
-        mViewModel = ViewModelProviders.of(this, factory).get(CountryIntroListFragmentViewModel.class);
+        ArticleListViewModelFactory factory = InjectorUtils.provideArticleListViewModelFactory(getContext());
+        mViewModel = ViewModelProviders.of(this, factory).get(ArticleListFragmentViewModel.class);
     }
 
     @Override
@@ -59,11 +58,11 @@ public class CountryIntroListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.country_intro_list_fragment, container, false);
+        View view = inflater.inflate(R.layout.article_list_fragment, container, false);
         ButterKnife.bind(this, view);
 
         final RecyclerView recyclerView = mRecyclerView;
-        mAdapter = new CountryIntroListAdapter(getContext());
+        mAdapter = new ArticleListAdapter(getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setScrollContainer(false);
@@ -121,7 +120,7 @@ public class CountryIntroListFragment extends Fragment {
     };
 
     private void loadData() {
-        mViewModel.getCountryIntroList().observe(getActivity(), resource -> {
+        mViewModel.getArticleList().observe(getActivity(), resource -> {
             Log.d(LOG_TAG, "loading status: " + resource.status + ", code " + resource.code);
 
             switch (resource.status) {
@@ -145,11 +144,6 @@ public class CountryIntroListFragment extends Fragment {
 
             // update recycler view
             mAdapter.update(resource.data);
-
-            // update actionbar title
-            if (!TextUtils.isEmpty(mViewModel.getCountryTitle())) {
-                ((CountryIntroListActivity)getActivity()).setTitle(mViewModel.getCountryTitle());
-            }
         });
     }
 

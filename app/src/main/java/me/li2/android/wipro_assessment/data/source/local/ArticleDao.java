@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.Article;
 
 /**
  * Database access object.
@@ -17,11 +17,11 @@ import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
  * https://github.com/li2
  */
 @Dao // Required annotation for Dao to be recognized by Room
-public interface CountryIntroDao {
+public interface ArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void bulkInsert(CountryIntroEntry... countryIntro);
+    void bulkInsert(Article... articles);
 
-    @Query("SELECT * FROM countryIntroTable")
-    LiveData<List<CountryIntroEntry>> getCountryIntroList();
+    @Query("SELECT * FROM articleTable")
+    LiveData<List<Article>> getArticleList();
 }

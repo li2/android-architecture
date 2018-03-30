@@ -8,9 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CountryIntroTitleText" parent="@android:style/TextAppearance.Holo.Medium">
+    <style name="ArticleTitleText" parent="@android:style/TextAppearance.Holo.Medium">
         <item name="android:textColor">@android:color/holo_blue_dark</item>
     </style>
-    <style name="CountryIntroDescriptionText" parent="@android:style/TextAppearance.Holo.Small"/>
+    <style name="ArticleDescriptionText" parent="@android:style/TextAppearance.Holo.Small"/>
 
 </resources>

@@ -14,8 +14,8 @@ import com.google.gson.annotations.SerializedName;
  * Sample Json: https://raw.githubusercontent.com/li2/li2.github.io/master/assets/file/articles.json
  */
 
-@Entity(tableName = "countryIntroTable", indices = {@Index(value = {"title"}, unique = true)})
-public class CountryIntroEntry {
+@Entity(tableName = "articleTable", indices = {@Index(value = {"title"}, unique = true)})
+public class Article {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -33,7 +33,7 @@ public class CountryIntroEntry {
     @SerializedName("imageHref")
     private String imageHref;
 
-    public CountryIntroEntry(int id, String title, String description, String imageHref) {
+    public Article(int id, String title, String description, String imageHref) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -41,7 +41,7 @@ public class CountryIntroEntry {
     }
 
     @Ignore
-    public CountryIntroEntry(String title, String description, String imageHref) {
+    public Article(String title, String description, String imageHref) {
         this.title = title;
         this.description = description;
         this.imageHref = imageHref;

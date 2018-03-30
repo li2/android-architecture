@@ -18,40 +18,40 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/country_intro_title_view"
-            style="@style/CountryIntroTitleText"
+            android:id="@+id/article_title_view"
+            style="@style/ArticleTitleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            app:layout_constraintRight_toLeftOf="@+id/country_intro_button"
+            app:layout_constraintRight_toLeftOf="@+id/article_detail_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/country_intro_description_view"
-            style="@style/CountryIntroDescriptionText"
+            android:id="@+id/article_description_view"
+            style="@style/ArticleDescriptionText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/country_intro_image_view"
-            app:layout_constraintLeft_toLeftOf="@+id/country_intro_title_view"
-            app:layout_constraintTop_toBottomOf="@+id/country_intro_title_view"/>
+            app:layout_constraintEnd_toStartOf="@+id/article_image_view"
+            app:layout_constraintLeft_toLeftOf="@+id/article_title_view"
+            app:layout_constraintTop_toBottomOf="@+id/article_title_view"/>
 
         <ImageView
-            android:id="@+id/country_intro_image_view"
+            android:id="@+id/article_image_view"
             android:layout_width="@dimen/list_photo_size"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:minHeight="@dimen/list_photo_size"
             android:scaleType="centerCrop"
             android:contentDescription="@string/app_name"
-            app:layout_constraintRight_toRightOf="@+id/country_intro_title_view"
-            app:layout_constraintTop_toBottomOf="@+id/country_intro_title_view"
+            app:layout_constraintRight_toRightOf="@+id/article_title_view"
+            app:layout_constraintTop_toBottomOf="@+id/article_title_view"
             app:srcCompat="@mipmap/ic_launcher"/>
 
         <Button
-            android:id="@+id/country_intro_button"
+            android:id="@+id/article_detail_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="0dp"

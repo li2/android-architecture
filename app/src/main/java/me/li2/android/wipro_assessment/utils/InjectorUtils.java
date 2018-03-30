@@ -6,7 +6,7 @@ import me.li2.android.wipro_assessment.data.source.local.WiproDatabase;
 import me.li2.android.wipro_assessment.data.source.remote.WebServiceGenerator;
 import me.li2.android.wipro_assessment.data.source.remote.WiproWebService;
 import me.li2.android.wipro_assessment.data.repository.WiproRepository;
-import me.li2.android.wipro_assessment.ui.countryintrolist.CountryIntroListViewModelFactory;
+import me.li2.android.wipro_assessment.ui.list.ArticleListViewModelFactory;
 
 /**
  * Created by weiyi on 16/02/2018.
@@ -19,11 +19,11 @@ public class InjectorUtils {
         WiproDatabase database = WiproDatabase.getInstance(context);
         AppExecutors executors = AppExecutors.getInstance();
         WiproWebService wiproWebService = WebServiceGenerator.createService(WiproWebService.class);
-        return WiproRepository.getInstance(context, database.countryIntroDao(), wiproWebService, executors);
+        return WiproRepository.getInstance(context, database.articleDao(), wiproWebService, executors);
     }
 
-    public static CountryIntroListViewModelFactory provideCountryListViewModelFactory(Context context) {
+    public static ArticleListViewModelFactory provideArticleListViewModelFactory(Context context) {
         WiproRepository repository = provideRepository(context.getApplicationContext());
-        return new CountryIntroListViewModelFactory(repository);
+        return new ArticleListViewModelFactory(repository);
     }
 }

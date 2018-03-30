@@ -9,18 +9,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
-import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.Article;
 
 /**
  * Created by weiyi on 18/2/18.
  * https://github.com/li2
  */
 
-public class CountryIntroDeserializer implements JsonDeserializer {
+public class ArticleDeserializer implements JsonDeserializer {
     @Override
-    public CountryIntroEntry deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public Article deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         String title = null, description = null, imageHref = null;
 
         final JsonObject jsonObject = json.getAsJsonObject();
@@ -50,6 +49,6 @@ public class CountryIntroDeserializer implements JsonDeserializer {
             return null;
         }
 
-        return new CountryIntroEntry(title, description, imageHref);
+        return new Article(title, description, imageHref);
     }
 }

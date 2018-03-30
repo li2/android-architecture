@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
+import me.li2.android.wipro_assessment.data.model.Article;
 
 /**
  * Create a singleton Database
@@ -14,7 +14,7 @@ import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
  * https://github.com/li2
  */
 
-@Database(entities = {CountryIntroEntry.class}, version = 1)
+@Database(entities = {Article.class}, version = 1)
 public abstract class WiproDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "wipro_database";
@@ -23,7 +23,7 @@ public abstract class WiproDatabase extends RoomDatabase {
     private static final Object LOCK = new Object();
     private static volatile WiproDatabase sInstance;
 
-    public abstract CountryIntroDao countryIntroDao();
+    public abstract ArticleDao articleDao();
 
     public static WiproDatabase getInstance(Context context) {
         if (sInstance == null) {

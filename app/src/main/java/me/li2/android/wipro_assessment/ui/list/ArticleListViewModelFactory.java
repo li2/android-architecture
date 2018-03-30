@@ -1,4 +1,4 @@
-package me.li2.android.wipro_assessment.ui.countryintrolist;
+package me.li2.android.wipro_assessment.ui.list;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -14,16 +14,16 @@ import me.li2.android.wipro_assessment.data.repository.WiproRepository;
  * https://github.com/li2
  */
 
-public class CountryIntroListViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class ArticleListViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final WiproRepository mRepository;
 
-    public CountryIntroListViewModelFactory(WiproRepository repository) {
+    public ArticleListViewModelFactory(WiproRepository repository) {
         mRepository = repository;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
-        return (T) new CountryIntroListFragmentViewModel(mRepository);
+        return (T) new ArticleListFragmentViewModel(mRepository);
     }
 }
