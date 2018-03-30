@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="me.li2.android.wipro_assessment.ui.countryintrolist.CountryIntroListActivity">
+    tools:context="me.li2.android.architecture.ui.list.ArticleListActivity">
 
     <!-- Create fragment container layout
     Note that, while the file consists solely of a container view for a single fragment,

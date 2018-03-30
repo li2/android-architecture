@@ -1,2 +1,1 @@
-# Wipro_Assessment
-Android Proficiency Exercise
+# Demo Android Architecture
