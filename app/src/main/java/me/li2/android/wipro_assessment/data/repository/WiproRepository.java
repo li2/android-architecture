@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import architecture_components.utils.NetworkBoundResource;
-import me.li2.android.wipro_assessment.data.model.CountryEntry;
 import me.li2.android.wipro_assessment.data.source.local.CountryIntroDao;
 import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
 import architecture_components.utils.ApiResponse;
@@ -65,20 +64,16 @@ public class WiproRepository {
      * @return
      */
     public LiveData<Resource<List<CountryIntroEntry>>> loadCountryIntros() {
-        return new NetworkBoundResource<List<CountryIntroEntry>, CountryEntry>(mExecutors) {
+        return new NetworkBoundResource<List<CountryIntroEntry>, List<CountryIntroEntry>>(mExecutors) {
             /**
              * Called to save the result of the API response into the database
              *
-             * @param item
+             * @param intros
              */
             @Override
-            protected void saveCallResult(@NonNull CountryEntry item) {
+            protected void saveCallResult(@NonNull List<CountryIntroEntry> intros) {
                 // Insert new country intro data into the database
-                List<CountryIntroEntry> intros = item.getIntros();
                 mCountryIntroDao.bulkInsert(intros.toArray(new CountryIntroEntry[intros.size()]));
-
-                // TODO refactor with DB
-                setCountryTitle(item.getTitle());
                 Log.d(LOG_TAG, "new values inserted");
             }
 
@@ -110,7 +105,7 @@ public class WiproRepository {
              */
             @NonNull
             @Override
-            protected LiveData<ApiResponse<CountryEntry>> createCall() {
+            protected LiveData<ApiResponse<List<CountryIntroEntry>>> createCall() {
                 return mWiproWebService.getCountry();
             }
 

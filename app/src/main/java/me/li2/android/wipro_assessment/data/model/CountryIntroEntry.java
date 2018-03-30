@@ -10,6 +10,8 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by weiyi on 15/02/2018.
  * https://github.com/li2
+ *
+ * Sample Json: https://raw.githubusercontent.com/li2/li2.github.io/master/assets/file/articles.json
  */
 
 @Entity(tableName = "countryIntroTable", indices = {@Index(value = {"title"}, unique = true)})

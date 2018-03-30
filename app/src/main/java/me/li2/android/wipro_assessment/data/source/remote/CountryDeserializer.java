@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import me.li2.android.wipro_assessment.data.model.CountryEntry;
 import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
 
 /**
@@ -20,9 +19,9 @@ import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
  * https://github.com/li2
  */
 
-public class CountryDeserializer implements JsonDeserializer {
+public class CountryDeserializer implements JsonDeserializer<List<CountryIntroEntry>> {
     @Override
-    public CountryEntry deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public List<CountryIntroEntry> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         final JsonObject jsonObject = json.getAsJsonObject();
         String title;
         title = jsonObject.get("title").getAsString();
@@ -33,6 +32,6 @@ public class CountryDeserializer implements JsonDeserializer {
         // remove all null elements
         intros.removeAll(Collections.singleton(null));
 
-        return new CountryEntry(title, intros);
+        return intros;
     }
 }

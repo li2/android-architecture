@@ -2,8 +2,11 @@ package me.li2.android.wipro_assessment.data.source.remote;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
-import me.li2.android.wipro_assessment.data.model.CountryEntry;
+import java.lang.reflect.Type;
+import java.util.List;
+
 import me.li2.android.wipro_assessment.data.model.CountryIntroEntry;
 import architecture_components.utils.LiveDataCallAdapterFactory;
 import me.li2.android.wipro_assessment.utils.NetworkConnectivityInterceptor;
@@ -24,11 +27,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class WebServiceGenerator {
-    private static final String BASE_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/";
+    //private static final String BASE_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/";
+    private static final String BASE_URL = "https://raw.githubusercontent.com/li2/li2.github.io/master/assets/file/";
+
+    //registerTypeAdapter with list https://stackoverflow.com/a/7668766/2722270
+    private static Type type = new TypeToken<List<CountryIntroEntry>>() {}.getType();
 
     private static Gson gson = new GsonBuilder()
             .setLenient()
-            .registerTypeAdapter(CountryEntry.class, new CountryDeserializer())
+            .registerTypeAdapter(type, new CountryDeserializer())
             .registerTypeAdapter(CountryIntroEntry.class, new CountryIntroDeserializer())
             .create();
 
