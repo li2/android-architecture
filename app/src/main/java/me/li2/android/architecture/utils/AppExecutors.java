@@ -23,12 +23,16 @@ import android.support.annotation.NonNull;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Global executor pools for the whole application.
  * <p>
  * Grouping tasks like this avoids the effects of task starvation (e.g. disk reads don't wait behind
  * webservice requests).
  */
+@Singleton
 public class AppExecutors {
 
     // For Singleton instantiation
@@ -38,7 +42,9 @@ public class AppExecutors {
     private final Executor mainThread;
     private final Executor networkIO;
 
-    private AppExecutors(Executor diskIO, Executor networkIO, Executor mainThread) {
+    // error: Dagger does not support injection into private constructors
+    @Inject
+    public AppExecutors(Executor diskIO, Executor networkIO, Executor mainThread) {
         this.diskIO = diskIO;
         this.networkIO = networkIO;
         this.mainThread = mainThread;

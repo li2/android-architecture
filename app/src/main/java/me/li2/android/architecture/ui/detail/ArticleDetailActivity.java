@@ -1,6 +1,5 @@
 package me.li2.android.architecture.ui.detail;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,17 +12,23 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
+import dagger.android.support.DaggerAppCompatActivity;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.utils.InjectorUtils;
 
-public class ArticleDetailActivity extends AppCompatActivity {
+public class ArticleDetailActivity extends DaggerAppCompatActivity {
 
     private static final String EXTRA_ARTICLE_ID = "article_id";
 
-    private ArticleDetailViewModel mViewModel;
+    // error: Dagger does not support injection into private fields
+    @Inject
+    ArticleDetailViewModel mViewModel;
+
     private int mArticleId;
 
     @BindView(R.id.toolbar_layout)
@@ -57,8 +62,6 @@ public class ArticleDetailActivity extends AppCompatActivity {
             mArticleId = getIntent().getIntExtra(EXTRA_ARTICLE_ID, -1);
         }
 
-        ArticleDetailViewModelFactory factory = InjectorUtils.provideArticleDetailViewModelFactory(this);
-        mViewModel = ViewModelProviders.of(this, factory).get(ArticleDetailViewModel.class);
         mViewModel.getArticle(mArticleId).observe(this, article -> {
             if (article != null) {
                 bindArticle(article);

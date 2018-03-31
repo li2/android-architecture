@@ -9,6 +9,8 @@ import android.util.Log;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import architecture_components.utils.NetworkBoundResource;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.source.local.ArticleDao;
@@ -36,6 +38,7 @@ public class DemoRepository {
     private final Context mContext;
     private RateLimiter<String> repoListRateLimit = new RateLimiter<>(2, TimeUnit.MINUTES);
 
+    @Inject
     public DemoRepository(
             Context context, ArticleDao articleDao, DemoWebService demoWebService, AppExecutors executors) {
         mContext = context;

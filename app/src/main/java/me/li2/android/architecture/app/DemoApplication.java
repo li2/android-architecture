@@ -1,17 +1,21 @@
-package me.li2.android.architecture.utils;
+package me.li2.android.architecture.app;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
+import me.li2.android.architecture.di.AppComponent;
+import me.li2.android.architecture.di.DaggerAppComponent;
 
 /**
  * Created by weiyi on 18/2/18.
  * https://github.com/li2
  */
 
-public class DemoApplication extends Application {
+public class DemoApplication extends DaggerApplication {
     private static DemoApplication sApplication;
 
     public DemoApplication() {
@@ -23,6 +27,13 @@ public class DemoApplication extends Application {
         super.onCreate();
         
         configurePicassoSingletonInstance();
+    }
+
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
+        appComponent.inject(this);
+        return appComponent;
     }
 
     public static Context getAppContext() {
