@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -15,18 +14,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
 
 /**
  * Created by weiyi on 15/02/2018.
  * https://github.com/li2
  */
 
-public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ArticleViewHolder extends RecyclerView.ViewHolder {
     private static final String LOG_TAG = ArticleViewHolder.class.getSimpleName();
 
     private Context mContext;
-    private Article mArticle;
+    private View mItemView;
 
     @BindView(R.id.article_title_view)
     TextView mTitleView;
@@ -40,18 +38,19 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.O
     public ArticleViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        itemView.setOnClickListener(this);
         mContext = itemView.getContext();
+        mItemView = itemView;
     }
 
-    public void bindArticle(Article article) {
+    public void bindArticle(Article article, ArticleSelectListener listener) {
         if (article == null) {
             return;
         }
-        mArticle = article;
         mTitleView.setText(article.getTitle());
         mDescriptionView.setText(article.getDescription());
         loadImage(mImageView, article.getImageHref());
+
+        mItemView.setOnClickListener(v -> listener.onArticleSelect(article, mImageView, mContext.getString(R.string.transition_article_image)));
     }
 
     /**
@@ -93,10 +92,5 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.O
                                 });
                     }
                 });
-    }
-
-    @Override
-    public void onClick(View view) {
-        mContext.startActivity(ArticleDetailActivity.newIntent(mContext, mArticle.getId()));
     }
 }

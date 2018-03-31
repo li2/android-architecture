@@ -19,9 +19,11 @@ import me.li2.android.architecture.data.model.Article;
 public class ArticleListAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
     private Context mContext;
     private List<Article> mArticleList;
+    private ArticleSelectListener mArticleSelectListener;
 
-    public ArticleListAdapter(Context context) {
+    public ArticleListAdapter(Context context, ArticleSelectListener listener) {
         mContext = context;
+        mArticleSelectListener = listener;
     }
 
     public void update(List<Article> articleList) {
@@ -42,6 +44,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleViewHolder> 
 
     @Override
     public void onBindViewHolder(ArticleViewHolder holder, int position) {
-        holder.bindArticle(mArticleList.get(position));
+        holder.bindArticle(mArticleList.get(position), mArticleSelectListener);
     }
 }

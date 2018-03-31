@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:animation">@style/MaterialAnimations</item>
+    </style>
+
+    <style name="MaterialAnimations" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="ArticleTitleText" parent="@android:style/TextAppearance.Holo.Medium">
