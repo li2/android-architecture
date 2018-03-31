@@ -6,6 +6,7 @@ import me.li2.android.architecture.data.source.local.DemoDatabase;
 import me.li2.android.architecture.data.source.remote.WebServiceGenerator;
 import me.li2.android.architecture.data.source.remote.DemoWebService;
 import me.li2.android.architecture.data.repository.DemoRepository;
+import me.li2.android.architecture.ui.detail.ArticleDetailViewModelFactory;
 import me.li2.android.architecture.ui.list.ArticleListViewModelFactory;
 
 /**
@@ -25,5 +26,10 @@ public class InjectorUtils {
     public static ArticleListViewModelFactory provideArticleListViewModelFactory(Context context) {
         DemoRepository repository = provideRepository(context.getApplicationContext());
         return new ArticleListViewModelFactory(repository);
+    }
+
+    public static ArticleDetailViewModelFactory provideArticleDetailViewModelFactory(Context context) {
+        DemoRepository repository = provideRepository(context.getApplicationContext());
+        return new ArticleDetailViewModelFactory(repository);
     }
 }

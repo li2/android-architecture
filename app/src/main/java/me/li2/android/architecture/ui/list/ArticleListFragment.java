@@ -1,5 +1,6 @@
 package me.li2.android.architecture.ui.list;
 
+import android.app.ActivityOptions;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,12 +20,14 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.architecture.R;
+import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.basic.RecyclerViewMarginDecoration;
+import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
 import me.li2.android.architecture.utils.InjectorUtils;
 import me.li2.android.architecture.utils.NetworkUtils;
 import me.li2.android.architecture.utils.NoNetworkException;
 
-public class ArticleListFragment extends Fragment {
+public class ArticleListFragment extends Fragment implements ArticleSelectListener {
     private static final String LOG_TAG = ArticleListFragment.class.getSimpleName();
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
@@ -62,7 +65,7 @@ public class ArticleListFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         final RecyclerView recyclerView = mRecyclerView;
-        mAdapter = new ArticleListAdapter(getContext());
+        mAdapter = new ArticleListAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setScrollContainer(false);
@@ -86,10 +89,15 @@ public class ArticleListFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        loadData();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         getContext().registerReceiver(mConnectivityChangeReceiver, NetworkUtils.connectivityChangeFilter());
-        loadData();
     }
 
     @Override
@@ -150,5 +158,12 @@ public class ArticleListFragment extends Fragment {
     private void showMessage(int stringResId) {
         Snackbar.make(getView(), stringResId, Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    // Delegate ViewHolder click event to Fragment, then we can use activity to implement transition animation.
+    @Override
+    public void onArticleSelect(Article article, View sharedView, String sharedName) {
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, sharedName);
+        startActivity(ArticleDetailActivity.newIntent(getContext(), article.getId()), options.toBundle());
     }
 }
