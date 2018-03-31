@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
+import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
 
 /**
  * Created by weiyi on 15/02/2018.
@@ -96,6 +97,6 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.O
 
     @Override
     public void onClick(View view) {
-        Toast.makeText(view.getContext(), mArticle.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
+        mContext.startActivity(ArticleDetailActivity.newIntent(mContext, mArticle.getId()));
     }
 }

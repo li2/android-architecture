@@ -102,12 +102,6 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     /**
-     * Called when the fetch fails. The child class may want to reset components like rate limiter.
-     */
-    protected void onFetchFailed() {
-    }
-
-    /**
      * returns a LiveData that represents the resource, implemented in the base class.
      * @return
      */
@@ -121,11 +115,12 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     /**
-     * Called to save the result of the API response into the database
-     * @param item
+     * Called to get the cached data from the database
+     * @return
      */
-    @WorkerThread
-    protected abstract void saveCallResult(@NonNull RequestType item);
+    @NonNull
+    @MainThread
+    protected abstract LiveData<ResultType> loadFromDb();
 
     /**
      * Called with the data in the database to decide whether it should be fetched from the network.
@@ -136,17 +131,22 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     protected abstract boolean shouldFetch(@Nullable ResultType data);
 
     /**
-     * Called to get the cached data from the database
-     * @return
-     */
-    @NonNull
-    @MainThread
-    protected abstract LiveData<ResultType> loadFromDb();
-
-    /**
      * Called to create the web service API call.
      */
     @NonNull
     @MainThread
     protected abstract LiveData<ApiResponse<RequestType>> createCall();
+
+    /**
+     * Called to save the result of the API response into the database
+     * @param item
+     */
+    @WorkerThread
+    protected abstract void saveCallResult(@NonNull RequestType item);
+
+    /**
+     * Called when the fetch fails. The child class may want to reset components like rate limiter.
+     */
+    protected void onFetchFailed() {
+    }
 }

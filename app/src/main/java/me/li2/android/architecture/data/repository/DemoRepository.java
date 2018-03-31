@@ -115,4 +115,8 @@ public class DemoRepository {
             }
         }.asLiveData();
     }
+
+    public LiveData<Article> loadArticle(int id) {
+        return mArticleDao.getArticle(id);
+    }
 }
