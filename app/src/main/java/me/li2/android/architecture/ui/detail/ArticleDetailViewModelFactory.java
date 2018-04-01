@@ -3,6 +3,8 @@ package me.li2.android.architecture.ui.detail;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import javax.inject.Inject;
+
 import me.li2.android.architecture.data.repository.DemoRepository;
 import me.li2.android.architecture.ui.list.ArticleListFragmentViewModel;
 
@@ -17,10 +19,11 @@ import me.li2.android.architecture.ui.list.ArticleListFragmentViewModel;
 
 public class ArticleDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final DemoRepository mRepository;
+    @Inject
+    DemoRepository mRepository;
 
-    public ArticleDetailViewModelFactory(DemoRepository repository) {
-        mRepository = repository;
+    @Inject
+    public ArticleDetailViewModelFactory() {
     }
 
     @Override

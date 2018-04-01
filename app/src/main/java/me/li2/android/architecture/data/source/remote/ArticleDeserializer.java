@@ -10,6 +10,8 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
+import javax.inject.Inject;
+
 import me.li2.android.architecture.data.model.Article;
 
 /**
@@ -18,6 +20,11 @@ import me.li2.android.architecture.data.model.Article;
  */
 
 public class ArticleDeserializer implements JsonDeserializer {
+
+    @Inject
+    public ArticleDeserializer() {
+    }
+
     @Override
     public Article deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         String title = null, description = null, imageHref = null;

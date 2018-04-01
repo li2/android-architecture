@@ -1,14 +1,12 @@
 package me.li2.android.architecture.ui.list;
 
 import android.app.ActivityOptions;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,22 +15,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerFragment;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.basic.RecyclerViewMarginDecoration;
 import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
-import me.li2.android.architecture.utils.InjectorUtils;
 import me.li2.android.architecture.utils.NetworkUtils;
 import me.li2.android.architecture.utils.NoNetworkException;
 
-public class ArticleListFragment extends Fragment implements ArticleSelectListener {
+public class ArticleListFragment extends DaggerFragment implements ArticleSelectListener {
     private static final String LOG_TAG = ArticleListFragment.class.getSimpleName();
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
-    private ArticleListAdapter mAdapter;
-    private ArticleListFragmentViewModel mViewModel;
+    @Inject
+    ArticleListAdapter mAdapter;
+
+    @Inject
+    ArticleListFragmentViewModel mViewModel;
 
     @BindView(R.id.article_list_view)
     RecyclerView mRecyclerView;
@@ -42,13 +45,6 @@ public class ArticleListFragment extends Fragment implements ArticleSelectListen
 
     public ArticleListFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ArticleListViewModelFactory factory = InjectorUtils.provideArticleListViewModelFactory(getContext());
-        mViewModel = ViewModelProviders.of(this, factory).get(ArticleListFragmentViewModel.class);
     }
 
     @Override
@@ -65,7 +61,6 @@ public class ArticleListFragment extends Fragment implements ArticleSelectListen
         ButterKnife.bind(this, view);
 
         final RecyclerView recyclerView = mRecyclerView;
-        mAdapter = new ArticleListAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setScrollContainer(false);

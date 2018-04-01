@@ -5,6 +5,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import me.li2.android.architecture.app.DemoApplication;
+
 /**
  * Created by weiyi on 17/2/18.
  * https://github.com/li2

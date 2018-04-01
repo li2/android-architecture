@@ -2,6 +2,8 @@ package me.li2.android.architecture.utils;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -17,6 +19,11 @@ import okhttp3.Response;
  */
 
 public class NetworkConnectivityInterceptor implements Interceptor {
+
+    @Inject
+    public NetworkConnectivityInterceptor() {
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         if (!NetworkUtils.isConnected()) {
