@@ -11,11 +11,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.li2.android.architecture.data.repository.DemoRepository;
 import me.li2.android.architecture.data.source.local.ArticleDao;
 import me.li2.android.architecture.data.source.local.DemoDatabase;
-import me.li2.android.architecture.data.source.remote.DemoWebService;
-import me.li2.android.architecture.data.source.remote.WebServiceGenerator;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.RateLimiter;
 
@@ -59,11 +56,5 @@ public class AppModule {
     @Provides
     RateLimiter<String> provideRateLimiter() {
         return new RateLimiter<>(2, TimeUnit.MINUTES);
-    }
-
-    @Provides
-    @Singleton
-    DemoWebService provideDemoWebService() {
-        return WebServiceGenerator.createService(DemoWebService.class);
     }
 }

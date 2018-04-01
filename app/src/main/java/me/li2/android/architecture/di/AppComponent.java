@@ -11,6 +11,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 import dagger.android.support.AndroidSupportInjectionModule;
 import me.li2.android.architecture.app.DemoApplication;
+import me.li2.android.architecture.data.source.remote.WebServiceGenerator;
 
 /**
  * Android apps have one application class. That is why we have one application component.
@@ -33,6 +34,7 @@ import me.li2.android.architecture.app.DemoApplication;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         AppModule.class,
+        WebServiceGenerator.class,
         ActivityBuilder.class,
 })
 public interface AppComponent extends AndroidInjector<DaggerApplication> {
