@@ -5,7 +5,6 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
-import me.li2.android.architecture.data.repository.DemoRepository;
 
 /**
  * This module provides the fragment related instances.
@@ -24,10 +23,5 @@ public class ArticleListFragmentModule {
     @Provides
     ArticleListFragmentViewModel provideArticleListFragmentViewModel(ArticleListFragment fragment, ArticleListViewModelFactory factory) {
         return ViewModelProviders.of(fragment, factory).get(ArticleListFragmentViewModel.class);
-    }
-
-    @Provides
-    ArticleListViewModelFactory provideArticleListViewModelFactory(Context context, DemoRepository repository) {
-        return new ArticleListViewModelFactory(repository);
     }
 }

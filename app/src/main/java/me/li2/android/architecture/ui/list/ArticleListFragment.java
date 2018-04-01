@@ -1,14 +1,12 @@
 package me.li2.android.architecture.ui.list;
 
 import android.app.ActivityOptions;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,12 +20,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
-import dagger.android.support.FragmentKey;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.basic.RecyclerViewMarginDecoration;
 import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
-import me.li2.android.architecture.utils.InjectorUtils;
 import me.li2.android.architecture.utils.NetworkUtils;
 import me.li2.android.architecture.utils.NoNetworkException;
 

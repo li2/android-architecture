@@ -20,9 +20,4 @@ public class ArticleDetailActivityModule {
     ArticleDetailViewModel provideArticleDetailViewModel(ArticleDetailActivity activity, ArticleDetailViewModelFactory factory) {
         return ViewModelProviders.of(activity, factory).get(ArticleDetailViewModel.class);
     }
-
-    @Provides
-    ArticleDetailViewModelFactory provideArticleDetailViewModelFactory(Context context, DemoRepository repository) {
-        return new ArticleDetailViewModelFactory(repository);
-    }
 }
