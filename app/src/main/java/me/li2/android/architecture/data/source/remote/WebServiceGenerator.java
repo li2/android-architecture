@@ -37,35 +37,41 @@ public class WebServiceGenerator {
 
     @Provides
     @Singleton
-    Gson provideGson() {
+    Gson provideGson(ArticleListDeserializer articleListDeserializer,
+                     ArticleDeserializer articleDeserializer) {
         //registerTypeAdapter with list https://stackoverflow.com/a/7668766/2722270
         Type type = new TypeToken<List<Article>>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()
-                .registerTypeAdapter(type, new ArticleListDeserializer())
-                .registerTypeAdapter(Article.class, new ArticleDeserializer())
+                .registerTypeAdapter(type, articleListDeserializer)
+                .registerTypeAdapter(Article.class, articleDeserializer)
                 .create();
     }
 
     @Provides
     @Singleton
-    OkHttpClient.Builder provideOkHttpClientBuilder() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor()
+    HttpLoggingInterceptor provideHttpLoggingInterceptor() {
+        return new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
+    }
 
+    @Provides
+    @Singleton
+    OkHttpClient.Builder provideOkHttpClientBuilder(HttpLoggingInterceptor loggingInterceptor,
+                                                    NetworkConnectivityInterceptor networkConnectivityInterceptor) {
         return new OkHttpClient.Builder()
-                .addInterceptor(new NetworkConnectivityInterceptor())
+                .addInterceptor(networkConnectivityInterceptor)
                 .addInterceptor(loggingInterceptor);
     }
 
     @Provides
     @Singleton
-    Retrofit.Builder provideRetrofitBuilder(Gson gson, OkHttpClient.Builder httpClient) {
+    Retrofit.Builder provideRetrofitBuilder(Gson gson, OkHttpClient.Builder httpClient, LiveDataCallAdapterFactory liveDataCallAdapterFactory) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(new LiveDataCallAdapterFactory()) // notebyweiyi Unable to create call adapter for android.arch.lifecycle.LiveData
+                .addCallAdapterFactory(liveDataCallAdapterFactory) // notebyweiyi Unable to create call adapter for android.arch.lifecycle.LiveData
                 .client(httpClient.build());
     }
 

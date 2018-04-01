@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import me.li2.android.architecture.data.model.Article;
 
 /**
@@ -20,6 +22,11 @@ import me.li2.android.architecture.data.model.Article;
  */
 
 public class ArticleListDeserializer implements JsonDeserializer<List<Article>> {
+
+    @Inject
+    public ArticleListDeserializer() {
+    }
+
     @Override
     public List<Article> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         final JsonObject jsonObject = json.getAsJsonObject();
