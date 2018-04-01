@@ -19,11 +19,11 @@ import me.li2.android.architecture.ui.list.ArticleListFragmentViewModel;
 
 public class ArticleDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final DemoRepository mRepository;
+    @Inject
+    DemoRepository mRepository;
 
     @Inject
-    public ArticleDetailViewModelFactory(DemoRepository repository) {
-        mRepository = repository;
+    public ArticleDetailViewModelFactory() {
     }
 
     @Override

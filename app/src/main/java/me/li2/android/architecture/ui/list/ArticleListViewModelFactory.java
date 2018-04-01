@@ -18,11 +18,11 @@ import me.li2.android.architecture.data.repository.DemoRepository;
 
 public class ArticleListViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final DemoRepository mRepository;
+    @Inject
+    DemoRepository mRepository;
 
     @Inject
-    public ArticleListViewModelFactory(DemoRepository repository) {
-        mRepository = repository;
+    public ArticleListViewModelFactory() {
     }
 
     @Override
