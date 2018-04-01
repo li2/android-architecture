@@ -73,7 +73,7 @@ public class AppExecutors {
         return networkIO;
     }
 
-    private static class MainThreadExecutor implements Executor {
+    public static class MainThreadExecutor implements Executor {
         private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
         @Override

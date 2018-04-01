@@ -17,7 +17,7 @@ import me.li2.android.architecture.data.model.Article;
 @Database(entities = {Article.class}, version = 1)
 public abstract class DemoDatabase extends RoomDatabase {
 
-    private static final String DATABASE_NAME = "demo_database";
+    public static final String DATABASE_NAME = "demo_database";
 
     // For singleton
     private static final Object LOCK = new Object();

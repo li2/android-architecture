@@ -1,13 +1,17 @@
 package me.li2.android.architecture.di;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.Context;
+
+import java.util.concurrent.Executors;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.repository.DemoRepository;
+import me.li2.android.architecture.data.source.local.ArticleDao;
 import me.li2.android.architecture.data.source.local.DemoDatabase;
 import me.li2.android.architecture.data.source.remote.DemoWebService;
 import me.li2.android.architecture.data.source.remote.WebServiceGenerator;
@@ -32,10 +36,27 @@ public class AppModule {
 
     @Provides
     @Singleton
-    DemoRepository provideRepository(Context context) {
-        DemoDatabase database = DemoDatabase.getInstance(context);
-        AppExecutors executors = AppExecutors.getInstance();
-        DemoWebService demoWebService = WebServiceGenerator.createService(DemoWebService.class);
-        return DemoRepository.getInstance(context, database.articleDao(), demoWebService, executors);
+    AppExecutors provideAppExecutors() {
+        return new AppExecutors(Executors.newSingleThreadExecutor(),
+                Executors.newFixedThreadPool(3),
+                new AppExecutors.MainThreadExecutor());
+    }
+
+    @Provides
+    @Singleton
+    DemoDatabase provideDemoDatabase(Context context) {
+        return Room.databaseBuilder(context.getApplicationContext(),
+                DemoDatabase.class, DemoDatabase.DATABASE_NAME).build();
+    }
+
+    @Provides
+    ArticleDao provideArticleDao(DemoDatabase database) {
+        return database.articleDao();
+    }
+
+    @Provides
+    @Singleton
+    DemoWebService provideDemoWebService() {
+        return WebServiceGenerator.createService(DemoWebService.class);
     }
 }

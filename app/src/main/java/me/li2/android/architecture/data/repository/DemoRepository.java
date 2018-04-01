@@ -30,35 +30,19 @@ import me.li2.android.architecture.utils.RateLimiter;
 public class DemoRepository {
     private static final String LOG_TAG = DemoRepository.class.getSimpleName();
 
-    private static final Object LOCK = new Object();
-    private static DemoRepository sInstance;
-    private final ArticleDao mArticleDao;
-    private final DemoWebService mDemoWebService;
-    private final AppExecutors mExecutors;
-    private final Context mContext;
+    @Inject
+    ArticleDao mArticleDao;
+    @Inject
+    DemoWebService mDemoWebService;
+    @Inject
+    AppExecutors mExecutors;
+    @Inject
+    Context mContext;
+
     private RateLimiter<String> repoListRateLimit = new RateLimiter<>(2, TimeUnit.MINUTES);
 
     @Inject
-    public DemoRepository(
-            Context context, ArticleDao articleDao, DemoWebService demoWebService, AppExecutors executors) {
-        mContext = context;
-        mArticleDao = articleDao;
-        mDemoWebService = demoWebService;
-        mExecutors = executors;
-    }
-
-    public synchronized static DemoRepository getInstance(
-            Context context, ArticleDao articleDao, DemoWebService demoWebService, AppExecutors executors) {
-        Log.d(LOG_TAG, "Getting the repository");
-        if (sInstance == null) {
-            synchronized (LOCK) {
-                if (sInstance == null) {
-                    sInstance = new DemoRepository(context, articleDao, demoWebService, executors);
-                    Log.d(LOG_TAG, "Made new repository");
-                }
-            }
-        }
-        return sInstance;
+    public DemoRepository(){
     }
 
     /**
