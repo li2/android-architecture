@@ -17,8 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerFragment;
+import dagger.android.support.FragmentKey;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.basic.RecyclerViewMarginDecoration;
@@ -27,12 +31,15 @@ import me.li2.android.architecture.utils.InjectorUtils;
 import me.li2.android.architecture.utils.NetworkUtils;
 import me.li2.android.architecture.utils.NoNetworkException;
 
-public class ArticleListFragment extends Fragment implements ArticleSelectListener {
+public class ArticleListFragment extends DaggerFragment implements ArticleSelectListener {
     private static final String LOG_TAG = ArticleListFragment.class.getSimpleName();
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
-    private ArticleListAdapter mAdapter;
-    private ArticleListFragmentViewModel mViewModel;
+    @Inject
+    ArticleListAdapter mAdapter;
+
+    @Inject
+    ArticleListFragmentViewModel mViewModel;
 
     @BindView(R.id.article_list_view)
     RecyclerView mRecyclerView;
@@ -42,13 +49,6 @@ public class ArticleListFragment extends Fragment implements ArticleSelectListen
 
     public ArticleListFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ArticleListViewModelFactory factory = InjectorUtils.provideArticleListViewModelFactory(getContext());
-        mViewModel = ViewModelProviders.of(this, factory).get(ArticleListFragmentViewModel.class);
     }
 
     @Override
@@ -65,7 +65,6 @@ public class ArticleListFragment extends Fragment implements ArticleSelectListen
         ButterKnife.bind(this, view);
 
         final RecyclerView recyclerView = mRecyclerView;
-        mAdapter = new ArticleListAdapter(getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setScrollContainer(false);

@@ -5,9 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import dagger.android.support.DaggerAppCompatActivity;
 import me.li2.android.architecture.R;
 
-public abstract class SingleFragmentActivity extends AppCompatActivity {
+public abstract class SingleFragmentActivity extends DaggerAppCompatActivity {
 
     protected abstract Fragment createFragment();
 
