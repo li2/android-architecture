@@ -7,15 +7,15 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import architecture_components.utils.ApiResponse;
 import architecture_components.utils.NetworkBoundResource;
+import architecture_components.utils.Resource;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.source.local.ArticleDao;
-import architecture_components.utils.ApiResponse;
-import architecture_components.utils.Resource;
 import me.li2.android.architecture.data.source.remote.DemoWebService;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.RateLimiter;
@@ -27,6 +27,7 @@ import me.li2.android.architecture.utils.RateLimiter;
  * https://github.com/li2
  */
 
+@Singleton
 public class DemoRepository {
     private static final String LOG_TAG = DemoRepository.class.getSimpleName();
 
@@ -38,8 +39,8 @@ public class DemoRepository {
     AppExecutors mExecutors;
     @Inject
     Context mContext;
-
-    private RateLimiter<String> repoListRateLimit = new RateLimiter<>(2, TimeUnit.MINUTES);
+    @Inject
+    RateLimiter<String> repoListRateLimit;
 
     @Inject
     public DemoRepository(){

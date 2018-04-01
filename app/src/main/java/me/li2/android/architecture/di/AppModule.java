@@ -5,6 +5,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -16,6 +17,7 @@ import me.li2.android.architecture.data.source.local.DemoDatabase;
 import me.li2.android.architecture.data.source.remote.DemoWebService;
 import me.li2.android.architecture.data.source.remote.WebServiceGenerator;
 import me.li2.android.architecture.utils.AppExecutors;
+import me.li2.android.architecture.utils.RateLimiter;
 
 /**
  * We provide retrofit, OKHttp, persistence db, shared pref etc here.
@@ -52,6 +54,11 @@ public class AppModule {
     @Provides
     ArticleDao provideArticleDao(DemoDatabase database) {
         return database.articleDao();
+    }
+
+    @Provides
+    RateLimiter<String> provideRateLimiter() {
+        return new RateLimiter<>(2, TimeUnit.MINUTES);
     }
 
     @Provides
