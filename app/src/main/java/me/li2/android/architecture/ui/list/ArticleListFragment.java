@@ -10,10 +10,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,17 +26,16 @@ import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.basic.RecyclerViewMarginDecoration;
 import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
 import me.li2.android.architecture.utils.NetworkUtils;
-import me.li2.android.architecture.utils.NoNetworkException;
 
-public class ArticleListFragment extends DaggerFragment implements ArticleSelectListener {
+public class ArticleListFragment extends DaggerFragment implements ArticleSelectListener, ArticlesContract.View {
     private static final String LOG_TAG = ArticleListFragment.class.getSimpleName();
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
     @Inject
-    ArticleListAdapter mAdapter;
+    ArticlesContract.Presenter mPresenter;
 
     @Inject
-    ArticleListFragmentViewModel mViewModel;
+    ArticleListAdapter mAdapter;
 
     @BindView(R.id.article_list_view)
     RecyclerView mRecyclerView;
@@ -86,7 +86,7 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadData();
+        mPresenter.onViewReady();
     }
 
     @Override
@@ -104,12 +104,7 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            if (!NetworkUtils.isConnected()) {
-                showMessage(R.string.status_no_connect);
-            } else {
-                loadData();
-            }
-            mSwipeRefreshLayout.setRefreshing(false);
+            mPresenter.loadArticles();
         }
     };
 
@@ -122,34 +117,6 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
         }
     };
 
-    private void loadData() {
-        mViewModel.getArticleList().observe(getActivity(), resource -> {
-            Log.d(LOG_TAG, "loading status: " + resource.status + ", code " + resource.code);
-
-            switch (resource.status) {
-                case LOADING:
-                    showMessage(R.string.status_loading);
-                    break;
-
-                case SUCCESS:
-                    showMessage(R.string.status_success);
-                    if (resource.data == null) {
-                        showMessage(R.string.status_no_response);
-                    }
-                    break;
-
-                case ERROR:
-                    if (resource.throwable instanceof NoNetworkException) {
-                        showMessage(R.string.status_no_connect);
-                    }
-                    break;
-            }
-
-            // update recycler view
-            mAdapter.update(resource.data);
-        });
-    }
-
     private void showMessage(int stringResId) {
         Snackbar.make(getView(), stringResId, Snackbar.LENGTH_LONG)
                 .show();
@@ -160,5 +127,35 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     public void onArticleSelect(Article article, View sharedView, String sharedName) {
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, sharedName);
         startActivity(ArticleDetailActivity.newIntent(getContext(), article.getId()), options.toBundle());
+    }
+
+    @Override
+    public void showArticles(List<Article> articleList) {
+        mAdapter.update(articleList);
+    }
+
+    @Override
+    public void setLoadingIndicator(boolean active) {
+        mSwipeRefreshLayout.setRefreshing(active);
+    }
+
+    @Override
+    public void showLoadingArticlesSucceed() {
+        showMessage(R.string.status_success);
+    }
+
+    @Override
+    public void showNoArticles() {
+        showMessage(R.string.status_no_response);
+    }
+
+    @Override
+    public void showLoadingArticlesError() {
+
+    }
+
+    @Override
+    public void showNoNetworkError() {
+        showMessage(R.string.status_no_connect);
     }
 }
