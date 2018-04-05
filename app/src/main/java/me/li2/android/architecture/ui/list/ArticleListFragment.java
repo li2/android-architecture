@@ -86,7 +86,7 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.onViewReady();
+        mPresenter.start();
     }
 
     @Override

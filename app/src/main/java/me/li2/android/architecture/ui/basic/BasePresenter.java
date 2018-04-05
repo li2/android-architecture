@@ -18,5 +18,14 @@ package me.li2.android.architecture.ui.basic;
 
 public interface BasePresenter {
 
-    void onViewReady();
+    /**
+     * Start presenter business when its related view is ready.
+     * <p>
+     * Presenter doesn't make sense without a view, and only has a 1-to-1 relation with the view.
+     * presenter maybe need to do some initialization stuff when the view is ready.
+     * <p>
+     * That's the reason we define this method which should be invoked when the view is ready, for example,
+     * when Fragment.onViewCreated, Activity.onResume.
+     */
+    void start();
 }

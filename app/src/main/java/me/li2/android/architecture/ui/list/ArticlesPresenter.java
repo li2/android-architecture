@@ -31,7 +31,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     }
 
     @Override
-    public void onViewReady() {
+    public void start() {
         loadArticles();
     }
 
