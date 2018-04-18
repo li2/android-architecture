@@ -3,8 +3,11 @@ package me.li2.android.architecture.ui.list;
 import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.repository.DemoRepository;
 import me.li2.android.architecture.utils.NoNetworkException;
 
@@ -25,6 +28,8 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     LifecycleOwner mLifecycleOwner;
     @Inject
     DemoRepository mRepository;
+
+    private List<Article> mArticles;
 
     @Inject
     public ArticlesPresenter() {
@@ -63,8 +68,20 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
                     break;
             }
 
+            // TODO move the following lines to SUCCESS scope
+            mArticles = resource.data;
             mArticlesView.setLoadingIndicator(false);
-            mArticlesView.showArticles(resource.data);
+            mArticlesView.showArticles();
         });
+    }
+
+    @Override
+    public int getArticlesCount() {
+        return mArticles != null ? mArticles.size() : 0;
+    }
+
+    @Override
+    public Article getArticle(int position) {
+        return mArticles.get(position);
     }
 }

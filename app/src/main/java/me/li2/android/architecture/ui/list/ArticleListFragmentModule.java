@@ -17,8 +17,8 @@ import dagger.Provides;
 public class ArticleListFragmentModule {
 
     @Provides
-    ArticleListAdapter provideArticleListAdapter(Context context, ArticleListFragment fragment) {
-        return new ArticleListAdapter(context, fragment);
+    ArticleListFragment.ArticlesAdapter provideArticleListAdapter(Context context, ArticleListFragment fragment) {
+        return fragment.new ArticlesAdapter(context, fragment);
     }
 
     @Provides

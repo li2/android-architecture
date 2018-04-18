@@ -20,7 +20,7 @@ public class ArticlesContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showArticles(List<Article> articleList);
+        void showArticles();
 
         void setLoadingIndicator(boolean active);
 
@@ -36,5 +36,9 @@ public class ArticlesContract {
     interface Presenter extends BasePresenter {
 
         void loadArticles();
+
+        int getArticlesCount();
+
+        Article getArticle(int position);
     }
 }

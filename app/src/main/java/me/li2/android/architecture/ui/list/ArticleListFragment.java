@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -35,7 +33,7 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     ArticlesContract.Presenter mPresenter;
 
     @Inject
-    ArticleListAdapter mAdapter;
+    ArticlesAdapter mAdapter;
 
     @BindView(R.id.article_list_view)
     RecyclerView mRecyclerView;
@@ -130,8 +128,8 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     }
 
     @Override
-    public void showArticles(List<Article> articleList) {
-        mAdapter.update(articleList);
+    public void showArticles() {
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -157,5 +155,48 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     @Override
     public void showNoNetworkError() {
         showMessage(R.string.status_no_connect);
+    }
+
+    /*
+    The reason to make Adapter as an inner class is to use Presenter easily.
+
+    To use MVP for RecyclerView,
+    Normally we create a Collection (let it be a List) field within the adapter, holding all the data that it needs to display.
+    This sucks, because in MVP we typically manager data in presenter,
+    this makes the list to be referenced (or worse: copied) in two different places,
+    which doubles our effort to keep those two in sync when making changes.
+
+    Instead, we should use presenter !
+
+    https://android.jlelse.eu/recyclerview-in-mvp-passive-views-approach-8dd74633158
+    */
+
+    public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
+
+        private Context mContext;
+        private ArticleSelectListener mArticleSelectListener;
+
+        //error: @Inject constructors are invalid on inner classes
+        //@Inject
+        public ArticlesAdapter(Context context, ArticleSelectListener listener) {
+            mContext = context;
+            mArticleSelectListener = listener;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mPresenter.getArticlesCount();
+        }
+
+        @Override
+        public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.article_list_view_holder, parent, false);
+            return new ArticleViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ArticleViewHolder holder, int position) {
+            holder.bindArticle(mPresenter.getArticle(position), mArticleSelectListener);
+        }
     }
 }

@@ -40,6 +40,7 @@ public class Resource<T> {
     @Nullable
     public final T data;
 
+    // TODO how to distinguish data is cached or fetched from network?
     public Resource(@NonNull Status status, @Nullable T data, @Nullable String message, int code, Throwable throwable) {
         this.status = status;
         this.data = data;

@@ -43,6 +43,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @MainThread
     public NetworkBoundResource(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
+        // TODO the purpose to set loading null?
         result.setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();
         result.addSource(dbSource, data -> {
@@ -50,6 +51,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
             if (shouldFetch(data)) {
                 fetchFromNetwork(dbSource);
             } else {
+                // TODO this data is cached, but it will be considered to fetch from network
                 result.addSource(dbSource, newData -> setValue(Resource.success(newData)));
             }
         });
@@ -65,6 +67,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
         LiveData<ApiResponse<RequestType>> apiResponse = createCall();
         // we re-attach dbSource as a new source, it will dispatch its latest value quickly
+        // TODO so the observer will be triggered?
         result.addSource(dbSource, newData -> setValue(Resource.loading(newData)));
         result.addSource(apiResponse, response -> {
             result.removeSource(apiResponse);
