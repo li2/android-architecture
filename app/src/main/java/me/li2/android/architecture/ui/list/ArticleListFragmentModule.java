@@ -1,7 +1,6 @@
 package me.li2.android.architecture.ui.list;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 
 import dagger.Module;
@@ -15,15 +14,10 @@ import dagger.Provides;
 
 @Module
 public class ArticleListFragmentModule {
-
+    
     @Provides
     ArticleListFragment.ArticlesAdapter provideArticleListAdapter(Context context, ArticleListFragment fragment) {
         return fragment.new ArticlesAdapter(context, fragment);
-    }
-
-    @Provides
-    ArticleListFragmentViewModel provideArticleListFragmentViewModel(ArticleListFragment fragment, ArticleListViewModelFactory factory) {
-        return ViewModelProviders.of(fragment, factory).get(ArticleListFragmentViewModel.class);
     }
 
     /*

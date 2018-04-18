@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import javax.inject.Inject;
 
 import me.li2.android.architecture.data.repository.DemoRepository;
-import me.li2.android.architecture.ui.list.ArticleListFragmentViewModel;
 
 /**
  * The constructor that is automatically called by ViewModelProvider is the default one -

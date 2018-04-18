@@ -1,7 +1,5 @@
 package me.li2.android.architecture.ui.list;
 
-import java.util.List;
-
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.basic.BasePresenter;
 import me.li2.android.architecture.ui.basic.BaseView;
