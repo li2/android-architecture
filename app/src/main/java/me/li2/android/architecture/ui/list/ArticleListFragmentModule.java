@@ -1,7 +1,6 @@
 package me.li2.android.architecture.ui.list;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,19 +13,14 @@ import dagger.Provides;
 
 @Module
 public class ArticleListFragmentModule {
-    
-    @Provides
-    ArticleListFragment.ArticlesAdapter provideArticleListAdapter(Context context, ArticleListFragment fragment) {
-        return fragment.new ArticlesAdapter(context, fragment);
-    }
 
-    /*
-    error: ArticlesContract.Presenter cannot be provided without an @Provides- or @Produces-annotated method.
-    the reason is that we do this in fragment, however, this is a interface which cannot use @Inject.
-        @Inject
-        ArticlesContract.Presenter mPresenter;
+    /**
+     * Provide dependency for interface.
+     * Interface cannot be annotated with @Inject, otherwise it will cause
+     * error: ArticlesContract.Presenter cannot be provided without an @Provides- or @Produces-annotated method.
      */
     @Provides
+    @ArticlesScope
     ArticlesContract.Presenter provideArticlesPresenter(ArticlesPresenter presenter) {
         return presenter;
     }

@@ -22,7 +22,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     private static final String LOG_TAG = ArticlesPresenter.class.getSimpleName();
 
     @Inject
-    ArticlesContract.View mArticlesView;
+    ArticlesContract.View mView;
     // Could i put LifecycleOwner in Presenter? Does it violate the principle of MVP?
     @Inject
     LifecycleOwner mLifecycleOwner;
@@ -41,38 +41,13 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     }
 
     @Override
-    public void loadArticles() {
-        mArticlesView.setLoadingIndicator(true);
+    public void onUserRefresh() {
+        loadArticles();
+    }
 
-        mRepository.loadArticleList().observe(mLifecycleOwner, resource -> {
-            Log.d(LOG_TAG, "loading status: " + resource.status + ", code " + resource.code);
-
-            switch (resource.status) {
-                case LOADING:
-                    break;
-
-                case SUCCESS:
-                    if (resource.data == null) {
-                        mArticlesView.showNoArticles();
-                    } else {
-                        mArticlesView.showLoadingArticlesSucceed();
-                    }
-                    break;
-
-                case ERROR:
-                    if (resource.throwable instanceof NoNetworkException) {
-                        mArticlesView.showNoNetworkError();
-                    } else {
-                        mArticlesView.showLoadingArticlesError();
-                    }
-                    break;
-            }
-
-            // TODO move the following lines to SUCCESS scope
-            mArticles = resource.data;
-            mArticlesView.setLoadingIndicator(false);
-            mArticlesView.showArticles();
-        });
+    @Override
+    public void onUserSelectArticle(Article article) {
+        mView.showArticleDetailView(article);
     }
 
     @Override
@@ -83,5 +58,36 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     @Override
     public Article getArticle(int position) {
         return mArticles.get(position);
+    }
+
+    private void loadArticles() {
+        mView.setLoadingIndicator(true);
+
+        mRepository.loadArticleList().observe(mLifecycleOwner, resource -> {
+            Log.d(LOG_TAG, "loading status: " + resource.status + ", code " + resource.code);
+
+            switch (resource.status) {
+                case LOADING:
+                    break;
+
+                case SUCCESS:
+                    if (resource.data != null) {
+                        // TODO bug need to be fixed: SUCCESS only relates to webservice query,
+                        // if no internet, but has data in local, we cannot go to here.
+                        mArticles = resource.data;
+                        mView.setLoadingIndicator(false);
+                        mView.showArticleList();
+                    } else {
+                        mView.showNoArticlesView();
+                    }
+                    break;
+
+                case ERROR:
+                    if (resource.throwable instanceof NoNetworkException) {
+                        mView.showNoNetworkError();
+                    }
+                    break;
+            }
+        });
     }
 }

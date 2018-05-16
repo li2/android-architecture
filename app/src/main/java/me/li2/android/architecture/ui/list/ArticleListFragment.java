@@ -1,6 +1,5 @@
 package me.li2.android.architecture.ui.list;
 
-import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,9 +24,17 @@ import me.li2.android.architecture.ui.basic.RecyclerViewMarginDecoration;
 import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
 import me.li2.android.architecture.utils.NetworkUtils;
 
-public class ArticleListFragment extends DaggerFragment implements ArticleSelectListener, ArticlesContract.View {
+public class ArticleListFragment extends DaggerFragment implements ArticlesContract.View {
+
     private static final String LOG_TAG = ArticleListFragment.class.getSimpleName();
+
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
+
+    @BindView(R.id.article_list_view)
+    RecyclerView mRecyclerView;
+
+    @BindView(R.id.article_list_swiperefresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Inject
     ArticlesContract.Presenter mPresenter;
@@ -35,11 +42,6 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     @Inject
     ArticlesAdapter mAdapter;
 
-    @BindView(R.id.article_list_view)
-    RecyclerView mRecyclerView;
-
-    @BindView(R.id.article_list_swiperefresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
 
     public ArticleListFragment() {
         // Required empty public constructor
@@ -102,7 +104,7 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            mPresenter.loadArticles();
+            mPresenter.onUserRefresh();
         }
     };
 
@@ -120,36 +122,19 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
                 .show();
     }
 
-    // Delegate ViewHolder click event to Fragment, then we can use activity to implement transition animation.
-    @Override
-    public void onArticleSelect(Article article, View sharedView, String sharedName) {
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, sharedName);
-        startActivity(ArticleDetailActivity.newIntent(getContext(), article.getId()), options.toBundle());
-    }
-
-    @Override
-    public void showArticles() {
-        mAdapter.notifyDataSetChanged();
-    }
-
     @Override
     public void setLoadingIndicator(boolean active) {
         mSwipeRefreshLayout.setRefreshing(active);
     }
 
     @Override
-    public void showLoadingArticlesSucceed() {
-        showMessage(R.string.status_success);
+    public void showArticleList() {
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showNoArticles() {
+    public void showNoArticlesView() {
         showMessage(R.string.status_no_response);
-    }
-
-    @Override
-    public void showLoadingArticlesError() {
-
     }
 
     @Override
@@ -157,46 +142,11 @@ public class ArticleListFragment extends DaggerFragment implements ArticleSelect
         showMessage(R.string.status_no_connect);
     }
 
-    /*
-    The reason to make Adapter as an inner class is to use Presenter easily.
-
-    To use MVP for RecyclerView,
-    Normally we create a Collection (let it be a List) field within the adapter, holding all the data that it needs to display.
-    This sucks, because in MVP we typically manager data in presenter,
-    this makes the list to be referenced (or worse: copied) in two different places,
-    which doubles our effort to keep those two in sync when making changes.
-
-    Instead, we should use presenter !
-
-    https://android.jlelse.eu/recyclerview-in-mvp-passive-views-approach-8dd74633158
-    */
-
-    public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
-
-        private Context mContext;
-        private ArticleSelectListener mArticleSelectListener;
-
-        //error: @Inject constructors are invalid on inner classes
-        //@Inject
-        public ArticlesAdapter(Context context, ArticleSelectListener listener) {
-            mContext = context;
-            mArticleSelectListener = listener;
-        }
-
-        @Override
-        public int getItemCount() {
-            return mPresenter.getArticlesCount();
-        }
-
-        @Override
-        public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.article_list_view_holder, parent, false);
-            return new ArticleViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ArticleViewHolder holder, int position) {
-            holder.bindArticle(mPresenter.getArticle(position), mArticleSelectListener);
-        }
+    @Override
+    public void showArticleDetailView(Article article) {
+        // activity transition animation
+//        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, sharedName);
+//        startActivity(ArticleDetailActivity.newIntent(getContext(), article.getId()), options.toBundle());
+        startActivity(ArticleDetailActivity.newIntent(getContext(), article.getId()));
     }
 }

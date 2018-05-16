@@ -10,6 +10,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.architecture.R;
@@ -35,22 +37,27 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.article_image_view)
     ImageView mImageView;
 
-    public ArticleViewHolder(View itemView) {
+    @Inject
+    Picasso mPicasso;
+
+    private ArticlesContract.Presenter mPresenter;
+
+    public ArticleViewHolder(View itemView, ArticlesContract.Presenter presenter) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         mContext = itemView.getContext();
         mItemView = itemView;
+        mPresenter = presenter;
     }
 
-    public void bindArticle(Article article, ArticleSelectListener listener) {
+    public void bindArticle(Article article) {
         if (article == null) {
             return;
         }
         mTitleView.setText(article.getTitle());
         mDescriptionView.setText(article.getDescription());
         loadImage(mImageView, article.getImageHref());
-
-        mItemView.setOnClickListener(v -> listener.onArticleSelect(article, mImageView, mContext.getString(R.string.transition_article_image)));
+        mItemView.setOnClickListener(v -> mPresenter.onUserSelectArticle(article));
     }
 
     /**
@@ -66,7 +73,7 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
     private void loadImage(final ImageView imageView, final String imageHref) {
         imageView.setVisibility(View.GONE);
 
-        Picasso.with(mContext)
+        mPicasso
                 .load(imageHref)
                 .networkPolicy(NetworkPolicy.OFFLINE) // force offline
                 .into(imageView, new Callback() {
@@ -77,7 +84,7 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
                     @Override
                     public void onError() {
-                        Picasso.with(mContext)
+                        mPicasso
                                 .load(imageHref)
                                 .into(imageView, new Callback() {
                                     @Override

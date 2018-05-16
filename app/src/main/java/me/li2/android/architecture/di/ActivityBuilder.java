@@ -7,10 +7,12 @@ import me.li2.android.architecture.ui.detail.ArticleDetailActivityModule;
 import me.li2.android.architecture.ui.list.ArticleListActivity;
 import me.li2.android.architecture.ui.list.ArticleListFragment;
 import me.li2.android.architecture.ui.list.ArticleListFragmentModule;
+import me.li2.android.architecture.ui.list.ArticlesScope;
 
 /**
  * This is a given module to dagger.
  * We map ALL our activities here, then Dagger knows our activities in compile time.
+ * Otherwise it causes IllegalArgumentException: No injector factory bound for Class
  *
  * @author Weiyi Li on 31/3/18 | https://github.com/li2
  */
@@ -21,22 +23,10 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = ArticleDetailActivityModule.class)
     abstract ArticleDetailActivity bindArticleDetailActivity();
 
-    /**
-     * ArticleListFragment is hosted by ArticleListActivity, so we need to
-     * install the fragment's module to this activity.
-     */
-    @ContributesAndroidInjector(modules = { ArticleListActivityHostedFragment.class })
+    @ContributesAndroidInjector()
     abstract ArticleListActivity bindArticleListActivity();
 
-    /**
-     * The reason to create this class is that this activity maybe host many fragments.
-     */
-    @Module
-    abstract class ArticleListActivityHostedFragment {
-
-        @ContributesAndroidInjector(modules = ArticleListFragmentModule.class)
-        abstract ArticleListFragment bindArticleListFragment();
-
-        // another fragment ...
-    }
+    @ContributesAndroidInjector(modules = ArticleListFragmentModule.class)
+    @ArticlesScope
+    abstract ArticleListFragment bindArticleListFragment();
 }
