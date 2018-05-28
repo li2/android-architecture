@@ -10,8 +10,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.architecture.R;
@@ -23,7 +21,6 @@ import me.li2.android.architecture.data.model.Article;
  */
 
 public class ArticleViewHolder extends RecyclerView.ViewHolder {
-    private static final String LOG_TAG = ArticleViewHolder.class.getSimpleName();
 
     private Context mContext;
     private View mItemView;
@@ -36,11 +33,9 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.article_image_view)
     ImageView mImageView;
-
-    @Inject
-    Picasso mPicasso;
-
-    private ArticlesContract.Presenter mPresenter;
+    
+    // @Inject TODO why is null, the workaround is to inject by instructor
+    ArticlesContract.Presenter mPresenter;
 
     public ArticleViewHolder(View itemView, ArticlesContract.Presenter presenter) {
         super(itemView);
@@ -73,7 +68,7 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
     private void loadImage(final ImageView imageView, final String imageHref) {
         imageView.setVisibility(View.GONE);
 
-        mPicasso
+        Picasso.with(mContext)
                 .load(imageHref)
                 .networkPolicy(NetworkPolicy.OFFLINE) // force offline
                 .into(imageView, new Callback() {
@@ -84,7 +79,7 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
                     @Override
                     public void onError() {
-                        mPicasso
+                        Picasso.with(mContext)
                                 .load(imageHref)
                                 .into(imageView, new Callback() {
                                     @Override
