@@ -21,7 +21,6 @@ import me.li2.android.architecture.data.model.Article;
  */
 
 public class ArticleViewHolder extends RecyclerView.ViewHolder {
-    private static final String LOG_TAG = ArticleViewHolder.class.getSimpleName();
 
     private Context mContext;
     private View mItemView;
@@ -34,23 +33,26 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.article_image_view)
     ImageView mImageView;
+    
+    // @Inject TODO why is null, the workaround is to inject by instructor
+    ArticlesContract.Presenter mPresenter;
 
-    public ArticleViewHolder(View itemView) {
+    public ArticleViewHolder(View itemView, ArticlesContract.Presenter presenter) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         mContext = itemView.getContext();
         mItemView = itemView;
+        mPresenter = presenter;
     }
 
-    public void bindArticle(Article article, ArticleSelectListener listener) {
+    public void bindArticle(Article article) {
         if (article == null) {
             return;
         }
         mTitleView.setText(article.getTitle());
         mDescriptionView.setText(article.getDescription());
         loadImage(mImageView, article.getImageHref());
-
-        mItemView.setOnClickListener(v -> listener.onArticleSelect(article, mImageView, mContext.getString(R.string.transition_article_image)));
+        mItemView.setOnClickListener(v -> mPresenter.onUserSelectArticle(article));
     }
 
     /**

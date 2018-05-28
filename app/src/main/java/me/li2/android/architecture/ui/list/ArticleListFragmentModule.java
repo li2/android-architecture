@@ -1,7 +1,6 @@
 package me.li2.android.architecture.ui.list;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
+import android.arch.lifecycle.LifecycleOwner;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,13 +14,24 @@ import dagger.Provides;
 @Module
 public class ArticleListFragmentModule {
 
+    /**
+     * Provide dependency for interface.
+     * Interface cannot be annotated with @Inject, otherwise it will cause
+     * error: ArticlesContract.Presenter cannot be provided without an @Provides- or @Produces-annotated method.
+     */
     @Provides
-    ArticleListAdapter provideArticleListAdapter(Context context, ArticleListFragment fragment) {
-        return new ArticleListAdapter(context, fragment);
+    @ArticlesScope
+    ArticlesContract.Presenter provideArticlesPresenter(ArticlesPresenter presenter) {
+        return presenter;
     }
 
     @Provides
-    ArticleListFragmentViewModel provideArticleListFragmentViewModel(ArticleListFragment fragment, ArticleListViewModelFactory factory) {
-        return ViewModelProviders.of(fragment, factory).get(ArticleListFragmentViewModel.class);
+    ArticlesContract.View provideArticlesView(ArticleListFragment fragment) {
+        return fragment;
+    }
+
+    @Provides
+    LifecycleOwner provideArticlesLifecycleOwner(ArticleListFragment fragment) {
+        return fragment;
     }
 }

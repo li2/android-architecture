@@ -5,6 +5,8 @@ import android.content.Context;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 import me.li2.android.architecture.di.AppComponent;
@@ -22,11 +24,13 @@ public class DemoApplication extends DaggerApplication {
         sApplication = this;
     }
 
+    @Inject
+    Picasso mPicasso;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        
-        configurePicassoSingletonInstance();
+        Picasso.setSingletonInstance(mPicasso);
     }
 
     @Override
@@ -58,6 +62,8 @@ public class DemoApplication extends DaggerApplication {
      * Picasso not use Disk Cache anymore.
      * https://github.com/JakeWharton/picasso2-okhttp3-downloader/issues/12
      */
+    // have been replaced by Dagger
+    @Deprecated
     private void configurePicassoSingletonInstance() {
         Picasso picasso = new Picasso.Builder(getApplicationContext())
                 .loggingEnabled(true)

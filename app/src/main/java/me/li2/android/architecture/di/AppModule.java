@@ -4,6 +4,9 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -49,6 +52,7 @@ public class AppModule {
     }
 
     @Provides
+    @Singleton
     ArticleDao provideArticleDao(DemoDatabase database) {
         return database.articleDao();
     }
@@ -56,5 +60,22 @@ public class AppModule {
     @Provides
     RateLimiter<String> provideRateLimiter() {
         return new RateLimiter<>(2, TimeUnit.MINUTES);
+    }
+
+
+    @Provides
+    @Singleton
+    OkHttp3Downloader provideOkHttp3Downloader(Context context) {
+        return new OkHttp3Downloader(context.getApplicationContext(), Integer.MAX_VALUE);
+    }
+
+    @Provides
+    @Singleton
+    Picasso providePicasso(Context context, OkHttp3Downloader downloader) {
+        return new Picasso.Builder(context.getApplicationContext())
+                .loggingEnabled(true)
+                .downloader(downloader)
+                .listener((picasso1, uri, exception) -> exception.printStackTrace())
+                .build();
     }
 }
