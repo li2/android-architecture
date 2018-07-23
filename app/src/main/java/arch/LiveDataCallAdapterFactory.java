@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package architecture_components.utils;
+package arch;
 
 import android.arch.lifecycle.LiveData;
 import java.lang.annotation.Annotation;

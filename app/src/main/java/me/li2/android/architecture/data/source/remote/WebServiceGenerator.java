@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
-import architecture_components.utils.LiveDataCallAdapterFactory;
+import arch.LiveDataCallAdapterFactory;
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.model.Article;

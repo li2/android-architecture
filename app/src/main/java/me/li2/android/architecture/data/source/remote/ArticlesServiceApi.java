@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.List;
 
-import architecture_components.utils.ApiResponse;
+import arch.ApiResponse;
 import me.li2.android.architecture.data.model.Article;
 import retrofit2.http.GET;
 

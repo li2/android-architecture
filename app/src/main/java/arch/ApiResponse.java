@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package architecture_components.utils;
+package arch;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

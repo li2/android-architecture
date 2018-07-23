@@ -1,5 +1,8 @@
 package me.li2.android.architecture.data.repository;
 
+import arch.ApiResponse;
+import arch.NetworkBoundResource;
+import arch.Resource;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,9 +14,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import architecture_components.utils.ApiResponse;
-import architecture_components.utils.NetworkBoundResource;
-import architecture_components.utils.Resource;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.source.local.ArticlesDao;
 import me.li2.android.architecture.data.source.remote.ArticlesServiceApi;

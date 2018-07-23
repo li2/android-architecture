@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package architecture_components.utils;
+package arch;
 
 
 import android.arch.lifecycle.LiveData;
 import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import architecture_components.utils.ApiResponse;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Callback;
