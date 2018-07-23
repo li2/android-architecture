@@ -35,8 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class WebServiceGenerator {
-    //private static final String BASE_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/";
-    private static final String BASE_URL = "https://raw.githubusercontent.com/li2/li2.github.io/master/assets/file/";
+    private static final String BASE_URL = "https://li2.gitbooks.io/android-programming-journey/content/assets/";
 
     @Provides
     @Singleton

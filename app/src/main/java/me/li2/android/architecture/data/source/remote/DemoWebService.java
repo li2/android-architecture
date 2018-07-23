@@ -14,6 +14,6 @@ import retrofit2.http.GET;
  */
 
 public interface DemoWebService {
-    @GET("articles.json")
+    @GET("demo-articles.json")
     LiveData<ApiResponse<List<Article>>> getArticleList();
 }
