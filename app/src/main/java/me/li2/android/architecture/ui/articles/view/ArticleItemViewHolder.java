@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.list;
+package me.li2.android.architecture.ui.articles.view;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,13 +14,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
+import me.li2.android.architecture.ui.articles.view.ArticlesContract;
 
 /**
  * Created by weiyi on 15/02/2018.
  * https://github.com/li2
  */
 
-public class ArticleViewHolder extends RecyclerView.ViewHolder {
+public class ArticleItemViewHolder extends RecyclerView.ViewHolder {
 
     private Context mContext;
     private View mItemView;
@@ -37,7 +38,7 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
     // @Inject TODO why is null, the workaround is to inject by instructor
     ArticlesContract.Presenter mPresenter;
 
-    public ArticleViewHolder(View itemView, ArticlesContract.Presenter presenter) {
+    public ArticleItemViewHolder(View itemView, ArticlesContract.Presenter presenter) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         mContext = itemView.getContext();

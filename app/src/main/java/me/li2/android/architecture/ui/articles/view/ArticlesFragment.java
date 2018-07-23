@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.list;
+package me.li2.android.architecture.ui.articles.view;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,12 +21,12 @@ import dagger.android.support.DaggerFragment;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
-import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
+import me.li2.android.architecture.ui.articledetail.view.ArticleDetailActivity;
 import me.li2.android.architecture.utils.NetworkUtils;
 
-public class ArticleListFragment extends DaggerFragment implements ArticlesContract.View {
+public class ArticlesFragment extends DaggerFragment implements ArticlesContract.View {
 
-    private static final String LOG_TAG = ArticleListFragment.class.getSimpleName();
+    private static final String LOG_TAG = ArticlesFragment.class.getSimpleName();
 
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
@@ -43,7 +43,7 @@ public class ArticleListFragment extends DaggerFragment implements ArticlesContr
     ArticlesAdapter mAdapter;
 
 
-    public ArticleListFragment() {
+    public ArticlesFragment() {
         // Required empty public constructor
     }
 

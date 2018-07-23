@@ -2,12 +2,9 @@ package me.li2.android.architecture.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
-import me.li2.android.architecture.ui.detail.ArticleDetailActivityModule;
-import me.li2.android.architecture.ui.list.ArticleListActivity;
-import me.li2.android.architecture.ui.list.ArticleListFragment;
-import me.li2.android.architecture.ui.list.ArticleListFragmentModule;
-import me.li2.android.architecture.ui.list.ArticlesScope;
+import me.li2.android.architecture.ui.articledetail.view.ArticleDetailActivity;
+import me.li2.android.architecture.ui.articles.view.ArticlesActivity;
+import me.li2.android.architecture.ui.articles.view.ArticlesFragment;
 
 /**
  * This is a given module to dagger.
@@ -20,13 +17,13 @@ import me.li2.android.architecture.ui.list.ArticlesScope;
 @Module
 public abstract class ActivityBuilder {
 
-    @ContributesAndroidInjector(modules = ArticleDetailActivityModule.class)
+    @ContributesAndroidInjector(modules = ArticleDetailModule.class)
     abstract ArticleDetailActivity bindArticleDetailActivity();
 
     @ContributesAndroidInjector()
-    abstract ArticleListActivity bindArticleListActivity();
+    abstract ArticlesActivity bindArticlesActivity();
 
-    @ContributesAndroidInjector(modules = ArticleListFragmentModule.class)
+    @ContributesAndroidInjector(modules = ArticlesModule.class)
     @ArticlesScope
-    abstract ArticleListFragment bindArticleListFragment();
+    abstract ArticlesFragment bindArticlesFragment();
 }

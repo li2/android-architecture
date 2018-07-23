@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.detail;
+package me.li2.android.architecture.ui.articledetail.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

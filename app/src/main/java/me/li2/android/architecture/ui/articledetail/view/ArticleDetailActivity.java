@@ -1,10 +1,9 @@
-package me.li2.android.architecture.ui.detail;
+package me.li2.android.architecture.ui.articledetail.view;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -16,10 +15,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.AndroidInjection;
 import dagger.android.support.DaggerAppCompatActivity;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
+import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewModel;
 
 public class ArticleDetailActivity extends DaggerAppCompatActivity {
 

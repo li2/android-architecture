@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.list;
+package me.li2.android.architecture.ui.articles.view;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;

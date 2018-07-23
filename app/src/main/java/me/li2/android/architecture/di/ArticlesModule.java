@@ -1,9 +1,12 @@
-package me.li2.android.architecture.ui.list;
+package me.li2.android.architecture.di;
 
 import android.arch.lifecycle.LifecycleOwner;
 
 import dagger.Module;
 import dagger.Provides;
+import me.li2.android.architecture.ui.articles.view.ArticlesContract;
+import me.li2.android.architecture.ui.articles.view.ArticlesFragment;
+import me.li2.android.architecture.ui.articles.view.ArticlesPresenter;
 
 /**
  * This module provides the fragment related instances.
@@ -12,7 +15,7 @@ import dagger.Provides;
  */
 
 @Module
-public class ArticleListFragmentModule {
+public class ArticlesModule {
 
     /**
      * Provide dependency for interface.
@@ -26,12 +29,12 @@ public class ArticleListFragmentModule {
     }
 
     @Provides
-    ArticlesContract.View provideArticlesView(ArticleListFragment fragment) {
+    ArticlesContract.View provideArticlesView(ArticlesFragment fragment) {
         return fragment;
     }
 
     @Provides
-    LifecycleOwner provideArticlesLifecycleOwner(ArticleListFragment fragment) {
+    LifecycleOwner provideArticlesLifecycleOwner(ArticlesFragment fragment) {
         return fragment;
     }
 }

@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.list;
+package me.li2.android.architecture.ui.articles.view;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +25,7 @@ import me.li2.android.architecture.R;
  * @author Weiyi Li on 6/5/18 | https://github.com/li2
  */
 
-public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
+public class ArticlesAdapter extends RecyclerView.Adapter<ArticleItemViewHolder> {
 
     private Context mContext;
 
@@ -43,13 +43,13 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
     }
 
     @Override
-    public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ArticleItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.article_list_view_holder, parent, false);
-        return new ArticleViewHolder(view, mPresenter);
+        return new ArticleItemViewHolder(view, mPresenter);
     }
 
     @Override
-    public void onBindViewHolder(ArticleViewHolder holder, int position) {
+    public void onBindViewHolder(ArticleItemViewHolder holder, int position) {
         holder.bindArticle(mPresenter.getArticle(position));
     }
 }

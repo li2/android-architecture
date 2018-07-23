@@ -1,11 +1,12 @@
-package me.li2.android.architecture.ui.detail;
+package me.li2.android.architecture.di;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
-import me.li2.android.architecture.data.repository.DemoRepository;
+import me.li2.android.architecture.ui.articledetail.view.ArticleDetailActivity;
+import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewModel;
+import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewModelFactory;
 
 /**
  * This module provides the activity related instances.
@@ -14,7 +15,7 @@ import me.li2.android.architecture.data.repository.DemoRepository;
  */
 
 @Module
-public class ArticleDetailActivityModule {
+public class ArticleDetailModule {
 
     @Provides
     ArticleDetailViewModel provideArticleDetailViewModel(ArticleDetailActivity activity, ArticleDetailViewModelFactory factory) {

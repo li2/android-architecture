@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.list;
+package me.li2.android.architecture.di;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

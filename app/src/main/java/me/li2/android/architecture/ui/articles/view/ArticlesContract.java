@@ -1,6 +1,4 @@
-package me.li2.android.architecture.ui.list;
-
-import android.widget.ImageView;
+package me.li2.android.architecture.ui.articles.view;
 
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.basic.BasePresenter;
@@ -18,7 +16,7 @@ import me.li2.android.architecture.ui.basic.BaseView;
 
 public class ArticlesContract {
 
-    interface View extends BaseView<Presenter> {
+    public interface View extends BaseView<Presenter> {
 
         void setLoadingIndicator(boolean active);
         void showArticleList();
@@ -27,7 +25,7 @@ public class ArticlesContract {
         void showArticleDetailView(Article article);
     }
 
-    interface Presenter extends BasePresenter {
+    public interface Presenter extends BasePresenter {
 
         // User Actions
         void onUserRefresh();
