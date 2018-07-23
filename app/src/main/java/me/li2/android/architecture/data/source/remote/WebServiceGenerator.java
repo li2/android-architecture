@@ -13,7 +13,7 @@ import arch.LiveDataCallAdapterFactory;
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.utils.NetworkConnectivityInterceptor;
+import arch.NetworkConnectivityInterceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

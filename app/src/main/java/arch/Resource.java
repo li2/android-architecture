@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 import java.net.HttpURLConnection;
 
 /**
- * A generic class that holds a value with its loading status.
+ * A generic class that holds a value with its loading status. The value is from {@link ApiResponse}.
  * @param <T>
  *
  * https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/vo/Resource.java
@@ -33,18 +33,20 @@ public class Resource<T> {
     public final Status status;
 
     @Nullable
-    public final String message;
-    public final int code;
-    public final Throwable throwable;
-
-    @Nullable
     public final T data;
 
+    @Nullable
+    public final String errorMessage;
+
+    public final int code;
+
+    public final Throwable throwable;
+
     // TODO how to distinguish data is cached or fetched from network?
-    public Resource(@NonNull Status status, @Nullable T data, @Nullable String message, int code, Throwable throwable) {
+    Resource(@NonNull Status status, @Nullable T data, @Nullable String errorMessage, int code, Throwable throwable) {
         this.status = status;
         this.data = data;
-        this.message = message;
+        this.errorMessage = errorMessage;
         this.code = code;
         this.throwable = throwable;
     }
@@ -53,9 +55,9 @@ public class Resource<T> {
         return new Resource<>(Status.SUCCESS, data, null, HttpURLConnection.HTTP_OK, null);
     }
 
-    // notebyweiyi: add two more fields to let client know the error code / throwable (especially for custom Throwable).
-    public static <T> Resource<T> error(@Nullable T data, String msg, int code, Throwable throwable) {
-        return new Resource<>(Status.ERROR, data, msg, code, throwable);
+    // add two more fields to let client know the error code / throwable (especially for custom Throwable). notebyweiyi
+    public static <T> Resource<T> error(@Nullable T data, String errorMessage, int code, Throwable throwable) {
+        return new Resource<>(Status.ERROR, data, errorMessage, code, throwable);
     }
 
     public static <T> Resource<T> loading(@Nullable T data) {
@@ -76,16 +78,27 @@ public class Resource<T> {
         if (status != resource.status) {
             return false;
         }
-        if (message != null ? !message.equals(resource.message) : resource.message != null) {
+        if (errorMessage != null ? !errorMessage.equals(resource.errorMessage) : resource.errorMessage != null) {
             return false;
         }
+
+        if (code != resource.code) {
+            return false;
+        }
+
+        if (throwable != null ? !throwable.equals(resource.throwable) : resource.throwable != null) {
+            return false;
+        }
+
         return data != null ? data.equals(resource.data) : resource.data == null;
     }
 
     @Override
     public int hashCode() {
         int result = status.hashCode();
-        result = 31 * result + (message != null ? message.hashCode() : 0);
+        result = 31 * result + code;
+        result = 31 * result + (errorMessage != null ? errorMessage.hashCode() : 0);
+        result = 31 * result + (throwable != null ? throwable.hashCode() : 0);
         result = 31 * result + (data != null ? data.hashCode() : 0);
         return result;
     }
@@ -94,7 +107,9 @@ public class Resource<T> {
     public String toString() {
         return "Resource{" +
                 "status=" + status +
-                ", message='" + message + '\'' +
+                ", code=" + code +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", throwable=" + throwable  +
                 ", data=" + data +
                 '}';
     }

@@ -16,17 +16,12 @@
 
 package arch;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import retrofit2.Call;
 import retrofit2.Response;
 import timber.log.Timber;
 
@@ -37,25 +32,48 @@ import timber.log.Timber;
  * https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/api/ApiResponse.java
  */
 public class ApiResponse<T> {
-    private static final Pattern LINK_PATTERN = Pattern
-            .compile("<([^>]*)>[\\s]*;[\\s]*rel=\"([a-zA-Z0-9]+)\"");
-    private static final Pattern PAGE_PATTERN = Pattern.compile("\\bpage=(\\d+)");
-    private static final String NEXT_LINK = "next";
+
+    /**
+     * HTTP Status Codes
+     * <ul>
+     *     <li>200: The operation succeeded.
+     *
+     *     <li>304: Used with caching to indicate that the cached copy is still valid.
+     *
+     *     <li>400: The request is believed to be invalid in some way. The response body will contain an error message.
+     *      You should display the error message to the user.
+     *
+     *     <li>401: An OAuth authentication failure occurred. You should ask the user to log in again.
+     *
+     *     <li>429: Your rate limit has been exceeded. Your rate limit will reset at the start of the next hour.
+     *      You should not attempt to make any more calls until then.
+     *
+     *     <li>500: The server encountered an unexpected condition which prevented it from fulfilling the request.
+     *      You should display a generic “whoops” error message to the user.
+     *     <li>
+     * </ul>
+     * https://www.restapitutorial.com/httpstatuscodes.html
+     */
     public final int code;
+
     @Nullable
     public final T body;
+
     @Nullable
     public final String errorMessage;
-    @NonNull
-    public final Map<String, String> links;
+
+    /**
+     * {@link retrofit2.Callback#onFailure(Call, Throwable)}} invoked when a network exception occurred without response,
+     * for example, by creating a custom Exception class {@link NoNetworkException} allows us
+     * to catch it for error handling. notebyweiyi
+     */
     public final Throwable throwable;
 
     public ApiResponse(Throwable error) {
-        throwable = error; // notebyweiyi: in order to let client know all the info about error.
+        throwable = error;
         code = HttpURLConnection.HTTP_INTERNAL_ERROR;
         body = null;
         errorMessage = error.getMessage();
-        links = Collections.emptyMap();
     }
 
     public ApiResponse(Response<T> response) {
@@ -78,20 +96,6 @@ public class ApiResponse<T> {
             }
             errorMessage = message;
             body = null;
-        }
-        String linkHeader = response.headers().get("link");
-        if (linkHeader == null) {
-            links = Collections.emptyMap();
-        } else {
-            links = new ArrayMap<>();
-            Matcher matcher = LINK_PATTERN.matcher(linkHeader);
-
-            while (matcher.find()) {
-                int count = matcher.groupCount();
-                if (count == 2) {
-                    links.put(matcher.group(2), matcher.group(1));
-                }
-            }
         }
     }
 

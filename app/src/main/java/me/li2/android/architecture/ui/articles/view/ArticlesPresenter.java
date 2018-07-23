@@ -7,9 +7,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import arch.NoNetworkException;
+import arch.Status;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.repository.ArticlesRepository;
-import me.li2.android.architecture.utils.NoNetworkException;
 
 /**
  *
@@ -65,28 +66,22 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
 
         mRepository.loadArticles().observe(mLifecycleOwner, resource -> {
             Log.d(LOG_TAG, "loading status: " + resource.status + ", code " + resource.code);
+            
+            mView.setLoadingIndicator(resource.status == Status.LOADING);
 
-            switch (resource.status) {
-                case LOADING:
-                    break;
+            if (resource.data != null) {
+                if (resource.data.size() > 0) {
+                    mArticles = resource.data;
+                    mView.showArticleList();
+                } else {
+                    mView.showNoArticlesView();
+                }
+            }
 
-                case SUCCESS:
-                    if (resource.data != null) {
-                        // TODO bug need to be fixed: SUCCESS only relates to webservice query,
-                        // if no internet, but has data in local, we cannot go to here.
-                        mArticles = resource.data;
-                        mView.setLoadingIndicator(false);
-                        mView.showArticleList();
-                    } else {
-                        mView.showNoArticlesView();
-                    }
-                    break;
-
-                case ERROR:
-                    if (resource.throwable instanceof NoNetworkException) {
-                        mView.showNoNetworkError();
-                    }
-                    break;
+            if (resource.status == Status.ERROR) {
+                if (resource.throwable instanceof NoNetworkException) {
+                    mView.showNoNetworkError();
+                }
             }
         });
     }

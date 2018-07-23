@@ -1,8 +1,5 @@
 package me.li2.android.architecture.data.repository;
 
-import arch.ApiResponse;
-import arch.NetworkBoundResource;
-import arch.Resource;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -14,6 +11,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import arch.ApiResponse;
+import arch.NetworkBoundResource;
+import arch.Resource;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.source.local.ArticlesDao;
 import me.li2.android.architecture.data.source.remote.ArticlesServiceApi;
@@ -56,15 +56,15 @@ public class ArticlesRepository {
      */
     public LiveData<Resource<List<Article>>> loadArticles() {
         return new NetworkBoundResource<List<Article>, List<Article>>(mExecutors) {
-            @Override
-            protected boolean shouldFetch(@Nullable List<Article> data) {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(LOG_TAG);
-            }
-
             @NonNull
             @Override
             protected LiveData<List<Article>> loadFromDb() {
                 return mArticlesDao.getArticles();
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Article> data) {
+                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(LOG_TAG);
             }
 
             @NonNull

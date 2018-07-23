@@ -27,9 +27,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
+ * A Retrofit adapter that converts the {@link Call} into a {@link LiveData} of {@link ApiResponse}.
  * @param <R>
  *
+ * {@link retrofit2.Callback#onResponse(Call, Response)}
+ * must check isSuccessful() (or the status code) to determine if the response was successful or not.
+ *
+ * {@link retrofit2.Callback#onFailure(Call, Throwable)}
+ * invoked when a network exception occurred talking to the server without response
+ * or when an unexpected exception occurred creating the request or processing the response.
+ *
+ * Q: How can i get status code on failure in retrofit 2?
+ * A: https://github.com/square/retrofit/issues/1612
  * https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/util/LiveDataCallAdapter.java
  */
 class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiResponse<R>>> {
@@ -59,7 +68,7 @@ class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiResponse<R>>>
 
                         @Override
                         public void onFailure(Call<R> call, Throwable throwable) {
-                            postValue(new ApiResponse<R>(throwable));
+                            postValue(new ApiResponse<>(throwable));
                         }
                     });
                 }

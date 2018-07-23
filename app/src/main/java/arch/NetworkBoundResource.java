@@ -43,7 +43,6 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @MainThread
     public NetworkBoundResource(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
-        // TODO the purpose to set loading null?
         result.setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();
         result.addSource(dbSource, data -> {
@@ -67,22 +66,14 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
         LiveData<ApiResponse<RequestType>> apiResponse = createCall();
         // we re-attach dbSource as a new source, it will dispatch its latest value quickly
-        // TODO so the observer will be triggered?
         result.addSource(dbSource, newData -> setValue(Resource.loading(newData)));
         result.addSource(apiResponse, response -> {
             result.removeSource(apiResponse);
             result.removeSource(dbSource);
             // noinspection ConstantConditions
-
-            /*
-            notebyweiyi: how can i get status code on failure in retrofit 2? https://github.com/square/retrofit/issues/1612
-            Callback.onResponse must check isSuccessful() (or the status code) to determine if the response was successful or not.
-            Callback.onFailure invoked when a network exception occurred without response. t instance of Throwable
-             */
-
-            if (response.isSuccessful()) { // handle response, same as Callback.onResponse
+            if (response.isSuccessful()) {
                 saveResultAndReInit(response);
-            } else { // handle error, same as Callback.onFailure, wrapped by LiveDataCallAdapter
+            } else {
                 onFetchFailed();
                 result.addSource(dbSource, newData -> setValue(
                         Resource.error(newData, response.errorMessage, response.code, response.throwable)));
@@ -98,8 +89,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                     // we specially request a new live data,
                     // otherwise we will get immediately last cached value,
                     // which may not be updated with latest results received from network.
-                    result.addSource(loadFromDb(),
-                            newData -> setValue(Resource.success(newData)))
+                    result.addSource(loadFromDb(), newData -> setValue(Resource.success(newData)))
             );
         });
     }
@@ -122,7 +112,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
      * @return
      */
     @NonNull
-    @MainThread
+    @MainThread // TODO why not WorkerThread
     protected abstract LiveData<ResultType> loadFromDb();
 
     /**
