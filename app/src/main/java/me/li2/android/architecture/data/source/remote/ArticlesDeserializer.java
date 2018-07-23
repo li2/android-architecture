@@ -21,10 +21,10 @@ import me.li2.android.architecture.data.model.Article;
  * https://github.com/li2
  */
 
-public class ArticleListDeserializer implements JsonDeserializer<List<Article>> {
+public class ArticlesDeserializer implements JsonDeserializer<List<Article>> {
 
     @Inject
-    public ArticleListDeserializer() {
+    public ArticlesDeserializer() {
     }
 
     @Override

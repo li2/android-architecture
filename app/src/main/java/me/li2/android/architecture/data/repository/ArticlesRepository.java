@@ -15,8 +15,8 @@ import architecture_components.utils.ApiResponse;
 import architecture_components.utils.NetworkBoundResource;
 import architecture_components.utils.Resource;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.data.source.local.ArticleDao;
-import me.li2.android.architecture.data.source.remote.DemoWebService;
+import me.li2.android.architecture.data.source.local.ArticlesDao;
+import me.li2.android.architecture.data.source.remote.ArticlesServiceApi;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.RateLimiter;
 
@@ -28,72 +28,56 @@ import me.li2.android.architecture.utils.RateLimiter;
  */
 
 @Singleton
-public class DemoRepository {
-    private static final String LOG_TAG = DemoRepository.class.getSimpleName();
+public class ArticlesRepository {
+    private static final String LOG_TAG = ArticlesRepository.class.getSimpleName();
 
     @Inject
-    ArticleDao mArticleDao;
+    ArticlesDao mArticlesDao;
+
     @Inject
-    DemoWebService mDemoWebService;
+    ArticlesServiceApi mArticlesServiceApi;
+
     @Inject
     AppExecutors mExecutors;
+
     @Inject
     Context mContext;
+
     @Inject
     RateLimiter<String> repoListRateLimit;
 
     @Inject
-    public DemoRepository(){
+    public ArticlesRepository(){
     }
 
     /**
      *
      * @return
      */
-    public LiveData<Resource<List<Article>>> loadArticleList() {
+    public LiveData<Resource<List<Article>>> loadArticles() {
         return new NetworkBoundResource<List<Article>, List<Article>>(mExecutors) {
-            /**
-             * Called to save the result of the API response into the database
-             *
-             * @param articles
-             */
-            @Override
-            protected void saveCallResult(@NonNull List<Article> articles) {
-                // Insert new article data into the database
-                mArticleDao.bulkInsert(articles.toArray(new Article[articles.size()]));
-                Log.d(LOG_TAG, "new values inserted");
-            }
-
-            /**
-             * Called with the data in the database to decide whether it should be fetched from the network.
-             *
-             * @param data
-             * @return
-             */
             @Override
             protected boolean shouldFetch(@Nullable List<Article> data) {
                 return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(LOG_TAG);
             }
 
-            /**
-             * Called to get the cached data from the database
-             *
-             * @return
-             */
             @NonNull
             @Override
             protected LiveData<List<Article>> loadFromDb() {
-                return mArticleDao.getArticleList();
+                return mArticlesDao.getArticles();
             }
 
-            /**
-             * Called to create the web service API call.
-             *
-             */
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Article>>> createCall() {
-                return mDemoWebService.getArticleList();
+                return mArticlesServiceApi.getArticles();
+            }
+
+            @Override
+            protected void saveCallResult(@NonNull List<Article> articles) {
+                // Insert new article data into the database
+                mArticlesDao.bulkInsert(articles.toArray(new Article[articles.size()]));
+                Log.d(LOG_TAG, "new values inserted");
             }
 
             @Override
@@ -105,6 +89,6 @@ public class DemoRepository {
     }
 
     public LiveData<Article> loadArticle(int id) {
-        return mArticleDao.getArticle(id);
+        return mArticlesDao.getArticle(id);
     }
 }

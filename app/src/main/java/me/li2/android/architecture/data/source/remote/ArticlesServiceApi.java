@@ -13,7 +13,8 @@ import retrofit2.http.GET;
  * https://github.com/li2
  */
 
-public interface DemoWebService {
+public interface ArticlesServiceApi {
+
     @GET("demo-articles.json")
-    LiveData<ApiResponse<List<Article>>> getArticleList();
+    LiveData<ApiResponse<List<Article>>> getArticles();
 }

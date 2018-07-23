@@ -16,9 +16,9 @@ import me.li2.android.architecture.data.model.Article;
 
 @Singleton
 @Database(entities = {Article.class}, version = 1)
-public abstract class DemoDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
 
-    public static final String DATABASE_NAME = "demo_database";
+    public static final String DATABASE_NAME = "app_database";
 
-    public abstract ArticleDao articleDao();
+    public abstract ArticlesDao articlesDao();
 }

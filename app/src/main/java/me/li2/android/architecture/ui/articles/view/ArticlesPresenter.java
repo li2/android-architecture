@@ -8,7 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.data.repository.DemoRepository;
+import me.li2.android.architecture.data.repository.ArticlesRepository;
 import me.li2.android.architecture.utils.NoNetworkException;
 
 /**
@@ -27,7 +27,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     @Inject
     LifecycleOwner mLifecycleOwner;
     @Inject
-    DemoRepository mRepository;
+    ArticlesRepository mRepository;
 
     private List<Article> mArticles;
 
@@ -63,7 +63,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     private void loadArticles() {
         mView.setLoadingIndicator(true);
 
-        mRepository.loadArticleList().observe(mLifecycleOwner, resource -> {
+        mRepository.loadArticles().observe(mLifecycleOwner, resource -> {
             Log.d(LOG_TAG, "loading status: " + resource.status + ", code " + resource.code);
 
             switch (resource.status) {

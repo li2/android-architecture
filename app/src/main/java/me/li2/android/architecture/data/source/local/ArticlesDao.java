@@ -17,14 +17,14 @@ import me.li2.android.architecture.data.model.Article;
  * https://github.com/li2
  */
 @Dao // Required annotation for Dao to be recognized by Room
-public interface ArticleDao {
+public interface ArticlesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void bulkInsert(Article... articles);
 
-    @Query("SELECT * FROM articleTable")
-    LiveData<List<Article>> getArticleList();
+    @Query("SELECT * FROM ArticleTable")
+    LiveData<List<Article>> getArticles();
 
-    @Query("SELECT * FROM articleTable WHERE id = :id")
+    @Query("SELECT * FROM ArticleTable WHERE id = :id")
     LiveData<Article> getArticle(int id);
 }

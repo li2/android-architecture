@@ -13,9 +13,6 @@ import architecture_components.utils.LiveDataCallAdapterFactory;
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.data.source.remote.ArticleDeserializer;
-import me.li2.android.architecture.data.source.remote.ArticleListDeserializer;
-import me.li2.android.architecture.data.source.remote.DemoWebService;
 import me.li2.android.architecture.utils.NetworkConnectivityInterceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -39,14 +36,14 @@ public class WebServiceGenerator {
 
     @Provides
     @Singleton
-    Gson provideGson(ArticleListDeserializer articleListDeserializer,
+    Gson provideGson(ArticlesDeserializer articlesDeserializer,
                      ArticleDeserializer articleDeserializer) {
         //registerTypeAdapter with list https://stackoverflow.com/a/7668766/2722270
         Type type = new TypeToken<List<Article>>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()
-                .registerTypeAdapter(type, articleListDeserializer)
+                .registerTypeAdapter(type, articlesDeserializer)
                 .registerTypeAdapter(Article.class, articleDeserializer)
                 .create();
     }
@@ -85,7 +82,7 @@ public class WebServiceGenerator {
 
     @Provides
     @Singleton
-    DemoWebService provideDemoWebService(Retrofit retrofit) {
-        return retrofit.create(DemoWebService.class);
+    ArticlesServiceApi provideDemoWebService(Retrofit retrofit) {
+        return retrofit.create(ArticlesServiceApi.class);
     }
 }

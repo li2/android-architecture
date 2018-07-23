@@ -11,25 +11,25 @@ import com.google.gson.annotations.SerializedName;
  * Created by weiyi on 15/02/2018.
  * https://github.com/li2
  *
- * Sample Json: https://raw.githubusercontent.com/li2/li2.github.io/master/assets/file/articles.json
+ * title : Beavers
+ * description : Beavers are second only to humans in their ability to manipulate and change their environment. They can measure up to 1.3 metres long. A group of beavers is called a colony
+ * imageHref : http://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/American_Beaver.jpg/220px-American_Beaver.jpg
+ *
+ * Sample Json: https://li2.gitbooks.io/android-programming-journey/content/assets/demo-articles.json
  */
 
-@Entity(tableName = "articleTable", indices = {@Index(value = {"title"}, unique = true)})
+@Entity(tableName = "ArticleTable", indices = {@Index(value = {"title"}, unique = true)})
 public class Article {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    /**
-     * title : Beavers
-     * description : Beavers are second only to humans in their ability to manipulate and change their environment. They can measure up to 1.3 metres long. A group of beavers is called a colony
-     * imageHref : http://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/American_Beaver.jpg/220px-American_Beaver.jpg
-     */
-
     @SerializedName("title")
     private String title;
+
     @SerializedName("description")
     private String description;
+
     @SerializedName("imageHref")
     private String imageHref;
 

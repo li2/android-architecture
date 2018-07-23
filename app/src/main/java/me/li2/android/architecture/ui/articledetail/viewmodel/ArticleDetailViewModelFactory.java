@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import javax.inject.Inject;
 
-import me.li2.android.architecture.data.repository.DemoRepository;
+import me.li2.android.architecture.data.repository.ArticlesRepository;
 
 /**
  * The constructor that is automatically called by ViewModelProvider is the default one -
@@ -19,7 +19,7 @@ import me.li2.android.architecture.data.repository.DemoRepository;
 public class ArticleDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     @Inject
-    DemoRepository mRepository;
+    ArticlesRepository mRepository;
 
     @Inject
     public ArticleDetailViewModelFactory() {
