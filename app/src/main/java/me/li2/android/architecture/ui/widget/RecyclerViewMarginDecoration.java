@@ -8,7 +8,7 @@
  *
  * Created by weiyi.li on 2017-01-31.
  */
-package me.li2.android.architecture.ui.basic;
+package me.li2.android.architecture.ui.widget;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

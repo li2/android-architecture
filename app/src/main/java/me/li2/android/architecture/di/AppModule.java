@@ -17,7 +17,11 @@ import dagger.Provides;
 import me.li2.android.architecture.data.source.local.ArticleDao;
 import me.li2.android.architecture.data.source.local.DemoDatabase;
 import me.li2.android.architecture.utils.AppExecutors;
+import me.li2.android.architecture.utils.BaseImageLoader;
+import me.li2.android.architecture.utils.BaseResourceProvider;
+import me.li2.android.architecture.utils.ImageLoader;
 import me.li2.android.architecture.utils.RateLimiter;
+import me.li2.android.architecture.utils.ResourceProvider;
 
 /**
  * We provide retrofit, OKHttp, persistence db, shared pref etc here.
@@ -34,6 +38,19 @@ public class AppModule {
     @Singleton
     Context provideContext(Application application) {
         return application;
+    }
+
+
+    @Provides
+    @Singleton
+    BaseResourceProvider provideResourceProvider(ResourceProvider provider) {
+        return provider;
+    }
+
+    @Provides
+    @Singleton
+    BaseImageLoader provideBaseImageLoader(ImageLoader imageLoader) {
+        return imageLoader;
     }
 
     @Provides

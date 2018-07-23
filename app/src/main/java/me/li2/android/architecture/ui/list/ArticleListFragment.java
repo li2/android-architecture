@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.ui.basic.RecyclerViewMarginDecoration;
+import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
 import me.li2.android.architecture.ui.detail.ArticleDetailActivity;
 import me.li2.android.architecture.utils.NetworkUtils;
 
