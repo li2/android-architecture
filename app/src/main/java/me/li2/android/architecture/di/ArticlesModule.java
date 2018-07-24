@@ -1,12 +1,18 @@
 package me.li2.android.architecture.di;
 
 import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.v7.app.AppCompatActivity;
 
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.ui.articles.view.ArticlesContract;
 import me.li2.android.architecture.ui.articles.view.ArticlesFragment;
 import me.li2.android.architecture.ui.articles.view.ArticlesPresenter;
+import me.li2.android.architecture.ui.articles.viewmodel.ArticlesViewModel;
+import me.li2.android.architecture.ui.articles.viewmodel.ArticlesViewModelFactory;
+import me.li2.android.architecture.utils.BaseNavigator;
+import me.li2.android.architecture.utils.Navigator;
 
 /**
  * This module provides the fragment related instances.
@@ -16,6 +22,18 @@ import me.li2.android.architecture.ui.articles.view.ArticlesPresenter;
 
 @Module
 public class ArticlesModule {
+
+    @Provides
+    ArticlesViewModel provideArticlesViewModel(ArticlesFragment fragment, ArticlesViewModelFactory factory) {
+        return ViewModelProviders.of(fragment, factory).get(ArticlesViewModel.class);
+    }
+
+    // Fix BaseNavigator cannot be provided without an @Provides-annotated method.
+    @Provides
+    @ArticlesScope
+    BaseNavigator provideNavigator(ArticlesFragment fragment) {
+        return new Navigator((AppCompatActivity) fragment.getActivity());
+    }
 
     /**
      * Provide dependency for interface.

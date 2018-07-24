@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +21,14 @@ import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
 import me.li2.android.architecture.ui.articledetail.view.ArticleDetailActivity;
+import me.li2.android.architecture.ui.articles.viewmodel.ArticlesViewModel;
+import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
 import me.li2.android.architecture.utils.NetworkUtils;
 
 public class ArticlesFragment extends DaggerFragment implements ArticlesContract.View {
 
-    private static final String LOG_TAG = ArticlesFragment.class.getSimpleName();
+    private static final String TAG = ArticlesFragment.class.getSimpleName();
 
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
@@ -42,9 +44,21 @@ public class ArticlesFragment extends DaggerFragment implements ArticlesContract
     @Inject
     ArticlesAdapter mAdapter;
 
+    @Inject
+    ArticlesViewModel mViewModel;
+
 
     public ArticlesFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mViewModel.getUiModel().observe(this, uiModel -> {
+            Log.d(TAG, "");
+        });
     }
 
     @Override

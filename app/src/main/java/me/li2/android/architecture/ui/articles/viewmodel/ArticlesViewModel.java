@@ -1,6 +1,10 @@
 package me.li2.android.architecture.ui.articles.viewmodel;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
@@ -11,16 +15,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import arch.NoNetworkException;
 import arch.Resource;
+import arch.Status;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.functions.Action;
-import io.reactivex.subjects.PublishSubject;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.repository.ArticlesRepository;
 import me.li2.android.architecture.ui.articles.view.ArticlesNavigator;
 import me.li2.android.architecture.utils.BaseResourceProvider;
+import me.li2.android.architecture.utils.Navigator;
 
 /**
  * ViewModel to expose states for the list of articles view, and handle all user actions.
@@ -45,45 +50,57 @@ public class ArticlesViewModel extends ViewModel {
     private static final String TAG = ArticlesViewModel.class.getSimpleName();
 
     @NonNull
-    @Inject
-    ArticlesRepository mRepository;
+    private ArticlesRepository mRepository;
 
     @NonNull
-    @Inject
-    ArticlesNavigator mNavigator;
+    private BaseResourceProvider mResourceProvider;
 
     @NonNull
-    @Inject
-    BaseResourceProvider mResourceProvider;
+    private ArticlesNavigator mNavigator;
 
-    private final PublishSubject<Boolean> mLoadingIndicatorSubject;
+    private MutableLiveData<Boolean> mLoadingIndicator = new MutableLiveData<>();
 
-    @NonNull
-    private final PublishSubject<Integer> mSnackbarText;
+    private MutableLiveData<String> mSnackbarText = new MutableLiveData<>();
 
-    @Inject
-    public ArticlesViewModel() {
-        mLoadingIndicatorSubject = PublishSubject.create();
-        mSnackbarText = PublishSubject.create();
+    public ArticlesViewModel(@NonNull ArticlesRepository repository,
+                             @NonNull BaseResourceProvider resourceProvider,
+                             @NonNull ArticlesNavigator navigator
+                             ) {
+        mRepository = repository;
+        mResourceProvider = resourceProvider;
+        mNavigator = navigator;
     }
 
     /**
      * @return the model for the articles list screen.
      */
     @NonNull
-    public Observable<ArticlesUiModel> getUiModel() {
-        return getArticleItems()
-                .doOnSubscribe(__ -> mLoadingIndicatorSubject.onNext(true))
-                .doOnNext(__ -> mLoadingIndicatorSubject.onNext(false))
-                .doOnError(__ -> mSnackbarText.onNext(R.string.loading_articles_error))
-                .map(this::constructArticlesUiModel);
+    public LiveData<ArticlesUiModel> getUiModel() {
+        return Transformations.map(getArticleItems(),
+                resource -> {
+                    mLoadingIndicator.setValue(resource.status == Status.LOADING);
+
+                    if (resource.status == Status.ERROR) {
+                        if (resource.throwable instanceof NoNetworkException) {
+                            mSnackbarText.setValue(mResourceProvider.getString(R.string.status_no_connect));
+                        } else {
+                            mSnackbarText.setValue(resource.errorMessage);
+                        }
+                    }
+
+                    if (resource.data != null) {
+                        return constructArticlesUiModel(resource.data);
+                    } else {
+                        return null;
+                    }
+                });
     }
 
     /**
      * @return a stream of string ids that should be displayed in the snackbar.
      */
     @NonNull
-    public Observable<Integer> getSnackbarMessage() {
+    public LiveData<String> getSnackbarMessage() {
         return mSnackbarText;
     }
 
@@ -91,8 +108,8 @@ public class ArticlesViewModel extends ViewModel {
      * @return a stream that emits true if the progress indicator should be displayed, false otherwise.
      */
     @NonNull
-    public Observable<Boolean> getLoadingIndicatorVisibility() {
-        return mLoadingIndicatorSubject;
+    public LiveData<Boolean> getLoadingIndicatorVisibility() {
+        return mLoadingIndicator;
     }
 
     /**
@@ -100,11 +117,17 @@ public class ArticlesViewModel extends ViewModel {
      * @return
      */
     private LiveData<Resource<List<ArticleItem>>> getArticleItems() {
-        return mRepository.getArticles()
-                .flatMap(list -> Observable.fromIterable(list)
-                        .map(article -> constructArticleItem(article))
-                        .toList()
-                        .toObservable());
+        return Transformations.map(mRepository.loadArticles(),
+                resource -> {
+                    List<ArticleItem> articleItems = null;
+                    if (resource.data != null) {
+                        articleItems = new ArrayList<>();
+                        for (Article article : resource.data) {
+                            articleItems.add(constructArticleItem(article));
+                        }
+                    }
+                    return new Resource<>(resource.status, articleItems, resource.errorMessage, resource.code, resource.throwable);
+                });
     }
 
     private ArticlesUiModel constructArticlesUiModel(List<ArticleItem> articleItems) {
@@ -126,7 +149,7 @@ public class ArticlesViewModel extends ViewModel {
      * Trigger a force update of the articles.
      */
     public Completable forceUpdateArticles() {
-        mLoadingIndicatorSubject.onNext(true);
+        mLoadingIndicator.setValue(true);
         // TODO
         return null;
     }
