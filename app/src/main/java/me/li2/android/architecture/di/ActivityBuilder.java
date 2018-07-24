@@ -2,7 +2,7 @@ package me.li2.android.architecture.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import me.li2.android.architecture.ui.articledetail.view.ArticleDetailActivity;
+import me.li2.android.architecture.ui.articledetail.view.ArticleDetailFragment;
 import me.li2.android.architecture.ui.articles.view.ArticlesActivity;
 import me.li2.android.architecture.ui.articles.view.ArticlesFragment;
 
@@ -18,7 +18,7 @@ import me.li2.android.architecture.ui.articles.view.ArticlesFragment;
 public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = ArticleDetailModule.class)
-    abstract ArticleDetailActivity bindArticleDetailActivity();
+    abstract ArticleDetailFragment bindArticleDetailFragment();
 
     @ContributesAndroidInjector()
     abstract ArticlesActivity bindArticlesActivity();

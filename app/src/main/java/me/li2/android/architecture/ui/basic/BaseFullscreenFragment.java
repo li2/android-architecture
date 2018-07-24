@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
-public abstract class FullscreenFragment extends BaseFragment {
+public abstract class BaseFullscreenFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

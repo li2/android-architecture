@@ -14,6 +14,7 @@ import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.ui.articles.viewmodel.ArticleItem;
 import me.li2.android.architecture.utils.BaseImageLoader;
+import me.li2.android.architecture.utils.ViewUtils;
 
 /**
  * Created by weiyi on 15/02/2018.
@@ -53,12 +54,14 @@ public class ArticleItemViewHolder extends RecyclerView.ViewHolder implements Vi
             mImageView.setVisibility(succeed ? View.VISIBLE : View.GONE);
         });
         mOnItemClickAction = articleItem.getOnClickAction();
+        // shared element transition between RecyclerView and Fragment. notebyweiyi
+        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, article.getId());
     }
 
     @Override
     public void onClick(View view) {
         try {
-            mOnItemClickAction.accept(view);
+            mOnItemClickAction.accept(mImageView);
         } catch (Exception e) {
             e.printStackTrace();
         }

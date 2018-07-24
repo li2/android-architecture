@@ -25,8 +25,6 @@ import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
 
 public class ArticlesFragment extends DaggerFragment {
 
-    private static final String TAG = ArticlesFragment.class.getSimpleName();
-
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
     @BindView(R.id.article_list_view)
