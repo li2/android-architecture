@@ -75,6 +75,15 @@ public final class Navigator implements BaseNavigator {
     }
 
     @Override
+    public void startActivityForResultWithExtra(Class cls, int requestCode, String extraKey, int extraValue) {
+        if (mActivity.get() != null) {
+            Intent intent = new Intent(mActivity.get(), cls);
+            intent.putExtra(extraKey, extraValue);
+            mActivity.get().startActivityForResult(intent, requestCode);
+        }
+    }
+
+    @Override
     public void startActivityForResultWithExtra(Class cls, int requestCode, Bundle extras) {
         if (mActivity.get() != null) {
             Intent intent = new Intent(mActivity.get(), cls);

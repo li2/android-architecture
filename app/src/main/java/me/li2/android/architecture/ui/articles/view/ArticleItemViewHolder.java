@@ -1,30 +1,25 @@
 package me.li2.android.architecture.ui.articles.view;
 
-import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.ui.articles.view.ArticlesContract;
+import me.li2.android.architecture.ui.articles.viewmodel.ArticleItem;
+import me.li2.android.architecture.utils.BaseImageLoader;
 
 /**
  * Created by weiyi on 15/02/2018.
  * https://github.com/li2
  */
-
-public class ArticleItemViewHolder extends RecyclerView.ViewHolder {
-
-    private Context mContext;
-    private View mItemView;
+public class ArticleItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     @BindView(R.id.article_title_view)
     TextView mTitleView;
@@ -34,66 +29,35 @@ public class ArticleItemViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.article_image_view)
     ImageView mImageView;
-    
-    // @Inject TODO why is null, the workaround is to inject by instructor
-    ArticlesContract.Presenter mPresenter;
 
-    public ArticleItemViewHolder(View itemView, ArticlesContract.Presenter presenter) {
+    private Consumer<View> mOnItemClickAction;
+
+    private BaseImageLoader mImageLoader;
+
+    private Drawable mPlaceHolderDrawable;
+
+    public ArticleItemViewHolder(View itemView, BaseImageLoader imageLoader) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        mContext = itemView.getContext();
-        mItemView = itemView;
-        mPresenter = presenter;
+        itemView.setOnClickListener(this);
+        mImageLoader = imageLoader;
+        mPlaceHolderDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_image_holder);
     }
 
-    public void bindArticle(Article article) {
-        if (article == null) {
-            return;
-        }
+    public void bindArticle(ArticleItem articleItem) {
+        Article article = articleItem.getArticle();
         mTitleView.setText(article.getTitle());
         mDescriptionView.setText(article.getDescription());
-        loadImage(mImageView, article.getImageHref());
-        mItemView.setOnClickListener(v -> mPresenter.onUserSelectArticle(article));
+        mImageLoader.loadImage(mImageView, article.getImageHref(), mPlaceHolderDrawable);
+        mOnItemClickAction = articleItem.getOnClickAction();
     }
 
-    /**
-     * Load image.
-     *
-     * Step1: Forces the request through the disk cache only, skipping network.
-     * the reason to force cache firstly, because there is a issue that cached image cannot load succeed when offline.
-     * Step2: then try online if cache failed.
-     * https://stackoverflow.com/a/30686992/2722270
-     * @param imageView
-     * @param imageHref
-     */
-    private void loadImage(final ImageView imageView, final String imageHref) {
-        imageView.setVisibility(View.GONE);
-
-        Picasso.with(mContext)
-                .load(imageHref)
-                .networkPolicy(NetworkPolicy.OFFLINE) // force offline
-                .into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        imageView.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        Picasso.with(mContext)
-                                .load(imageHref)
-                                .into(imageView, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        imageView.setVisibility(View.VISIBLE);
-                                    }
-
-                                    @Override
-                                    public void onError() {
-                                        imageView.setVisibility(View.GONE);
-                                    }
-                                });
-                    }
-                });
+    @Override
+    public void onClick(View view) {
+        try {
+            mOnItemClickAction.accept(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

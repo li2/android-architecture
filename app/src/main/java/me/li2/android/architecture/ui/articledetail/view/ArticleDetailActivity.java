@@ -22,7 +22,7 @@ import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewM
 
 public class ArticleDetailActivity extends DaggerAppCompatActivity {
 
-    private static final String EXTRA_ARTICLE_ID = "article_id";
+    public static final String EXTRA_ARTICLE_ID = "article_id";
 
     // error: Dagger does not support injection into private fields
     @Inject

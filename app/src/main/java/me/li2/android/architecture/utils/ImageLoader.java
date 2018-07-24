@@ -13,7 +13,7 @@ import com.squareup.picasso.Target;
 
 import javax.inject.Inject;
 
-import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 /**
  * @author Weiyi Li on 14/7/18 | https://github.com/li2
@@ -30,22 +30,25 @@ public class ImageLoader implements BaseImageLoader {
     }
 
     @Override
-    public void loadImage(ImageView view, String url, Drawable placeHolder, Action onLoadedAction) {
+    public void loadImage(ImageView view, String url, Drawable placeHolder, Consumer<Boolean> onLoadedAction) {
         if (!Strings.isNullOrEmpty(url)) {
             Picasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view, new Callback() {
                 @Override
                 public void onSuccess() {
-                    if (onLoadedAction != null) {
-                        try {
-                            onLoadedAction.run();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        onLoadedAction.accept(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
                 @Override
                 public void onError() {
+                    try {
+                        onLoadedAction.accept(false);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

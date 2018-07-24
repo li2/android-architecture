@@ -56,6 +56,8 @@ public interface BaseNavigator {
      */
     void startActivityForResultWithExtra(Class cls, int requestCode, String extraKey, String extraValue);
 
+    void startActivityForResultWithExtra(Class cls, int requestCode, String extraKey, int extraValue);
+
     /**
      * Start a new Activity for a result with an extras
      *

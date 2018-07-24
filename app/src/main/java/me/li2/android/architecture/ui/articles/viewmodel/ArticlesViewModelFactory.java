@@ -17,7 +17,7 @@ import me.li2.android.architecture.utils.BaseResourceProvider;
  * TODO why cannot inject directly in the ViewModel
  */
 public class ArticlesViewModelFactory extends ViewModelProvider.NewInstanceFactory {
-    
+
     @NonNull
     @Inject
     ArticlesRepository mRepository;

@@ -1,8 +1,5 @@
 package me.li2.android.architecture.ui.articles.viewmodel;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
@@ -13,25 +10,23 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import arch.NoNetworkException;
 import arch.Resource;
 import arch.Status;
 import io.reactivex.Completable;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.repository.ArticlesRepository;
 import me.li2.android.architecture.ui.articles.view.ArticlesNavigator;
 import me.li2.android.architecture.utils.BaseResourceProvider;
-import me.li2.android.architecture.utils.Navigator;
 
 /**
  * ViewModel to expose states for the list of articles view, and handle all user actions.
  *
  * - Ask data from repository {@link ArticlesViewModel#mRepository}, and then
- *     construct the source data to view data which contains UI state.
+ *     construct the source data to view data which contains all UI state.
  *
  * - Expose streams for view to subscribe the UI state,
  *     such as {@link ArticlesViewModel#getUiModel()}, {@link ArticlesViewModel#getLoadingIndicatorVisibility()}
@@ -40,8 +35,9 @@ import me.li2.android.architecture.utils.Navigator;
  *     such as force pull-refresh {@link ArticlesViewModel#forceUpdateArticles()}
  *
  * - For user action in the sub-view, such as click or check in the list view item,
- *      define {@link Action} and implement the action {@link ArticlesViewModel#handleArticleTaped(Article)}, and
- *      pass to sub-view model {@link ArticleItem#ArticleItem(Article, Action)}
+ *      implement {@link Action} or {@link Consumer} in the ViewModel
+ *      {@link ArticlesViewModel#handleArticleTaped(Article, View)}, and then
+ *      pass it as parameter to ViewHolder constructor {@link ArticleItem#ArticleItem(Article, Consumer)}.
  *
  * @author Weiyi Li on 13/7/18 | https://github.com/li2
  */
@@ -142,7 +138,7 @@ public class ArticlesViewModel extends ViewModel {
     }
 
     private void handleArticleTaped(Article article, View sharedElement) {
-        mNavigator.openArticleDetails(article, sharedElement);
+        mNavigator.openArticleDetails(article.getId(), sharedElement);
     }
 
     /**
