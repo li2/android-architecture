@@ -66,7 +66,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
 
         mRepository.loadArticles().observe(mLifecycleOwner, resource -> {
             Log.d(LOG_TAG, "loading status: " + resource.status + ", code " + resource.code);
-            
+
             mView.setLoadingIndicator(resource.status == Status.LOADING);
 
             if (resource.data != null) {

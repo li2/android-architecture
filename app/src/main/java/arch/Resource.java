@@ -42,8 +42,7 @@ public class Resource<T> {
 
     public final Throwable throwable;
 
-    // TODO how to distinguish data is cached or fetched from network?
-    Resource(@NonNull Status status, @Nullable T data, @Nullable String errorMessage, int code, Throwable throwable) {
+    public Resource(@NonNull Status status, @Nullable T data, @Nullable String errorMessage, int code, Throwable throwable) {
         this.status = status;
         this.data = data;
         this.errorMessage = errorMessage;
@@ -51,6 +50,7 @@ public class Resource<T> {
         this.throwable = throwable;
     }
 
+    // TODO how to distinguish data is cached or fetched from network?
     public static <T> Resource<T> success(@Nullable T data) {
         return new Resource<>(Status.SUCCESS, data, null, HttpURLConnection.HTTP_OK, null);
     }
@@ -81,15 +81,12 @@ public class Resource<T> {
         if (errorMessage != null ? !errorMessage.equals(resource.errorMessage) : resource.errorMessage != null) {
             return false;
         }
-
         if (code != resource.code) {
             return false;
         }
-
         if (throwable != null ? !throwable.equals(resource.throwable) : resource.throwable != null) {
             return false;
         }
-
         return data != null ? data.equals(resource.data) : resource.data == null;
     }
 
