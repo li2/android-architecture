@@ -21,6 +21,9 @@ import io.reactivex.functions.Consumer;
 public class ImageLoader implements BaseImageLoader {
 
     @Inject
+    Picasso mPicasso;
+
+    @Inject
     public ImageLoader() {
     }
 
@@ -31,46 +34,48 @@ public class ImageLoader implements BaseImageLoader {
 
     @Override
     public void loadImage(ImageView view, String url, Drawable placeHolder, Consumer<Boolean> onLoadedAction) {
-        if (!Strings.isNullOrEmpty(url)) {
-            Picasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view, new Callback() {
-                @Override
-                public void onSuccess() {
-                    try {
-                        onLoadedAction.accept(true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onError() {
-                    try {
-                        onLoadedAction.accept(false);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+        if (Strings.isNullOrEmpty(url)) {
+            url = null;
         }
+        mPicasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view, new Callback() {
+            @Override
+            public void onSuccess() {
+                try {
+                    onLoadedAction.accept(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError() {
+                try {
+                    onLoadedAction.accept(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
     public void loadImage(View view, String url, Drawable placeHolder) {
-        if (!Strings.isNullOrEmpty(url)) {
-            Picasso.with(view.getContext()).load(url).placeholder(placeHolder).into(new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    view.setBackground(new BitmapDrawable(view.getContext().getResources(), bitmap));
-                }
-
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                }
-            });
+        if (Strings.isNullOrEmpty(url)) {
+            url = null;
         }
+        mPicasso.with(view.getContext()).load(url).placeholder(placeHolder).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                view.setBackground(new BitmapDrawable(view.getContext().getResources(), bitmap));
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+            }
+        });
     }
 }

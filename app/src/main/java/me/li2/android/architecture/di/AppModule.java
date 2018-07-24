@@ -40,7 +40,6 @@ public class AppModule {
         return application;
     }
 
-
     @Provides
     @Singleton
     BaseResourceProvider provideResourceProvider(ResourceProvider provider) {
@@ -79,19 +78,12 @@ public class AppModule {
         return new RateLimiter<>(2, TimeUnit.MINUTES);
     }
 
-
     @Provides
     @Singleton
-    OkHttp3Downloader provideOkHttp3Downloader(Context context) {
-        return new OkHttp3Downloader(context.getApplicationContext(), Integer.MAX_VALUE);
-    }
-
-    @Provides
-    @Singleton
-    Picasso providePicasso(Context context, OkHttp3Downloader downloader) {
+    Picasso providePicasso(Context context) {
         return new Picasso.Builder(context.getApplicationContext())
                 .loggingEnabled(true)
-                .downloader(downloader)
+                .downloader(new OkHttp3Downloader(context.getApplicationContext(), Integer.MAX_VALUE))
                 .listener((picasso1, uri, exception) -> exception.printStackTrace())
                 .build();
     }

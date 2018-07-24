@@ -48,7 +48,10 @@ public class ArticleItemViewHolder extends RecyclerView.ViewHolder implements Vi
         Article article = articleItem.getArticle();
         mTitleView.setText(article.getTitle());
         mDescriptionView.setText(article.getDescription());
-        mImageLoader.loadImage(mImageView, article.getImageHref(), mPlaceHolderDrawable);
+        mImageView.setVisibility(View.GONE);
+        mImageLoader.loadImage(mImageView, article.getImageHref(), null, succeed -> {
+            mImageView.setVisibility(succeed ? View.VISIBLE : View.GONE);
+        });
         mOnItemClickAction = articleItem.getOnClickAction();
     }
 
