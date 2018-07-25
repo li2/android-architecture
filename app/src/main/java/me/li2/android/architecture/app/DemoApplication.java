@@ -63,7 +63,6 @@ public class DemoApplication extends DaggerApplication {
      * https://github.com/JakeWharton/picasso2-okhttp3-downloader/issues/12
      */
     // have been replaced by Dagger
-    @Deprecated
     private void configurePicassoSingletonInstance() {
         Picasso picasso = new Picasso.Builder(getApplicationContext())
                 .loggingEnabled(true)

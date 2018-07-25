@@ -15,11 +15,13 @@ buildscript {
     }
 }
 
-ext.arch_version = "1.0.0-alpha8"
-ext.support_version = "26.1.0"
-ext.constraint_layout_version = "1.0.2"
-ext.junit_version = "4.12"
-ext.support_test_version = "1.0.0"
+ext {
+    arch_lifecycle_version = "1.0.0"
+    support_version = "26.1.0"
+    constraint_layout_version = "1.0.2"
+    junit_version = "4.12"
+    support_test_version = "1.0.0"
+}
 
 allprojects {
     repositories {

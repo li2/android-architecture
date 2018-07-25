@@ -9,14 +9,11 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
-import architecture_components.utils.LiveDataCallAdapterFactory;
+import arch.LiveDataCallAdapterFactory;
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.data.source.remote.ArticleDeserializer;
-import me.li2.android.architecture.data.source.remote.ArticleListDeserializer;
-import me.li2.android.architecture.data.source.remote.DemoWebService;
-import me.li2.android.architecture.utils.NetworkConnectivityInterceptor;
+import arch.NetworkConnectivityInterceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -35,19 +32,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class WebServiceGenerator {
-    //private static final String BASE_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/";
-    private static final String BASE_URL = "https://raw.githubusercontent.com/li2/li2.github.io/master/assets/file/";
+    private static final String BASE_URL = "https://li2.gitbooks.io/android-programming-journey/content/assets/";
 
     @Provides
     @Singleton
-    Gson provideGson(ArticleListDeserializer articleListDeserializer,
+    Gson provideGson(ArticlesDeserializer articlesDeserializer,
                      ArticleDeserializer articleDeserializer) {
         //registerTypeAdapter with list https://stackoverflow.com/a/7668766/2722270
         Type type = new TypeToken<List<Article>>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()
-                .registerTypeAdapter(type, articleListDeserializer)
+                .registerTypeAdapter(type, articlesDeserializer)
                 .registerTypeAdapter(Article.class, articleDeserializer)
                 .create();
     }
@@ -86,7 +82,7 @@ public class WebServiceGenerator {
 
     @Provides
     @Singleton
-    DemoWebService provideDemoWebService(Retrofit retrofit) {
-        return retrofit.create(DemoWebService.class);
+    ArticlesServiceApi provideDemoWebService(Retrofit retrofit) {
+        return retrofit.create(ArticlesServiceApi.class);
     }
 }

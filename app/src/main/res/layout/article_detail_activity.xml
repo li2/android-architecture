@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="me.li2.android.architecture.ui.detail.ArticleDetailActivity">
+    tools:context="me.li2.android.architecture.ui.articledetail.view.ArticleDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

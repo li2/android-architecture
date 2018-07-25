@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.list.ArticleListActivity">
+        <activity android:name=".ui.articles.view.ArticlesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.detail.ArticleDetailActivity"
+            android:name=".ui.articledetail.view.ArticleDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

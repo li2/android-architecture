@@ -14,10 +14,14 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.li2.android.architecture.data.source.local.ArticleDao;
-import me.li2.android.architecture.data.source.local.DemoDatabase;
+import me.li2.android.architecture.data.source.local.ArticlesDao;
+import me.li2.android.architecture.data.source.local.AppDatabase;
 import me.li2.android.architecture.utils.AppExecutors;
+import me.li2.android.architecture.utils.BaseImageLoader;
+import me.li2.android.architecture.utils.BaseResourceProvider;
+import me.li2.android.architecture.utils.ImageLoader;
 import me.li2.android.architecture.utils.RateLimiter;
+import me.li2.android.architecture.utils.ResourceProvider;
 
 /**
  * We provide retrofit, OKHttp, persistence db, shared pref etc here.
@@ -38,6 +42,18 @@ public class AppModule {
 
     @Provides
     @Singleton
+    BaseResourceProvider provideResourceProvider(ResourceProvider provider) {
+        return provider;
+    }
+
+    @Provides
+    @Singleton
+    BaseImageLoader provideBaseImageLoader(ImageLoader imageLoader) {
+        return imageLoader;
+    }
+
+    @Provides
+    @Singleton
     AppExecutors provideAppExecutors() {
         return new AppExecutors(Executors.newSingleThreadExecutor(),
                 Executors.newFixedThreadPool(3),
@@ -46,15 +62,15 @@ public class AppModule {
 
     @Provides
     @Singleton
-    DemoDatabase provideDemoDatabase(Context context) {
+    AppDatabase provideAppDatabase(Context context) {
         return Room.databaseBuilder(context.getApplicationContext(),
-                DemoDatabase.class, DemoDatabase.DATABASE_NAME).build();
+                AppDatabase.class, AppDatabase.DATABASE_NAME).build();
     }
 
     @Provides
     @Singleton
-    ArticleDao provideArticleDao(DemoDatabase database) {
-        return database.articleDao();
+    ArticlesDao provideArticlesDao(AppDatabase database) {
+        return database.articlesDao();
     }
 
     @Provides
@@ -62,19 +78,12 @@ public class AppModule {
         return new RateLimiter<>(2, TimeUnit.MINUTES);
     }
 
-
     @Provides
     @Singleton
-    OkHttp3Downloader provideOkHttp3Downloader(Context context) {
-        return new OkHttp3Downloader(context.getApplicationContext(), Integer.MAX_VALUE);
-    }
-
-    @Provides
-    @Singleton
-    Picasso providePicasso(Context context, OkHttp3Downloader downloader) {
+    Picasso providePicasso(Context context) {
         return new Picasso.Builder(context.getApplicationContext())
                 .loggingEnabled(true)
-                .downloader(downloader)
+                .downloader(new OkHttp3Downloader(context.getApplicationContext(), Integer.MAX_VALUE))
                 .listener((picasso1, uri, exception) -> exception.printStackTrace())
                 .build();
     }

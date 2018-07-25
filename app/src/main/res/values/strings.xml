@@ -1,8 +1,13 @@
 <resources>
+
     <string name="app_name">Architecture</string>
     <string name="status_no_connect">Please enable internet connection</string>
     <string name="status_connected">Internet connected</string>
     <string name="status_no_response">No Data available</string>
     <string name="status_loading">Is loading</string>
     <string name="status_success">Loading succeed</string>
+
+    <string name="loading_articles_error">Error while loading articles</string>
+    <string name="no_articles_all">You have no Articles!</string>
+
 </resources>
