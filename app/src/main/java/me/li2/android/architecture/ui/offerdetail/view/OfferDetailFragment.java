@@ -14,15 +14,15 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import me.li2.android.architecture.R;
-import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModel;
+import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.ui.basic.BaseFragment;
+import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModel;
 import me.li2.android.architecture.utils.BaseImageLoader;
 import me.li2.android.architecture.utils.ViewUtils;
 
 public class OfferDetailFragment extends BaseFragment {
 
-    public static final String EXTRA_ARTICLE_ID = "article_id";
+    public static final String EXTRA_OFFER_ID = "offer_id";
 
     @Inject
     OfferDetailViewModel mViewModel;
@@ -39,9 +39,9 @@ public class OfferDetailFragment extends BaseFragment {
     @BindView(R.id.article_description_view)
     TextView mDescriptionView;
 
-    public static OfferDetailFragment newInstance(int articleId) {
+    public static OfferDetailFragment newInstance(String offerId) {
         Bundle args = new Bundle();
-        args.putInt(EXTRA_ARTICLE_ID, articleId);
+        args.putString(EXTRA_OFFER_ID, offerId);
         OfferDetailFragment fragment = new OfferDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -73,25 +73,25 @@ public class OfferDetailFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-        mViewModel.getArticle(getArticleId()).observe(this, article -> {
-            if (article != null) {
-                bindArticle(article);
+        mViewModel.getOffer(getOfferId()).observe(this, offer -> {
+            if (offer != null) {
+                bindOffer(offer);
             }
         });
     }
 
-    private void bindArticle(Article article) {
-        mTitleView.setText(article.getTitle());
-        mDescriptionView.setText(article.getDescription());
+    private void bindOffer(Offer offer) {
+        mTitleView.setText(offer.name);
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, getArticleId());
-        mImageLoader.loadImage(mImageView, article.getImageHref(), null, succeed -> startPostponedEnterTransition());
+        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, getOfferId());
+        // TODO need check null
+        mImageLoader.loadImage(mImageView, offer.images.get(0).cloudinaryId, null, succeed -> startPostponedEnterTransition());
     }
 
-    private int getArticleId() {
+    private String getOfferId() {
         if (getArguments() != null) {
-            return getArguments().getInt(EXTRA_ARTICLE_ID);
+            return getArguments().getString(EXTRA_OFFER_ID);
         }
-        return -1;
+        return null;
     }
 }

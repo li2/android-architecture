@@ -31,7 +31,7 @@ import me.li2.android.architecture.utils.ImageLoader;
 
 public class OffersAdapter extends RecyclerView.Adapter<OfferItemViewHolder> {
 
-    private List<OfferItem> mArticles;
+    private List<OfferItem> mOffers;
 
     @Inject
     ImageLoader mImageLoader;
@@ -42,13 +42,13 @@ public class OffersAdapter extends RecyclerView.Adapter<OfferItemViewHolder> {
 
 
     public void refreshData(List<OfferItem> articles) {
-        mArticles = articles;
+        mOffers = articles;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mArticles != null ? mArticles.size() : 0;
+        return mOffers != null ? mOffers.size() : 0;
     }
 
     @Override
@@ -59,6 +59,6 @@ public class OffersAdapter extends RecyclerView.Adapter<OfferItemViewHolder> {
 
     @Override
     public void onBindViewHolder(OfferItemViewHolder holder, int position) {
-        holder.bindArticle(mArticles.get(position));
+        holder.bindArticle(mOffers.get(position));
     }
 }

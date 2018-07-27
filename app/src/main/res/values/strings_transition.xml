@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Define common transition name -->
-    <string name="transition_article_cover_image" translatable="false">article cover image</string>
+    <string name="transition_article_cover_image" translatable="false">offer cover image</string>
 
 </resources>

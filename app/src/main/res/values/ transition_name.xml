@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="transition_offer_image">article image</string>
+    <string name="transition_offer_image">offer image</string>
 </resources>

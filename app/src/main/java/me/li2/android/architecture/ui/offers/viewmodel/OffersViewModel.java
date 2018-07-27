@@ -37,7 +37,7 @@ import me.li2.android.architecture.utils.BaseResourceProvider;
  *
  * - For user action in the sub-view, such as click or check in the list view item,
  *      implement {@link Action} or {@link Consumer} in the ViewModel
- *      {@link OffersViewModel#handleArticleTaped(Article, View)}, and then
+ *      {@link OffersViewModel#handleOfferTaped(Article, View)}, and then
  *      pass it as parameter to ViewHolder constructor {@link OfferItem#OfferItem(Article, Consumer)}.
  *
  * @author Weiyi Li on 13/7/18 | https://github.com/li2
@@ -73,7 +73,7 @@ public class OffersViewModel extends ViewModel {
      */
     @NonNull
     public LiveData<OffersUiModel> getUiModel() {
-        return Transformations.map(getArticleItems(),
+        return Transformations.map(getOfferItems(),
                 resource -> {
                     mLoadingIndicator.setValue(resource.status == Status.LOADING);
 
@@ -110,17 +110,17 @@ public class OffersViewModel extends ViewModel {
     }
 
     /**
-     * Convert {@link Resource<List<>>} of {@link Article} (data model) to {@link OfferItem} (view data model)
+     * Convert {@link Resource<List<>>} of {@link Offer} (data model) to {@link OfferItem} (view data model)
      * @return
      */
-    private LiveData<Resource<List<OfferItem>>> getArticleItems() {
-        return Transformations.map(mRepository.loadArticles(),
+    private LiveData<Resource<List<OfferItem>>> getOfferItems() {
+        return Transformations.map(mRepository.loadOffers(),
                 resource -> {
                     List<OfferItem> offerItems = null;
                     if (resource.data != null) {
                         offerItems = new ArrayList<>();
-                        for (Article article : resource.data) {
-                            offerItems.add(constructArticleItem(article));
+                        for (Offer offer : resource.data) {
+                            offerItems.add(constructOfferItem(offer));
                         }
                     }
                     return new Resource<>(resource.status, offerItems, resource.errorMessage, resource.code, resource.throwable);
@@ -138,12 +138,12 @@ public class OffersViewModel extends ViewModel {
                 isNoArticlesViewVisible, mResourceProvider.getString(R.string.no_articles_all));
     }
 
-    private OfferItem constructArticleItem(final Article article) {
-        return new OfferItem(article, view -> handleArticleTaped(article, view));
+    private OfferItem constructOfferItem(final Offer offer) {
+        return new OfferItem(offer, view -> handleOfferTaped(offer, view));
     }
 
-    private void handleArticleTaped(Article article, View sharedElement) {
-        mNavigator.openArticleDetails(article.getId(), sharedElement);
+    private void handleOfferTaped(Offer offer, View sharedElement) {
+        mNavigator.openArticleDetails(offer.idSalesforceExternal, sharedElement);
     }
 
     /**

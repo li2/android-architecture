@@ -60,12 +60,6 @@ public class OfferDetailActivity extends DaggerAppCompatActivity {
         if (getIntent() != null) {
             mArticleId = getIntent().getIntExtra(EXTRA_ARTICLE_ID, -1);
         }
-
-        mViewModel.getArticle(mArticleId).observe(this, article -> {
-            if (article != null) {
-                bindArticle(article);
-            }
-        });
     }
 
     @Override

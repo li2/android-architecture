@@ -11,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
-import me.li2.android.architecture.data.model.Article;
+import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.ui.offers.viewmodel.OfferItem;
 import me.li2.android.architecture.utils.BaseImageLoader;
 import me.li2.android.architecture.utils.ViewUtils;
@@ -22,8 +22,30 @@ import me.li2.android.architecture.utils.ViewUtils;
  */
 public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+    private static final String LOCATION_FORMAT = "%s, %s";
+    private static final String NIGHTS_RANGE_FORMAT = "%d - %d Nights";
+    private static final String OFFER_ENDS_IN_FORMAT = "OFFER ENDS IN %d DAYS";
+
     @BindView(R.id.offer_item_name_view)
     TextView mTitleView;
+
+    @BindView(R.id.offer_item_location_view)
+    TextView mLocationView;
+
+    @BindView(R.id.offer_item_hotel_view)
+    TextView mHotelView;
+
+    @BindView(R.id.offer_item_nights_range_view)
+    TextView mNightsRangeView;
+
+    @BindView(R.id.offer_item_ends_view)
+    TextView mOfferEndView;
+
+    @BindView(R.id.offer_item_price_from_view)
+    TextView mPriceMinView;
+
+    @BindView(R.id.offer_item_price_upto_view)
+    TextView mPriceMaxView;
 
     @BindView(R.id.offer_item_image_view)
     ImageView mImageView;
@@ -43,15 +65,20 @@ public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View
     }
 
     public void bindArticle(OfferItem offerItem) {
-        Article article = offerItem.getArticle();
-        mTitleView.setText(article.getTitle());
+        Offer offer = offerItem.getOffer();
+        mTitleView.setText(offer.name);
+        mLocationView.setText(String.format(LOCATION_FORMAT, offer.locationHeading, offer.locationSubheading));
+        mHotelView.setText(offer.location);
+        mNightsRangeView.setText(String.format(NIGHTS_RANGE_FORMAT, offer.minNumNights, offer.maxNumNights));
+        mOfferEndView.setText(OFFER_ENDS_IN_FORMAT);
         mImageView.setVisibility(View.GONE);
-        mImageLoader.loadImage(mImageView, article.getImageHref(), null, succeed -> {
+        // TODO need check null here
+        mImageLoader.loadImage(mImageView, offer.images.get(0).cloudinaryId, null, succeed -> {
             mImageView.setVisibility(succeed ? View.VISIBLE : View.GONE);
         });
         mOnItemClickAction = offerItem.getOnClickAction();
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, article.getId());
+        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, offer.idSalesforceExternal);
     }
 
     @Override

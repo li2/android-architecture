@@ -26,7 +26,7 @@ public class OffersNavigator {
     /**
      * Open the details of an article.
      */
-    public void openArticleDetails(int articleId, @NonNull View sharedElement) {
-        mNavigator.addFragment(OfferDetailFragment.newInstance(articleId), R.id.fragmentContainer, sharedElement);
+    public void openArticleDetails(String id, @NonNull View sharedElement) {
+        mNavigator.addFragment(OfferDetailFragment.newInstance(id), R.id.fragmentContainer, sharedElement);
     }
 }

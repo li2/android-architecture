@@ -97,8 +97,8 @@ public class OffersRepository {
         }.asLiveData();
     }
 
-    public LiveData<Article> loadArticle(int id) {
-        return mArticlesDao.getArticle(id);
+    public LiveData<Offer> loadOffer(String id) {
+        return mOffersDao.getOffer(id);
     }
 
     public LiveData<Resource<List<Offer>>> loadOffers() {

@@ -3,7 +3,7 @@ package me.li2.android.architecture.ui.offerdetail.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import me.li2.android.architecture.data.model.Article;
+import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.data.repository.OffersRepository;
 
 /**
@@ -19,7 +19,7 @@ public class OfferDetailViewModel extends ViewModel {
         mRepository = repository;
     }
 
-    public LiveData<Article> getArticle(int id) {
-        return mRepository.loadArticle(id);
+    public LiveData<Offer> getOffer(String id) {
+        return mRepository.loadOffer(id);
     }
 }

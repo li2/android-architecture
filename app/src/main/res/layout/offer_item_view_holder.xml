@@ -21,9 +21,8 @@
         <ImageView
             android:id="@+id/offer_item_image_view"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/photo_height"
             android:contentDescription="@string/app_name"
-            android:minHeight="@dimen/photo_height"
             android:scaleType="centerCrop"
             android:transitionName="@string/transition_offer_image"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +50,7 @@
             android:layout_marginStart="@dimen/arch_default_margin"
             android:layout_marginTop="@dimen/arch_small_margin"
             android:drawableLeft="@drawable/ic_location"
+            android:drawablePadding="@dimen/arch_tiny_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/offer_item_name_view"
             tools:text="location"/>
@@ -71,7 +71,7 @@
             android:id="@+id/offer_item_nights_range_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="46dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/offer_item_hotel_view"
             tools:text="2 - 3 Nights"/>

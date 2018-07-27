@@ -16,9 +16,17 @@ import javax.inject.Inject;
 import io.reactivex.functions.Consumer;
 
 /**
+ * https://res.cloudinary.com/lux-group/image/upload/f_auto,fl_progressive,q_auto:eco,c_fill,g_auto,w_1920,ar_16:9/sxc8sdjm44qa9muxgrko
+ *
  * @author Weiyi Li on 14/7/18 | https://github.com/li2
  */
 public class ImageLoader implements BaseImageLoader {
+
+    private static final String BASE_URL = "https://res.cloudinary.com/lux-group/image/upload/f_auto,fl_progressive,q_auto:eco,c_fill,g_auto,w_1920,ar_16:9/";
+
+    private String constructUrl(String cloudinaryId) {
+        return BASE_URL + cloudinaryId;
+    }
 
     @Inject
     public ImageLoader() {
@@ -26,11 +34,13 @@ public class ImageLoader implements BaseImageLoader {
 
     @Override
     public void loadImage(ImageView view, String url, Drawable placeHolder) {
+        url = constructUrl(url);
         loadImage(view, url, placeHolder, null);
     }
 
     @Override
     public void loadImage(ImageView view, String url, Drawable placeHolder, Consumer<Boolean> onLoadedAction) {
+        url = constructUrl(url);
         if (Strings.isNullOrEmpty(url)) {
             url = null;
         }
@@ -57,6 +67,7 @@ public class ImageLoader implements BaseImageLoader {
 
     @Override
     public void loadImage(View view, String url, Drawable placeHolder) {
+        url = constructUrl(url);
         if (Strings.isNullOrEmpty(url)) {
             url = null;
         }

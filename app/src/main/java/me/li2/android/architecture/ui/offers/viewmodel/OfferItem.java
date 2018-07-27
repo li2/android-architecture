@@ -3,28 +3,28 @@ package me.li2.android.architecture.ui.offers.viewmodel;
 import android.view.View;
 
 import io.reactivex.functions.Consumer;
-import me.li2.android.architecture.data.model.Article;
+import me.li2.android.architecture.data.model.Offer;
 
 /**
- * An article that should be displayed as an item in a list of articles.
+ * An offer that should be displayed as an item in a list of offers.
  *
  * @author Weiyi Li on 13/7/18 | https://github.com/li2
  */
 public class OfferItem {
 
-    private Article mArticle;
+    private Offer mOffer;
 
     // shared element transition between RecyclerView and Fragment
     // list item click listen, accept the shared element view as para to perform transition later
     private Consumer<View> mOnClickAction;
 
-    public OfferItem(Article article, Consumer<View> clickAction) {
-        mArticle = article;
+    public OfferItem(Offer offer, Consumer<View> clickAction) {
+        mOffer = offer;
         mOnClickAction = clickAction;
     }
 
-    public Article getArticle() {
-        return mArticle;
+    public Offer getOffer() {
+        return mOffer;
     }
 
     /**
