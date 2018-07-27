@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articledetail.view;
+package me.li2.android.architecture.ui.offerdetail.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,15 +18,15 @@ import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewModel;
+import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModel;
 
-public class ArticleDetailActivity extends DaggerAppCompatActivity {
+public class OfferDetailActivity extends DaggerAppCompatActivity {
 
     public static final String EXTRA_ARTICLE_ID = "article_id";
 
     // error: Dagger does not support injection into private fields
     @Inject
-    ArticleDetailViewModel mViewModel;
+    OfferDetailViewModel mViewModel;
 
     private int mArticleId;
 
@@ -43,7 +43,7 @@ public class ArticleDetailActivity extends DaggerAppCompatActivity {
     TextView mDescriptionView;
 
     public static Intent newIntent(Context packageContext, int articleId) {
-        Intent intent = new Intent(packageContext, ArticleDetailActivity.class);
+        Intent intent = new Intent(packageContext, OfferDetailActivity.class);
         intent.putExtra(EXTRA_ARTICLE_ID, articleId);
         return intent;
     }

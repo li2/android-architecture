@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articles.view;
+package me.li2.android.architecture.ui.offers.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import me.li2.android.architecture.R;
-import me.li2.android.architecture.ui.articles.viewmodel.ArticleItem;
+import me.li2.android.architecture.ui.offers.viewmodel.OfferItem;
 import me.li2.android.architecture.utils.ImageLoader;
 
 /**
@@ -29,19 +29,19 @@ import me.li2.android.architecture.utils.ImageLoader;
  * @author Weiyi Li on 6/5/18 | https://github.com/li2
  */
 
-public class ArticlesAdapter extends RecyclerView.Adapter<ArticleItemViewHolder> {
+public class OffersAdapter extends RecyclerView.Adapter<OfferItemViewHolder> {
 
-    private List<ArticleItem> mArticles;
+    private List<OfferItem> mArticles;
 
     @Inject
     ImageLoader mImageLoader;
 
     @Inject
-    public ArticlesAdapter() {
+    public OffersAdapter() {
     }
 
 
-    public void refreshData(List<ArticleItem> articles) {
+    public void refreshData(List<OfferItem> articles) {
         mArticles = articles;
         notifyDataSetChanged();
     }
@@ -52,13 +52,13 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleItemViewHolder>
     }
 
     @Override
-    public ArticleItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public OfferItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_list_view_holder, parent, false);
-        return new ArticleItemViewHolder(view, mImageLoader);
+        return new OfferItemViewHolder(view, mImageLoader);
     }
 
     @Override
-    public void onBindViewHolder(ArticleItemViewHolder holder, int position) {
+    public void onBindViewHolder(OfferItemViewHolder holder, int position) {
         holder.bindArticle(mArticles.get(position));
     }
 }

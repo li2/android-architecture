@@ -4,9 +4,9 @@ import android.arch.lifecycle.ViewModelProviders;
 
 import dagger.Module;
 import dagger.Provides;
-import me.li2.android.architecture.ui.articledetail.view.ArticleDetailFragment;
-import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewModel;
-import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewModelFactory;
+import me.li2.android.architecture.ui.offerdetail.view.OfferDetailFragment;
+import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModel;
+import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModelFactory;
 
 /**
  * This module provides the activity related instances.
@@ -18,7 +18,7 @@ import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewM
 public class ArticleDetailModule {
 
     @Provides
-    ArticleDetailViewModel provideArticleDetailViewModel(ArticleDetailFragment fragment, ArticleDetailViewModelFactory factory) {
-        return ViewModelProviders.of(fragment, factory).get(ArticleDetailViewModel.class);
+    OfferDetailViewModel provideArticleDetailViewModel(OfferDetailFragment fragment, OfferDetailViewModelFactory factory) {
+        return ViewModelProviders.of(fragment, factory).get(OfferDetailViewModel.class);
     }
 }

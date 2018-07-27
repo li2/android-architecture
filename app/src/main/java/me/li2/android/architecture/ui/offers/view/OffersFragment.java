@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articles.view;
+package me.li2.android.architecture.ui.offers.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -25,12 +25,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
 import me.li2.android.architecture.R;
-import me.li2.android.architecture.ui.articles.viewmodel.ArticleItem;
-import me.li2.android.architecture.ui.articles.viewmodel.ArticlesUiModel;
-import me.li2.android.architecture.ui.articles.viewmodel.ArticlesViewModel;
+import me.li2.android.architecture.ui.offers.viewmodel.OfferItem;
+import me.li2.android.architecture.ui.offers.viewmodel.OffersUiModel;
+import me.li2.android.architecture.ui.offers.viewmodel.OffersViewModel;
 import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
 
-public class ArticlesFragment extends DaggerFragment {
+public class OffersFragment extends DaggerFragment {
 
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
@@ -49,13 +49,13 @@ public class ArticlesFragment extends DaggerFragment {
     private MenuItem mRegionMenuItem;
 
     @Inject
-    ArticlesAdapter mAdapter;
+    OffersAdapter mAdapter;
 
     @Inject
-    ArticlesViewModel mViewModel;
+    OffersViewModel mViewModel;
 
 
-    public ArticlesFragment() {
+    public OffersFragment() {
         // Required empty public constructor
     }
 
@@ -89,7 +89,7 @@ public class ArticlesFragment extends DaggerFragment {
         mViewModel.getSnackbarMessage().observe(this, message -> showSnackBar(message));
     }
 
-    private void updateView(ArticlesUiModel uiModel) {
+    private void updateView(OffersUiModel uiModel) {
         if (uiModel == null) {
             return;
         }
@@ -127,7 +127,7 @@ public class ArticlesFragment extends DaggerFragment {
         mSwipeRefreshLayout.setRefreshing(active);
     }
 
-    private void showArticlesList(List<ArticleItem> articles) {
+    private void showArticlesList(List<OfferItem> articles) {
         mAdapter.refreshData(articles);
     }
 

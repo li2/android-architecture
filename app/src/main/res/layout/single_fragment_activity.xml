@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_scrollFlags="scroll|enterAlways"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="me.li2.android.architecture.ui.articles.view.ArticlesActivity">
+    tools:context="me.li2.android.architecture.ui.offers.view.OffersActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

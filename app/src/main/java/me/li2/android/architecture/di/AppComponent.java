@@ -10,7 +10,7 @@ import dagger.android.AndroidInjectionModule;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 import dagger.android.support.AndroidSupportInjectionModule;
-import me.li2.android.architecture.app.DemoApplication;
+import me.li2.android.architecture.app.LeApplication;
 import me.li2.android.architecture.data.source.remote.WebServiceGenerator;
 
 /**
@@ -39,7 +39,7 @@ import me.li2.android.architecture.data.source.remote.WebServiceGenerator;
 })
 public interface AppComponent extends AndroidInjector<DaggerApplication> {
 
-    void inject(DemoApplication app);
+    void inject(LeApplication app);
 
     @Override
     void inject(DaggerApplication instance);

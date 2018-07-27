@@ -5,8 +5,6 @@ import android.content.Context;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import javax.inject.Inject;
-
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 import me.li2.android.architecture.di.AppComponent;
@@ -17,20 +15,17 @@ import me.li2.android.architecture.di.DaggerAppComponent;
  * https://github.com/li2
  */
 
-public class DemoApplication extends DaggerApplication {
-    private static DemoApplication sApplication;
+public class LeApplication extends DaggerApplication {
+    private static LeApplication sApplication;
 
-    public DemoApplication() {
+    public LeApplication() {
         sApplication = this;
     }
-
-    @Inject
-    Picasso mPicasso;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Picasso.setSingletonInstance(mPicasso);
+        configurePicassoSingletonInstance();
     }
 
     @Override

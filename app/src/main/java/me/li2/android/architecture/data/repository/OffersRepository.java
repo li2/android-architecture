@@ -34,8 +34,8 @@ import me.li2.android.architecture.utils.RateLimiter;
  */
 
 @Singleton
-public class ArticlesRepository {
-    private static final String LOG_TAG = ArticlesRepository.class.getSimpleName();
+public class OffersRepository {
+    private static final String LOG_TAG = OffersRepository.class.getSimpleName();
 
     @Inject
     ArticlesDao mArticlesDao;
@@ -56,7 +56,7 @@ public class ArticlesRepository {
     RateLimiter<String> repoListRateLimit;
 
     @Inject
-    public ArticlesRepository(){
+    public OffersRepository(){
     }
 
     /**

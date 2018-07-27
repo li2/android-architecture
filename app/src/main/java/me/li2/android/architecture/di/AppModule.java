@@ -4,9 +4,6 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -14,8 +11,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.li2.android.architecture.data.source.local.ArticlesDao;
 import me.li2.android.architecture.data.source.local.AppDatabase;
+import me.li2.android.architecture.data.source.local.ArticlesDao;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.BaseImageLoader;
 import me.li2.android.architecture.utils.BaseResourceProvider;
@@ -76,15 +73,5 @@ public class AppModule {
     @Provides
     RateLimiter<String> provideRateLimiter() {
         return new RateLimiter<>(2, TimeUnit.MINUTES);
-    }
-
-    @Provides
-    @Singleton
-    Picasso providePicasso(Context context) {
-        return new Picasso.Builder(context.getApplicationContext())
-                .loggingEnabled(true)
-                .downloader(new OkHttp3Downloader(context.getApplicationContext(), Integer.MAX_VALUE))
-                .listener((picasso1, uri, exception) -> exception.printStackTrace())
-                .build();
     }
 }

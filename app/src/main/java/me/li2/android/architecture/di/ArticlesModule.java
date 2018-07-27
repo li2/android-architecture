@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import dagger.Module;
 import dagger.Provides;
-import me.li2.android.architecture.ui.articles.view.ArticlesFragment;
-import me.li2.android.architecture.ui.articles.viewmodel.ArticlesViewModel;
-import me.li2.android.architecture.ui.articles.viewmodel.ArticlesViewModelFactory;
+import me.li2.android.architecture.ui.offers.view.OffersFragment;
+import me.li2.android.architecture.ui.offers.viewmodel.OffersViewModel;
+import me.li2.android.architecture.ui.offers.viewmodel.OffersViewModelFactory;
 import me.li2.android.architecture.utils.BaseNavigator;
 import me.li2.android.architecture.utils.Navigator;
 
@@ -20,14 +20,14 @@ import me.li2.android.architecture.utils.Navigator;
 @Module
 public class ArticlesModule {
     @Provides
-    ArticlesViewModel provideArticlesViewModel(ArticlesFragment fragment, ArticlesViewModelFactory factory) {
-        return ViewModelProviders.of(fragment, factory).get(ArticlesViewModel.class);
+    OffersViewModel provideArticlesViewModel(OffersFragment fragment, OffersViewModelFactory factory) {
+        return ViewModelProviders.of(fragment, factory).get(OffersViewModel.class);
     }
 
     // Fix BaseNavigator cannot be provided without an @Provides-annotated method.
     @Provides
     @ArticlesScope
-    BaseNavigator provideNavigator(ArticlesFragment fragment) {
+    BaseNavigator provideNavigator(OffersFragment fragment) {
         return new Navigator((AppCompatActivity) fragment.getActivity());
     }
 }

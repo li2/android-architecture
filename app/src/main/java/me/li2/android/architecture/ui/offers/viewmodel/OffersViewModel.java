@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articles.viewmodel;
+package me.li2.android.architecture.ui.offers.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -18,49 +18,49 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.data.repository.ArticlesRepository;
-import me.li2.android.architecture.ui.articles.view.ArticlesNavigator;
+import me.li2.android.architecture.data.repository.OffersRepository;
+import me.li2.android.architecture.ui.offers.view.OffersNavigator;
 import me.li2.android.architecture.utils.BaseResourceProvider;
 
 /**
  * ViewModel to expose states for the list of articles view, and handle all user actions.
  *
- * - Ask data from repository {@link ArticlesViewModel#mRepository}, and then
+ * - Ask data from repository {@link OffersViewModel#mRepository}, and then
  *     construct the source data to view data which contains all UI state.
  *
  * - Expose streams for view to subscribe the UI state,
- *     such as {@link ArticlesViewModel#getUiModel()}, {@link ArticlesViewModel#getLoadingIndicatorVisibility()}
+ *     such as {@link OffersViewModel#getUiModel()}, {@link OffersViewModel#getLoadingIndicatorVisibility()}
  *
  * - Expose public methods for view to handle user actions,
- *     such as force pull-refresh {@link ArticlesViewModel#forceUpdateArticles()}
+ *     such as force pull-refresh {@link OffersViewModel#forceUpdateArticles()}
  *
  * - For user action in the sub-view, such as click or check in the list view item,
  *      implement {@link Action} or {@link Consumer} in the ViewModel
- *      {@link ArticlesViewModel#handleArticleTaped(Article, View)}, and then
- *      pass it as parameter to ViewHolder constructor {@link ArticleItem#ArticleItem(Article, Consumer)}.
+ *      {@link OffersViewModel#handleArticleTaped(Article, View)}, and then
+ *      pass it as parameter to ViewHolder constructor {@link OfferItem#OfferItem(Article, Consumer)}.
  *
  * @author Weiyi Li on 13/7/18 | https://github.com/li2
  */
-public class ArticlesViewModel extends ViewModel {
+public class OffersViewModel extends ViewModel {
 
-    private static final String TAG = ArticlesViewModel.class.getSimpleName();
+    private static final String TAG = OffersViewModel.class.getSimpleName();
 
     @NonNull
-    private ArticlesRepository mRepository;
+    private OffersRepository mRepository;
 
     @NonNull
     private BaseResourceProvider mResourceProvider;
 
     @NonNull
-    private ArticlesNavigator mNavigator;
+    private OffersNavigator mNavigator;
 
     private MutableLiveData<Boolean> mLoadingIndicator = new MutableLiveData<>();
 
     private MutableLiveData<String> mSnackbarText = new MutableLiveData<>();
 
-    public ArticlesViewModel(@NonNull ArticlesRepository repository,
-                             @NonNull BaseResourceProvider resourceProvider,
-                             @NonNull ArticlesNavigator navigator
+    public OffersViewModel(@NonNull OffersRepository repository,
+                           @NonNull BaseResourceProvider resourceProvider,
+                           @NonNull OffersNavigator navigator
                              ) {
         mRepository = repository;
         mResourceProvider = resourceProvider;
@@ -71,7 +71,7 @@ public class ArticlesViewModel extends ViewModel {
      * @return the model for the articles list screen.
      */
     @NonNull
-    public LiveData<ArticlesUiModel> getUiModel() {
+    public LiveData<OffersUiModel> getUiModel() {
         return Transformations.map(getArticleItems(),
                 resource -> {
                     mLoadingIndicator.setValue(resource.status == Status.LOADING);
@@ -109,32 +109,32 @@ public class ArticlesViewModel extends ViewModel {
     }
 
     /**
-     * Convert {@link Resource<List<>>} of {@link Article} (data model) to {@link ArticleItem} (view data model)
+     * Convert {@link Resource<List<>>} of {@link Article} (data model) to {@link OfferItem} (view data model)
      * @return
      */
-    private LiveData<Resource<List<ArticleItem>>> getArticleItems() {
+    private LiveData<Resource<List<OfferItem>>> getArticleItems() {
         return Transformations.map(mRepository.loadArticles(),
                 resource -> {
-                    List<ArticleItem> articleItems = null;
+                    List<OfferItem> offerItems = null;
                     if (resource.data != null) {
-                        articleItems = new ArrayList<>();
+                        offerItems = new ArrayList<>();
                         for (Article article : resource.data) {
-                            articleItems.add(constructArticleItem(article));
+                            offerItems.add(constructArticleItem(article));
                         }
                     }
-                    return new Resource<>(resource.status, articleItems, resource.errorMessage, resource.code, resource.throwable);
+                    return new Resource<>(resource.status, offerItems, resource.errorMessage, resource.code, resource.throwable);
                 });
     }
 
-    private ArticlesUiModel constructArticlesUiModel(List<ArticleItem> articleItems) {
-        boolean isArticlesListVisible = !articleItems.isEmpty();
+    private OffersUiModel constructArticlesUiModel(List<OfferItem> offerItems) {
+        boolean isArticlesListVisible = !offerItems.isEmpty();
         boolean isNoArticlesViewVisible = !isArticlesListVisible;
-        return new ArticlesUiModel(isArticlesListVisible, articleItems,
+        return new OffersUiModel(isArticlesListVisible, offerItems,
                 isNoArticlesViewVisible, mResourceProvider.getString(R.string.no_articles_all));
     }
 
-    private ArticleItem constructArticleItem(final Article article) {
-        return new ArticleItem(article, view -> handleArticleTaped(article, view));
+    private OfferItem constructArticleItem(final Article article) {
+        return new OfferItem(article, view -> handleArticleTaped(article, view));
     }
 
     private void handleArticleTaped(Article article, View sharedElement) {

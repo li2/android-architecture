@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articles.view;
+package me.li2.android.architecture.ui.offers.view;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import butterknife.BindView;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.ui.basic.BaseSingleFragmentActivity;
 
-public class ArticlesActivity extends BaseSingleFragmentActivity {
+public class OffersActivity extends BaseSingleFragmentActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -23,7 +23,7 @@ public class ArticlesActivity extends BaseSingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return new ArticlesFragment();
+        return new OffersFragment();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articles.viewmodel;
+package me.li2.android.architecture.ui.offers.viewmodel;
 
 import java.util.List;
 
@@ -8,17 +8,17 @@ import java.util.List;
  *
  * @author Weiyi Li on 14/7/18 | https://github.com/li2
  */
-public class ArticlesUiModel {
+public class OffersUiModel {
 
     private final boolean mIsArticlesListVisible;
 
-    private final List<ArticleItem> mItemList;
+    private final List<OfferItem> mItemList;
 
     private final boolean mIsNoArticlesViewVisible;
 
     private final String mNoArticlesHint;
 
-    public ArticlesUiModel(boolean isArticlesListVisible, List<ArticleItem> itemList, boolean isNoArticlesViewVisible, String noArticlesHint) {
+    public OffersUiModel(boolean isArticlesListVisible, List<OfferItem> itemList, boolean isNoArticlesViewVisible, String noArticlesHint) {
         mIsArticlesListVisible = isArticlesListVisible;
         mItemList = itemList;
         mIsNoArticlesViewVisible = isNoArticlesViewVisible;
@@ -29,7 +29,7 @@ public class ArticlesUiModel {
         return mIsArticlesListVisible;
     }
 
-    public List<ArticleItem> getItemList() {
+    public List<OfferItem> getItemList() {
         return mItemList;
     }
 

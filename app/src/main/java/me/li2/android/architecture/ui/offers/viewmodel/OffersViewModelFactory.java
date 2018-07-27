@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articles.viewmodel;
+package me.li2.android.architecture.ui.offers.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import me.li2.android.architecture.data.repository.ArticlesRepository;
-import me.li2.android.architecture.ui.articles.view.ArticlesNavigator;
+import me.li2.android.architecture.data.repository.OffersRepository;
+import me.li2.android.architecture.ui.offers.view.OffersNavigator;
 import me.li2.android.architecture.utils.BaseResourceProvider;
 
 /**
@@ -16,28 +16,28 @@ import me.li2.android.architecture.utils.BaseResourceProvider;
  *
  * TODO why cannot inject directly in the ViewModel
  */
-public class ArticlesViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class OffersViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     @NonNull
     @Inject
-    ArticlesRepository mRepository;
+    OffersRepository mRepository;
 
     @NonNull
     @Inject
-    ArticlesNavigator mNavigator;
+    OffersNavigator mNavigator;
 
     @NonNull
     @Inject
     BaseResourceProvider mResourceProvider;
 
     @Inject
-    public ArticlesViewModelFactory() {
+    public OffersViewModelFactory() {
 
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new ArticlesViewModel(mRepository, mResourceProvider, mNavigator);
+        return (T) new OffersViewModel(mRepository, mResourceProvider, mNavigator);
     }
 }

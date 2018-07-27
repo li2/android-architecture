@@ -5,7 +5,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import me.li2.android.architecture.app.DemoApplication;
+import me.li2.android.architecture.app.LeApplication;
 
 /**
  * Created by weiyi on 17/2/18.
@@ -15,7 +15,7 @@ import me.li2.android.architecture.app.DemoApplication;
 public class NetworkUtils {
 
     public static boolean isConnected() {
-        ConnectivityManager cm = (ConnectivityManager) DemoApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) LeApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return  activeNetwork != null && activeNetwork.isConnected();
     }

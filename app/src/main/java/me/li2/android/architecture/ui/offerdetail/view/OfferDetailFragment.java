@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articledetail.view;
+package me.li2.android.architecture.ui.offerdetail.view;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -15,17 +15,17 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
-import me.li2.android.architecture.ui.articledetail.viewmodel.ArticleDetailViewModel;
+import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModel;
 import me.li2.android.architecture.ui.basic.BaseFragment;
 import me.li2.android.architecture.utils.BaseImageLoader;
 import me.li2.android.architecture.utils.ViewUtils;
 
-public class ArticleDetailFragment extends BaseFragment {
+public class OfferDetailFragment extends BaseFragment {
 
     public static final String EXTRA_ARTICLE_ID = "article_id";
 
     @Inject
-    ArticleDetailViewModel mViewModel;
+    OfferDetailViewModel mViewModel;
 
     @Inject
     BaseImageLoader mImageLoader;
@@ -39,10 +39,10 @@ public class ArticleDetailFragment extends BaseFragment {
     @BindView(R.id.article_description_view)
     TextView mDescriptionView;
 
-    public static ArticleDetailFragment newInstance(int articleId) {
+    public static OfferDetailFragment newInstance(int articleId) {
         Bundle args = new Bundle();
         args.putInt(EXTRA_ARTICLE_ID, articleId);
-        ArticleDetailFragment fragment = new ArticleDetailFragment();
+        OfferDetailFragment fragment = new OfferDetailFragment();
         fragment.setArguments(args);
         return fragment;
     }

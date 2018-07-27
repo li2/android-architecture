@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.articles.viewmodel;
+package me.li2.android.architecture.ui.offers.viewmodel;
 
 import android.view.View;
 
@@ -10,7 +10,7 @@ import me.li2.android.architecture.data.model.Article;
  *
  * @author Weiyi Li on 13/7/18 | https://github.com/li2
  */
-public class ArticleItem {
+public class OfferItem {
 
     private Article mArticle;
 
@@ -18,7 +18,7 @@ public class ArticleItem {
     // list item click listen, accept the shared element view as para to perform transition later
     private Consumer<View> mOnClickAction;
 
-    public ArticleItem(Article article, Consumer<View> clickAction) {
+    public OfferItem(Article article, Consumer<View> clickAction) {
         mArticle = article;
         mOnClickAction = clickAction;
     }

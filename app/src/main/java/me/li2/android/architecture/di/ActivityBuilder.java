@@ -2,9 +2,9 @@ package me.li2.android.architecture.di;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import me.li2.android.architecture.ui.articledetail.view.ArticleDetailFragment;
-import me.li2.android.architecture.ui.articles.view.ArticlesActivity;
-import me.li2.android.architecture.ui.articles.view.ArticlesFragment;
+import me.li2.android.architecture.ui.offerdetail.view.OfferDetailFragment;
+import me.li2.android.architecture.ui.offers.view.OffersActivity;
+import me.li2.android.architecture.ui.offers.view.OffersFragment;
 
 /**
  * This is a given module to dagger.
@@ -18,12 +18,12 @@ import me.li2.android.architecture.ui.articles.view.ArticlesFragment;
 public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = ArticleDetailModule.class)
-    abstract ArticleDetailFragment bindArticleDetailFragment();
+    abstract OfferDetailFragment bindOfferDetailFragment();
 
     @ContributesAndroidInjector()
-    abstract ArticlesActivity bindArticlesActivity();
+    abstract OffersActivity bindOffersActivity();
 
     @ContributesAndroidInjector(modules = ArticlesModule.class)
     @ArticlesScope
-    abstract ArticlesFragment bindArticlesFragment();
+    abstract OffersFragment bindOffersFragment();
 }
