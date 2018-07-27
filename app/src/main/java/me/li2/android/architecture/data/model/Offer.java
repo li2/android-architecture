@@ -51,6 +51,12 @@ public class Offer {
     @SerializedName("images")
     public ArrayList<BannerImage> mImages;
 
+    @SerializedName("locationHeading")
+    public String locationHeading;
+
+    @SerializedName("locationSubheading")
+    public String locationSubheading;
+
     @SerializedName("maxNumNights")
     public int maxNumNights;
 
@@ -69,6 +75,8 @@ public class Offer {
                  String bookingGuarantee,
                  String runDate,
                  String endDate,
+                 String locationHeading,
+                 String locationSubheading,
                  int maxNumNights,
                  int minNumNights
     ) {
@@ -84,6 +92,8 @@ public class Offer {
         this.bookingGuarantee = bookingGuarantee;
         this.runDate = runDate;
         this.endDate = endDate;
+        this.locationHeading = locationHeading;
+        this.locationSubheading = locationSubheading;
         this.maxNumNights = maxNumNights;
         this.minNumNights = minNumNights;
     }

@@ -44,6 +44,8 @@ public class OfferDeserializer implements JsonDeserializer {
         String bookingGuarantee = JsonUtils.getJsonMemberAsString(jsonObject, "bookingGuarantee");
         String runDate = JsonUtils.getJsonMemberAsString(jsonObject, "runDate");
         String endDate = JsonUtils.getJsonMemberAsString(jsonObject, "endDate");
+        String locationHeading = JsonUtils.getJsonMemberAsString(jsonObject, "locationHeading");
+        String locationSubheading = JsonUtils.getJsonMemberAsString(jsonObject, "locationSubheading");
         int maxNumNights = JsonUtils.getJsonMemberAsInt(jsonObject, "maxNumNights");
         int minNumNights = JsonUtils.getJsonMemberAsInt(jsonObject, "minNumNights");
 
@@ -60,6 +62,8 @@ public class OfferDeserializer implements JsonDeserializer {
                 bookingGuarantee,
                 runDate,
                 endDate,
+                locationHeading,
+                locationSubheading,
                 maxNumNights,
                 minNumNights
         );
