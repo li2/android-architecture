@@ -10,34 +10,34 @@ import java.util.List;
  */
 public class OffersUiModel {
 
-    private final boolean mIsArticlesListVisible;
+    private final boolean mIsOffersListVisible;
 
     private final List<OfferItem> mItemList;
 
-    private final boolean mIsNoArticlesViewVisible;
+    private final boolean mIsNoOffersViewVisible;
 
-    private final String mNoArticlesHint;
+    private final String mNoOffersHint;
 
-    public OffersUiModel(boolean isArticlesListVisible, List<OfferItem> itemList, boolean isNoArticlesViewVisible, String noArticlesHint) {
-        mIsArticlesListVisible = isArticlesListVisible;
+    public OffersUiModel(boolean isOffersListVisible, List<OfferItem> itemList, boolean isNoOffersViewVisible, String noOffersHint) {
+        mIsOffersListVisible = isOffersListVisible;
         mItemList = itemList;
-        mIsNoArticlesViewVisible = isNoArticlesViewVisible;
-        mNoArticlesHint = noArticlesHint;
+        mIsNoOffersViewVisible = isNoOffersViewVisible;
+        mNoOffersHint = noOffersHint;
     }
 
-    public boolean isArticlesListVisible() {
-        return mIsArticlesListVisible;
+    public boolean isOffersListVisible() {
+        return mIsOffersListVisible;
     }
 
     public List<OfferItem> getItemList() {
         return mItemList;
     }
 
-    public boolean isNoArticlesViewVisible() {
-        return mIsNoArticlesViewVisible;
+    public boolean isNoOffersViewVisible() {
+        return mIsNoOffersViewVisible;
     }
 
-    public String getNoArticlesHint() {
-        return mNoArticlesHint;
+    public String getNoOffersHint() {
+        return mNoOffersHint;
     }
 }

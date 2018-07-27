@@ -34,17 +34,17 @@ public class OffersFragment extends DaggerFragment {
 
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
-    @BindView(R.id.article_list_view)
+    @BindView(R.id.offer_list_view)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.article_list_swiperefresh)
+    @BindView(R.id.offer_list_swiperefresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @BindView(R.id.no_articles_container)
-    View mNoArticlesView;
+    @BindView(R.id.no_offers_container)
+    View mNoOffersView;
 
-    @BindView(R.id.no_articles_title)
-    TextView mNoArticlesTitleView;
+    @BindView(R.id.no_offers_title)
+    TextView mNoOffersTitleView;
 
     private MenuItem mRegionMenuItem;
 
@@ -65,7 +65,7 @@ public class OffersFragment extends DaggerFragment {
         ButterKnife.bind(this, view);
 
         setHasOptionsMenu(true);
-        setupArticlesListView();
+        setupOffersListView();
         setupSwipeRefreshLayout();
 
         return view;
@@ -93,20 +93,20 @@ public class OffersFragment extends DaggerFragment {
         if (uiModel == null) {
             return;
         }
-        int articlesListVisibility = uiModel.isArticlesListVisible() ? View.VISIBLE : View.GONE;
-        int noArticlesViewVisibility = uiModel.isNoArticlesViewVisible() ? View.VISIBLE : View.GONE;
-        mRecyclerView.setVisibility(articlesListVisibility);
-        mNoArticlesView.setVisibility(noArticlesViewVisibility);
+        int offersListVisibility = uiModel.isOffersListVisible() ? View.VISIBLE : View.GONE;
+        int noOffersViewVisibility = uiModel.isNoOffersViewVisible() ? View.VISIBLE : View.GONE;
+        mRecyclerView.setVisibility(offersListVisibility);
+        mNoOffersView.setVisibility(noOffersViewVisibility);
 
-        if (uiModel.isArticlesListVisible()) {
-            showArticlesList(uiModel.getItemList());
+        if (uiModel.isOffersListVisible()) {
+            showOffersList(uiModel.getItemList());
         }
-        if (uiModel.isNoArticlesViewVisible()) {
-            showNoArticlesView(uiModel.getNoArticlesHint());
+        if (uiModel.isNoOffersViewVisible()) {
+            showNoOffersView(uiModel.getNoOffersHint());
         }
     }
 
-    private void setupArticlesListView() {
+    private void setupOffersListView() {
         final RecyclerView recyclerView = mRecyclerView;
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -120,19 +120,19 @@ public class OffersFragment extends DaggerFragment {
     }
 
     private void setupSwipeRefreshLayout() {
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mViewModel.forceUpdateArticles());
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mViewModel.forceUpdateOffers());
     }
 
     private void setLoadingIndicatorVisibility(boolean active) {
         mSwipeRefreshLayout.setRefreshing(active);
     }
 
-    private void showArticlesList(List<OfferItem> articles) {
-        mAdapter.refreshData(articles);
+    private void showOffersList(List<OfferItem> offers) {
+        mAdapter.refreshData(offers);
     }
 
-    private void showNoArticlesView(String hint) {
-        mNoArticlesTitleView.setText(hint);
+    private void showNoOffersView(String hint) {
+        mNoOffersTitleView.setText(hint);
     }
 
     private void showSnackBar(String message) {

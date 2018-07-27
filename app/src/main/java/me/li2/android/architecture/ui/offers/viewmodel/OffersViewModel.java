@@ -32,7 +32,7 @@ import me.li2.android.architecture.utils.BaseResourceProvider;
  *     such as {@link OffersViewModel#getUiModel()}, {@link OffersViewModel#getLoadingIndicatorVisibility()}
  *
  * - Expose public methods for view to handle user actions,
- *     such as force pull-refresh {@link OffersViewModel#forceUpdateArticles()}
+ *     such as force pull-refresh {@link OffersViewModel#forceUpdateOffers()}
  *
  * - For user action in the sub-view, such as click or check in the list view item,
  *      implement {@link Action} or {@link Consumer} in the ViewModel
@@ -144,7 +144,7 @@ public class OffersViewModel extends ViewModel {
     /**
      * Trigger a force update of the articles.
      */
-    public Completable forceUpdateArticles() {
+    public Completable forceUpdateOffers() {
         mLoadingIndicator.setValue(true);
         // TODO
         return null;
