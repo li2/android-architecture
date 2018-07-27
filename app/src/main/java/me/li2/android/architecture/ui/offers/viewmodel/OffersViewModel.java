@@ -18,6 +18,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Article;
+import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.data.repository.OffersRepository;
 import me.li2.android.architecture.ui.offers.view.OffersNavigator;
 import me.li2.android.architecture.utils.BaseResourceProvider;
@@ -124,6 +125,10 @@ public class OffersViewModel extends ViewModel {
                     }
                     return new Resource<>(resource.status, offerItems, resource.errorMessage, resource.code, resource.throwable);
                 });
+    }
+
+    public LiveData<Resource<List<Offer>>> getOffers() {
+        return mRepository.loadOffers();
     }
 
     private OffersUiModel constructArticlesUiModel(List<OfferItem> offerItems) {

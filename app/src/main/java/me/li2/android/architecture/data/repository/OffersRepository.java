@@ -14,13 +14,10 @@ import javax.inject.Singleton;
 import arch.ApiResponse;
 import arch.NetworkBoundResource;
 import arch.Resource;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.data.source.local.ArticlesDao;
+import me.li2.android.architecture.data.source.local.OffersDao;
 import me.li2.android.architecture.data.source.remote.ArticlesServiceApi;
 import me.li2.android.architecture.data.source.remote.OffersServiceApi;
 import me.li2.android.architecture.utils.AppExecutors;
@@ -39,6 +36,9 @@ public class OffersRepository {
 
     @Inject
     ArticlesDao mArticlesDao;
+
+    @Inject
+    OffersDao mOffersDao;
 
     @Inject
     ArticlesServiceApi mArticlesServiceApi;
@@ -64,26 +64,6 @@ public class OffersRepository {
      * @return
      */
     public LiveData<Resource<List<Article>>> loadArticles() {
-        Observable<List<String>> offers = loadOffers();
-        offers.subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<List<String>>() {
-                    @Override
-                    public void onNext(List<String> strings) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
         return new NetworkBoundResource<List<Article>, List<Article>>(mExecutors) {
             @NonNull
             @Override
@@ -121,16 +101,30 @@ public class OffersRepository {
         return mArticlesDao.getArticle(id);
     }
 
-    public Observable<List<String>> loadOffers() {
-        return mOffersServiceApi.getOffers()
-                .flatMap(list -> Observable.fromIterable(list)
-                        .map(offer -> print(offer))
-                        .toList()
-                        .toObservable());
-    }
+    public LiveData<Resource<List<Offer>>> loadOffers() {
+        return new NetworkBoundResource<List<Offer>, List<Offer>>(mExecutors) {
+            @NonNull
+            @Override
+            protected LiveData<List<Offer>> loadFromDb() {
+                return mOffersDao.getOffers();
+            }
 
-    private String print(Offer offer) {
-        Log.d(LOG_TAG, "Offer " + offer.name);
-        return offer.name;
+            @Override
+            protected boolean shouldFetch(@Nullable List<Offer> data) {
+                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(LOG_TAG);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Offer>>> createCall() {
+                return mOffersServiceApi.getOffers();
+            }
+
+            @Override
+            protected void saveCallResult(@NonNull List<Offer> offers) {
+                mOffersDao.bulkInsert(offers.toArray(new Offer[offers.size()]));
+                Log.d(LOG_TAG, "new values inserted");
+            }
+        }.asLiveData();
     }
 }

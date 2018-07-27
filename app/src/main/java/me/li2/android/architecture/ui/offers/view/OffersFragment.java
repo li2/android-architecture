@@ -87,6 +87,10 @@ public class OffersFragment extends DaggerFragment {
         mViewModel.getLoadingIndicatorVisibility().observe(this, visible -> setLoadingIndicatorVisibility(visible));
 
         mViewModel.getSnackbarMessage().observe(this, message -> showSnackBar(message));
+
+        mViewModel.getOffers().observe(this, offers -> {
+
+        });
     }
 
     private void updateView(OffersUiModel uiModel) {

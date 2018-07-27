@@ -1,8 +1,13 @@
 package me.li2.android.architecture.data.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by weiyi on 27/7/18.
@@ -11,7 +16,14 @@ import java.util.ArrayList;
  * https://jsonformatter.org/
  * view-source:https://luxuryescapes.com/au/offer/rendezvous-hotel-christchurch-new-zealand/0060I00000UJ3cyQAD
  */
+@Entity(tableName = "OfferTable", indices = {@Index(value = {"idSalesforceExternal"}, unique = true)})
 public class Offer {
+
+    @NonNull
+    @PrimaryKey
+    @SerializedName("idSalesforceExternal")
+    public String idSalesforceExternal;
+
     @SerializedName("bookingType")
     public String bookingType;
 
@@ -49,7 +61,7 @@ public class Offer {
     public String endDate;
 
     @SerializedName("images")
-    public ArrayList<BannerImage> mImages;
+    public List<BannerImage> images;
 
     @SerializedName("locationHeading")
     public String locationHeading;
@@ -63,7 +75,8 @@ public class Offer {
     @SerializedName("minNumNights")
     public int minNumNights;
 
-    public Offer(String bookingType,
+    public Offer(String idSalesforceExternal,
+                 String bookingType,
                  String type,
                  String name,
                  String location,
@@ -75,11 +88,13 @@ public class Offer {
                  String bookingGuarantee,
                  String runDate,
                  String endDate,
+                 List<BannerImage> images,
                  String locationHeading,
                  String locationSubheading,
                  int maxNumNights,
                  int minNumNights
     ) {
+        this.idSalesforceExternal = idSalesforceExternal;
         this.bookingType = bookingType;
         this.type = type;
         this.name = name;
@@ -92,6 +107,7 @@ public class Offer {
         this.bookingGuarantee = bookingGuarantee;
         this.runDate = runDate;
         this.endDate = endDate;
+        this.images = images;
         this.locationHeading = locationHeading;
         this.locationSubheading = locationSubheading;
         this.maxNumNights = maxNumNights;

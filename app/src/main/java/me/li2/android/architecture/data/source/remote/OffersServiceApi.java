@@ -1,8 +1,10 @@
 package me.li2.android.architecture.data.source.remote;
 
+import android.arch.lifecycle.LiveData;
+
 import java.util.List;
 
-import io.reactivex.Observable;
+import arch.ApiResponse;
 import me.li2.android.architecture.data.model.Offer;
 import retrofit2.http.GET;
 
@@ -12,5 +14,5 @@ import retrofit2.http.GET;
  */
 public interface OffersServiceApi {
     @GET("demo-le-offers.json")
-    Observable<List<Offer>> getOffers();
+    LiveData<ApiResponse<List<Offer>>> getOffers();
 }

@@ -1,4 +1,4 @@
-package me.li2.android.architecture.data.source.remote;
+package me.li2.android.architecture.data.source.remote.deserializer;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -7,10 +7,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import me.li2.android.architecture.data.model.BannerImage;
 import me.li2.android.architecture.data.model.Offer;
+import me.li2.android.architecture.data.source.local.converter.BannerImageListConverter;
 
 /**
  * Created by weiyi on 27/7/18.
@@ -32,6 +35,7 @@ public class OfferDeserializer implements JsonDeserializer {
             return null;
         }
 
+        String idSalesforceExternal = JsonUtils.getJsonMemberAsString(jsonObject, "idSalesforceExternal");
         String bookingType = JsonUtils.getJsonMemberAsString(jsonObject, "bookingType");
         String type = JsonUtils.getJsonMemberAsString(jsonObject, "type");
         String name = JsonUtils.getJsonMemberAsString(jsonObject, "name");
@@ -44,12 +48,14 @@ public class OfferDeserializer implements JsonDeserializer {
         String bookingGuarantee = JsonUtils.getJsonMemberAsString(jsonObject, "bookingGuarantee");
         String runDate = JsonUtils.getJsonMemberAsString(jsonObject, "runDate");
         String endDate = JsonUtils.getJsonMemberAsString(jsonObject, "endDate");
+        List<BannerImage> images = BannerImageListConverter.fromString(jsonObject.get("images").getAsJsonArray().toString());
         String locationHeading = JsonUtils.getJsonMemberAsString(jsonObject, "locationHeading");
         String locationSubheading = JsonUtils.getJsonMemberAsString(jsonObject, "locationSubheading");
         int maxNumNights = JsonUtils.getJsonMemberAsInt(jsonObject, "maxNumNights");
         int minNumNights = JsonUtils.getJsonMemberAsInt(jsonObject, "minNumNights");
 
         return new Offer(
+                idSalesforceExternal,
                 bookingType,
                 type,
                 name,
@@ -62,6 +68,7 @@ public class OfferDeserializer implements JsonDeserializer {
                 bookingGuarantee,
                 runDate,
                 endDate,
+                images,
                 locationHeading,
                 locationSubheading,
                 maxNumNights,

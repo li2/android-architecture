@@ -1,4 +1,4 @@
-package me.li2.android.architecture.data.source.remote;
+package me.li2.android.architecture.data.source.remote.deserializer;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * https://res.cloudinary.com/lux-group/image/upload/f_auto,fl_progressive,q_auto:eco,c_fill,g_auto,w_1920,ar_16:9/sxc8sdjm44qa9muxgrko
  */
-class BannerImage {
+public class BannerImage {
     /**
      * id : c49c6980-8bd5-11e8-a054-f31b62f324dd
      * cloudinaryId : sxc8sdjm44qa9muxgrko
@@ -16,8 +16,10 @@ class BannerImage {
      */
     @SerializedName("id")
     public String id;
+
     @SerializedName("cloudinaryId")
     public String cloudinaryId;
+
     @SerializedName("order")
     public int order;
 }

@@ -13,6 +13,7 @@ import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.source.local.AppDatabase;
 import me.li2.android.architecture.data.source.local.ArticlesDao;
+import me.li2.android.architecture.data.source.local.OffersDao;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.BaseImageLoader;
 import me.li2.android.architecture.utils.BaseResourceProvider;
@@ -68,6 +69,12 @@ public class AppModule {
     @Singleton
     ArticlesDao provideArticlesDao(AppDatabase database) {
         return database.articlesDao();
+    }
+
+    @Provides
+    @Singleton
+    OffersDao provideOffersDao(AppDatabase database) {
+        return database.offersDao();
     }
 
     @Provides
