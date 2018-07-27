@@ -1,11 +1,18 @@
 package me.li2.android.architecture.ui.articles.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -39,6 +46,8 @@ public class ArticlesFragment extends DaggerFragment {
     @BindView(R.id.no_articles_title)
     TextView mNoArticlesTitleView;
 
+    private MenuItem mRegionMenuItem;
+
     @Inject
     ArticlesAdapter mAdapter;
 
@@ -55,6 +64,7 @@ public class ArticlesFragment extends DaggerFragment {
         View view = inflater.inflate(R.layout.article_list_fragment, container, false);
         ButterKnife.bind(this, view);
 
+        setHasOptionsMenu(true);
         setupArticlesListView();
         setupSwipeRefreshLayout();
 
@@ -128,5 +138,52 @@ public class ArticlesFragment extends DaggerFragment {
     private void showSnackBar(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_options, menu);
+        mRegionMenuItem = menu.findItem(R.id.main_option_region);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_option_phone:
+                break;
+
+            case R.id.main_option_account:
+                break;
+
+            case R.id.main_option_region:
+                showRegionFilteringPopUpMenu();
+                break;
+        }
+        return true;
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void showRegionFilteringPopUpMenu() {
+        View anchorView = getActivity().findViewById(R.id.main_option_region);
+        PopupMenu popup = new PopupMenu(getContext(), anchorView);
+        popup.getMenuInflater().inflate(R.menu.region, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            mRegionMenuItem.setIcon(item.getIcon());
+            switch (item.getItemId()) {
+                case R.id.region_menu_cn:
+                    break;
+
+                case R.id.region_menu_au:
+                default:
+                    break;
+            }
+            return true;
+        });
+
+        MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popup.getMenu(), anchorView);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 import me.li2.android.architecture.R;
 
@@ -15,7 +16,9 @@ public abstract class BaseSingleFragmentActivity extends DaggerAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_fragment_activity);
-        
+
+        ButterKnife.bind(this);
+
         // Get the FragmentManager.
         FragmentManager fm = getSupportFragmentManager();
         // Ask the FragmentManager for the fragment with a container view ID, 
@@ -27,12 +30,6 @@ public abstract class BaseSingleFragmentActivity extends DaggerAppCompatActivity
             fragment = createFragment();
             // Create a new fragment transaction, include one add operation in it, and then commit it.
             fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
-        }
-    }
-
-    public void setTitle(String title) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
         }
     }
  }
