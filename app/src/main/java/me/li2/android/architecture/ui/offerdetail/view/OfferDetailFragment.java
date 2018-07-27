@@ -62,7 +62,7 @@ public class OfferDetailFragment extends BaseFragment {
 
     @Override
     public int getLayout() {
-        return R.layout.article_detail_fragment;
+        return R.layout.offer_detail_fragment;
     }
 
     @Override

@@ -41,6 +41,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/article_detail_content" />
+    <include layout="@layout/offer_detail_content" />
 
 </android.support.design.widget.CoordinatorLayout>

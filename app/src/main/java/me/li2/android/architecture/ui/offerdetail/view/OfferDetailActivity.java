@@ -51,7 +51,7 @@ public class OfferDetailActivity extends DaggerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.article_detail_activity);
+        setContentView(R.layout.offer_detail_activity);
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);

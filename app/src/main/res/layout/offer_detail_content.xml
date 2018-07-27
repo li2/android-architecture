@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="me.li2.android.architecture.ui.offerdetail.view.OfferDetailActivity"
-    tools:showIn="@layout/article_detail_activity">
+    tools:showIn="@layout/offer_detail_activity">
 
     <TextView
         android:id="@+id/article_description_view"
