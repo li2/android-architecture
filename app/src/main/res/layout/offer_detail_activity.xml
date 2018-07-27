@@ -28,7 +28,7 @@
                 android:layout_height="@dimen/app_bar_height"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher"
-                android:transitionName="@string/transition_article_image"
+                android:transitionName="@string/transition_offer_image"
                 app:layout_collapseMode="parallax"/>
 
             <android.support.v7.widget.Toolbar

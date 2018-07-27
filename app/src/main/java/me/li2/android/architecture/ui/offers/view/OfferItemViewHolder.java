@@ -22,13 +22,10 @@ import me.li2.android.architecture.utils.ViewUtils;
  */
 public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    @BindView(R.id.article_title_view)
+    @BindView(R.id.offer_item_name_view)
     TextView mTitleView;
 
-    @BindView(R.id.article_description_view)
-    TextView mDescriptionView;
-
-    @BindView(R.id.article_image_view)
+    @BindView(R.id.offer_item_image_view)
     ImageView mImageView;
 
     private Consumer<View> mOnItemClickAction;
@@ -48,7 +45,6 @@ public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View
     public void bindArticle(OfferItem offerItem) {
         Article article = offerItem.getArticle();
         mTitleView.setText(article.getTitle());
-        mDescriptionView.setText(article.getDescription());
         mImageView.setVisibility(View.GONE);
         mImageLoader.loadImage(mImageView, article.getImageHref(), null, succeed -> {
             mImageView.setVisibility(succeed ? View.VISIBLE : View.GONE);

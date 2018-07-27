@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    card_view:cardCornerRadius="@dimen/arch_card_corner_radius"
+    xmlns:tools="http://schemas.android.com/tools"
     android:foreground="?android:selectableItemBackground"
     card_view:cardBackgroundColor="@android:color/white">
 
@@ -12,61 +14,100 @@
         android:id="@+id/linearLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="8dp"
-        android:minHeight="@dimen/list_minimum_height"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/list_minimum_height">
+
+        <ImageView
+            android:id="@+id/offer_item_image_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:minHeight="@dimen/photo_height"
+            android:scaleType="centerCrop"
+            android:transitionName="@string/transition_offer_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher"/>
 
         <TextView
-            android:id="@+id/article_title_view"
+            android:id="@+id/offer_item_name_view"
             style="@style/ArticleTitleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintRight_toLeftOf="@+id/article_detail_button"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_marginEnd="@dimen/arch_default_margin"
+            android:layout_marginStart="@dimen/arch_default_margin"
+            android:layout_marginTop="@dimen/arch_small_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offer_item_image_view"
+            tools:text="name"/>
 
         <TextView
-            android:id="@+id/article_description_view"
-            style="@style/ArticleDescriptionText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/article_image_view"
-            app:layout_constraintLeft_toLeftOf="@+id/article_title_view"
-            app:layout_constraintTop_toBottomOf="@+id/article_title_view"/>
-
-        <ImageView
-            android:id="@+id/article_image_view"
-            android:layout_width="@dimen/list_photo_size"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:minHeight="@dimen/list_photo_size"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/app_name"
-            app:layout_constraintRight_toRightOf="@+id/article_title_view"
-            app:layout_constraintTop_toBottomOf="@+id/article_title_view"
-            android:transitionName="@string/transition_article_image"
-            app:srcCompat="@mipmap/ic_launcher"/>
-
-        <Button
-            android:id="@+id/article_detail_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="0dp"
-            android:background="@drawable/ic_navigate_next"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"/>
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
+            android:id="@+id/offer_item_location_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55"/>
+            android:layout_marginStart="@dimen/arch_default_margin"
+            android:layout_marginTop="@dimen/arch_small_margin"
+            android:drawableLeft="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offer_item_name_view"
+            tools:text="location"/>
+
+        <TextView
+            android:id="@+id/offer_item_hotel_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/arch_default_margin"
+            android:layout_marginTop="@dimen/arch_small_margin"
+            android:drawableLeft="@drawable/ic_luggage"
+            android:drawablePadding="@dimen/arch_tiny_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offer_item_location_view"
+            tools:text="hotel"/>
+
+        <TextView
+            android:id="@+id/offer_item_nights_range_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offer_item_hotel_view"
+            tools:text="2 - 3 Nights"/>
+
+        <TextView
+            android:id="@+id/offer_item_ends_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/arch_default_margin"
+            android:layout_marginTop="@dimen/arch_default_margin"
+            android:drawableLeft="@drawable/ic_clock"
+            android:drawablePadding="@dimen/arch_tiny_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offer_item_nights_range_view"
+            tools:text="OFFER ENDS IN 2 DAYS"/>
+
+        <TextView
+            android:id="@+id/offer_item_price_from_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/arch_small_margin"
+            android:layout_marginEnd="@dimen/arch_default_margin"
+            android:layout_marginTop="@dimen/arch_small_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offer_item_price_upto_view"
+            tools:text="$299/room"/>
+
+        <TextView
+            android:id="@+id/offer_item_price_upto_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/arch_default_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/offer_item_ends_view"
+            tools:text="Valued up to $714"/>
 
     </android.support.constraint.ConstraintLayout>
 
