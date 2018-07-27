@@ -14,9 +14,15 @@ import javax.inject.Singleton;
 import arch.ApiResponse;
 import arch.NetworkBoundResource;
 import arch.Resource;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import me.li2.android.architecture.data.model.Article;
+import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.data.source.local.ArticlesDao;
 import me.li2.android.architecture.data.source.remote.ArticlesServiceApi;
+import me.li2.android.architecture.data.source.remote.OffersServiceApi;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.RateLimiter;
 
@@ -38,6 +44,9 @@ public class ArticlesRepository {
     ArticlesServiceApi mArticlesServiceApi;
 
     @Inject
+    OffersServiceApi mOffersServiceApi;
+
+    @Inject
     AppExecutors mExecutors;
 
     @Inject
@@ -55,6 +64,26 @@ public class ArticlesRepository {
      * @return
      */
     public LiveData<Resource<List<Article>>> loadArticles() {
+        Observable<List<String>> offers = loadOffers();
+        offers.subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<List<String>>() {
+                    @Override
+                    public void onNext(List<String> strings) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
         return new NetworkBoundResource<List<Article>, List<Article>>(mExecutors) {
             @NonNull
             @Override
@@ -90,5 +119,18 @@ public class ArticlesRepository {
 
     public LiveData<Article> loadArticle(int id) {
         return mArticlesDao.getArticle(id);
+    }
+
+    public Observable<List<String>> loadOffers() {
+        return mOffersServiceApi.getOffers()
+                .flatMap(list -> Observable.fromIterable(list)
+                        .map(offer -> print(offer))
+                        .toList()
+                        .toObservable());
+    }
+
+    private String print(Offer offer) {
+        Log.d(LOG_TAG, "Offer " + offer.name);
+        return offer.name;
     }
 }

@@ -47,10 +47,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.2.0'
+    implementation 'com.squareup.retrofit2:retrofit:' + rootProject.retrofit_version
 
     // Retrofit GSON converter
-    implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
     // GSON
     implementation 'com.google.code.gson:gson:2.8.2'

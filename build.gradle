@@ -21,6 +21,7 @@ ext {
     constraint_layout_version = "1.0.2"
     junit_version = "4.12"
     support_test_version = "1.0.0"
+    retrofit_version = "2.4.0"
 }
 
 allprojects {

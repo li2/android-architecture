@@ -10,13 +10,15 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import arch.LiveDataCallAdapterFactory;
+import arch.NetworkConnectivityInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.model.Article;
-import arch.NetworkConnectivityInterceptor;
+import me.li2.android.architecture.data.model.Offer;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -37,14 +39,20 @@ public class WebServiceGenerator {
     @Provides
     @Singleton
     Gson provideGson(ArticlesDeserializer articlesDeserializer,
-                     ArticleDeserializer articleDeserializer) {
+                     ArticleDeserializer articleDeserializer,
+                     OfferDeserializer offerDeserializer,
+                     OfferArrayDeserializer offerArrayDeserializer) {
+
         //registerTypeAdapter with list https://stackoverflow.com/a/7668766/2722270
         Type type = new TypeToken<List<Article>>() {}.getType();
+        Type offerArrayType = new TypeToken<List<Offer>>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()
                 .registerTypeAdapter(type, articlesDeserializer)
                 .registerTypeAdapter(Article.class, articleDeserializer)
+                .registerTypeAdapter(Offer.class, offerDeserializer)
+                .registerTypeAdapter(offerArrayType, offerArrayDeserializer)
                 .create();
     }
 
@@ -70,6 +78,7 @@ public class WebServiceGenerator {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // An Adapter for adapting RxJava 2.x types
                 .addCallAdapterFactory(liveDataCallAdapterFactory) // notebyweiyi Unable to create call adapter for android.arch.lifecycle.LiveData
                 .client(httpClient.build());
     }
@@ -84,5 +93,11 @@ public class WebServiceGenerator {
     @Singleton
     ArticlesServiceApi provideDemoWebService(Retrofit retrofit) {
         return retrofit.create(ArticlesServiceApi.class);
+    }
+
+    @Provides
+    @Singleton
+    OffersServiceApi provideOffersServiceApi(Retrofit retrofit) {
+        return retrofit.create(OffersServiceApi.class);
     }
 }
