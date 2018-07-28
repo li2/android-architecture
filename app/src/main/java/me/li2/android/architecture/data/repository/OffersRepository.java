@@ -29,7 +29,7 @@ import me.li2.android.architecture.utils.RateLimiter;
 
 @Singleton
 public class OffersRepository {
-    private static final String LOG_TAG = OffersRepository.class.getSimpleName();
+    private static final String TAG = OffersRepository.class.getSimpleName();
 
     @Inject
     OffersDao mOffersDao;
@@ -54,7 +54,12 @@ public class OffersRepository {
         return mOffersDao.getOffer(id);
     }
 
-    public LiveData<Resource<List<Offer>>> loadOffers() {
+    /**
+     * Load offers from disk or network
+     * @param forceUpdate True to trigger a force refresh
+     * @return
+     */
+    public LiveData<Resource<List<Offer>>> loadOffers(boolean forceUpdate) {
         return new NetworkBoundResource<List<Offer>, List<Offer>>(mExecutors) {
             @NonNull
             @Override
@@ -64,7 +69,7 @@ public class OffersRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable List<Offer> data) {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(LOG_TAG);
+                return forceUpdate || data == null || data.isEmpty() || repoListRateLimit.shouldFetch(TAG);
             }
 
             @NonNull
@@ -76,7 +81,12 @@ public class OffersRepository {
             @Override
             protected void saveCallResult(@NonNull List<Offer> offers) {
                 mOffersDao.bulkInsert(offers.toArray(new Offer[offers.size()]));
-                Log.d(LOG_TAG, "new values inserted");
+                Log.d(TAG, "new values inserted");
+            }
+
+            @Override
+            protected void onFetchFailed() {
+                repoListRateLimit.reset(TAG);
             }
         }.asLiveData();
     }

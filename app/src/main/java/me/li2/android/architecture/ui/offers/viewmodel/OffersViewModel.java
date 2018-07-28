@@ -13,7 +13,6 @@ import java.util.List;
 import arch.NoNetworkException;
 import arch.Resource;
 import arch.Status;
-import io.reactivex.Completable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
@@ -30,10 +29,10 @@ import me.li2.android.architecture.utils.ResourceProvider;
  *     construct the source data to view data which contains all UI state.
  *
  * - Expose streams for view to subscribe the UI state,
- *     such as {@link OffersViewModel#getUiModel()}, {@link OffersViewModel#getLoadingIndicatorVisibility()}
+ *     such as {@link OffersViewModel#getUiModel(boolean)}, {@link OffersViewModel#getLoadingIndicatorVisibility()}
  *
  * - Expose public methods for view to handle user actions,
- *     such as force pull-refresh {@link OffersViewModel#forceUpdateOffers()}
+ *     such as {@link OffersViewModel#filter(OffersFilterType)}, {@link OffersViewModel#setRegion(RegionType)}
  *
  * - For user action in the sub-view, such as click or check in the list view item,
  *      implement {@link Action} or {@link Consumer} in the ViewModel
@@ -99,14 +98,14 @@ public class OffersViewModel extends ViewModel {
      * @return the model for the offers list screen.
      */
     @NonNull
-    public LiveData<OffersUiModel> getUiModel() {
+    public LiveData<OffersUiModel> getUiModel(boolean forceUpdate) {
         /* notebyweiyi: switchMap means that the getOfferItems(filterType) method is called when mFilter changes.
          This mechanism allows lower levels of the app to create LiveData objects that are lazily calculated on demand.
          https://developer.android.com/topic/libraries/architecture/livedata */
         LiveData<Resource<List<OfferItem>>> filteredOfferItems  =
                 Transformations.switchMap(mFilter, filterType ->
                         Transformations.switchMap(mRegion, regionType ->
-                                getOfferItems(filterType, regionType)));
+                                getOfferItems(forceUpdate, filterType, regionType)));
 
         return Transformations.map(filteredOfferItems, resource -> {
                     mLoadingIndicator.setValue(resource.status == Status.LOADING);
@@ -148,9 +147,14 @@ public class OffersViewModel extends ViewModel {
      * Convert {@link Resource<List<>>} of {@link Offer} (data model) to {@link OfferItem} (view data model)
      * @return
      */
-    private LiveData<Resource<List<OfferItem>>> getOfferItems(OffersFilterType filterType, RegionType regionType) {
-        return Transformations.map(mRepository.loadOffers(), resource ->
-                new Resource<>(resource.status, constructOfferItemList(resource.data, filterType, regionType), resource.errorMessage, resource.code, resource.throwable));
+    private LiveData<Resource<List<OfferItem>>> getOfferItems(boolean forceUpdate, OffersFilterType filterType, RegionType regionType) {
+        return Transformations.map(mRepository.loadOffers(forceUpdate), resource ->
+                new Resource<>(
+                        resource.status,
+                        constructOfferItemList(resource.data, filterType, regionType),
+                        resource.errorMessage,
+                        resource.code,
+                        resource.throwable));
     }
 
     private OffersUiModel constructOffersUiModel(List<OfferItem> offerItems) {
@@ -208,14 +212,5 @@ public class OffersViewModel extends ViewModel {
 
     private void handleOfferTaped(Offer offer, View sharedElement) {
         mNavigator.openOfferDetails(offer.idSalesforceExternal, sharedElement);
-    }
-
-    /**
-     * Trigger a force update of the offers.
-     */
-    public Completable forceUpdateOffers() {
-        mLoadingIndicator.setValue(true);
-        // TODO
-        return null;
     }
 }

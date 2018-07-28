@@ -90,11 +90,15 @@ public class OffersFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-        mViewModel.getUiModel().observe(this, uiModel -> updateView(uiModel));
+        getUiModel(false);
 
         mViewModel.getLoadingIndicatorVisibility().observe(this, visible -> setLoadingIndicatorVisibility(visible));
 
         mViewModel.getSnackbarMessage().observe(this, message -> showSnackBar(message));
+    }
+
+    private void getUiModel(boolean forceUpdate) {
+        mViewModel.getUiModel(forceUpdate).observe(this, uiModel -> updateView(uiModel));
     }
 
     private void updateView(OffersUiModel uiModel) {
@@ -130,7 +134,7 @@ public class OffersFragment extends BaseFragment {
     }
 
     private void setupSwipeRefreshLayout() {
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mViewModel.forceUpdateOffers());
+        mSwipeRefreshLayout.setOnRefreshListener(() -> getUiModel(true));
     }
 
     private void setLoadingIndicatorVisibility(boolean active) {
