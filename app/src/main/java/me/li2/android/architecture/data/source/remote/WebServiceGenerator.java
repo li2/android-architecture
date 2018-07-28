@@ -55,7 +55,6 @@ public class WebServiceGenerator {
                 .setLenient()
                 .registerTypeAdapter(type, articlesDeserializer)
                 .registerTypeAdapter(Article.class, articleDeserializer)
-                .registerTypeAdapter(Offer.class, offerDeserializer)
                 .registerTypeAdapter(offerArrayType, offerArrayDeserializer)
                 .create();
     }

@@ -60,6 +60,9 @@ public class Offer {
     @SerializedName("endDate")
     public String endDate;
 
+    @SerializedName("lowestPricePackage")
+    public PricePackage lowestPricePackage;
+
     @SerializedName("images")
     public List<BannerImage> images;
 
@@ -74,45 +77,6 @@ public class Offer {
 
     @SerializedName("minNumNights")
     public int minNumNights;
-
-    public Offer(String idSalesforceExternal,
-                 String bookingType,
-                 String type,
-                 String name,
-                 String location,
-                 String description,
-                 String highlights,
-                 String facilities,
-                 String finePrint,
-                 String gettingThere,
-                 String bookingGuarantee,
-                 String runDate,
-                 String endDate,
-                 List<BannerImage> images,
-                 String locationHeading,
-                 String locationSubheading,
-                 int maxNumNights,
-                 int minNumNights
-    ) {
-        this.idSalesforceExternal = idSalesforceExternal;
-        this.bookingType = bookingType;
-        this.type = type;
-        this.name = name;
-        this.location = location;
-        this.description = description;
-        this.highlights = highlights;
-        this.facilities = facilities;
-        this.finePrint = finePrint;
-        this.gettingThere = gettingThere;
-        this.bookingGuarantee = bookingGuarantee;
-        this.runDate = runDate;
-        this.endDate = endDate;
-        this.images = images;
-        this.locationHeading = locationHeading;
-        this.locationSubheading = locationSubheading;
-        this.maxNumNights = maxNumNights;
-        this.minNumNights = minNumNights;
-    }
 
     public boolean isHotel() {
         return type != null ? type.equals("hotel") : false;

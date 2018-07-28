@@ -33,6 +33,10 @@ public class OfferArrayDeserializer implements JsonDeserializer<List<Offer>> {
         Type type = new TypeToken<ArrayList<Offer>>() {}.getType();
         List<Offer> offerList = context.deserialize(jsonObject.get("offers"), type);
 
+        /** notebyweiyi: no need to define {@link OfferDeserializer} because Gson will do it automatically,
+         define it when we need to customize the parse process, for example, to convert string to Date,
+         to save the non-primary data type in the SQL Database we need to define these {@link android.arch.persistence.room.TypeConverter} */
+
         // remove all null elements
         //offerList.removeAll(Collections.singleton(null));
 

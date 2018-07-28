@@ -8,7 +8,10 @@ import javax.inject.Singleton;
 
 import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.model.Offer;
+import me.li2.android.architecture.data.source.local.converter.BannerImageConverter;
 import me.li2.android.architecture.data.source.local.converter.BannerImageListConverter;
+import me.li2.android.architecture.data.source.local.converter.PriceConverter;
+import me.li2.android.architecture.data.source.local.converter.PricePackageConverter;
 
 /**
  * Create a singleton Database
@@ -18,8 +21,19 @@ import me.li2.android.architecture.data.source.local.converter.BannerImageListCo
  */
 
 @Singleton
-@Database(entities = {Article.class, Offer.class}, version = 1)
-@TypeConverters({BannerImageListConverter.class})
+
+@Database(entities = {
+        Article.class,
+        Offer.class
+}, version = 1)
+
+// notebyweiyi: TypeConverter is used to figure out how to save non-primary data type into database
+@TypeConverters({
+        BannerImageConverter.class,
+        BannerImageListConverter.class,
+        PricePackageConverter.class,
+        PriceConverter.class
+})
 
 public abstract class AppDatabase extends RoomDatabase {
 
