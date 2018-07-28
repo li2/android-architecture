@@ -19,7 +19,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
+import com.google.common.base.Strings;
+
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.Locale;
+
 import javax.inject.Inject;
+
+import me.li2.android.architecture.R;
 
 /**
  * Concrete implementation of the {@link BaseResourceProvider} interface.
@@ -49,5 +57,35 @@ public class ResourceProvider implements BaseResourceProvider {
     @Override
     public float getDimension(int id) {
         return mContext.getResources().getDimension(id);
+    }
+
+
+    public String integerToStringWithCommas(long number) {
+        return NumberFormat.getNumberInstance(Locale.getDefault()).format(number);
+    }
+
+    public String minPackagePrice(String currencyCode, int min, boolean isHotel) {
+        return String.format(
+                Locale.getDefault(), getString(R.string.min_price_format),
+                Currency.getInstance(currencyCode).getSymbol(),
+                integerToStringWithCommas(min),
+                getString(isHotel ? R.string.price_unit_room : R.string.price_unit_pers));
+    }
+
+    public String maxPackagePrice(String currencyCode, int max) {
+        return String.format(
+                getString(R.string.max_price_format),
+                Currency.getInstance(currencyCode).getSymbol(),
+                integerToStringWithCommas(max));
+    }
+
+    public String offerLocation(String locationHeading, String locationSubheading) {
+        return !Strings.isNullOrEmpty(locationSubheading)
+                ? String.format(getString(R.string.offer_location_format), locationHeading, locationSubheading)
+                : locationHeading;
+    }
+
+    public String nightsRange(int from, int to) {
+        return String.format(getString(R.string.nights_range_format, from, to));
     }
 }

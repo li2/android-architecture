@@ -27,15 +27,15 @@ public class OfferItem {
 
     public String offerEnds;
 
-    public String priceFrom;
+    public String minPrice;
 
-    public String priceUpto;
+    public String maxPrice;
 
     // shared element transition between RecyclerView and Fragment
     // list item click listen, accept the shared element view as para to perform transition later
     public Consumer<View> onClickAction;
 
-    public OfferItem(String idSalesforceExternal, String photoCloudinaryId, String name, String location, boolean isHotelVisible, String hotelLocation, String hotelNightsRange, String offerEnds, String priceFrom, String priceUpto, Consumer<View> onClickAction) {
+    public OfferItem(String idSalesforceExternal, String photoCloudinaryId, String name, String location, boolean isHotelVisible, String hotelLocation, String hotelNightsRange, String offerEnds, String minPrice, String maxPrice, Consumer<View> onClickAction) {
         this.idSalesforceExternal = idSalesforceExternal;
         this.photoCloudinaryId = photoCloudinaryId;
         this.name = name;
@@ -44,8 +44,8 @@ public class OfferItem {
         this.hotelLocation = hotelLocation;
         this.hotelNightsRange = hotelNightsRange;
         this.offerEnds = offerEnds;
-        this.priceFrom = priceFrom;
-        this.priceUpto = priceUpto;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
         this.onClickAction = onClickAction;
     }
 }

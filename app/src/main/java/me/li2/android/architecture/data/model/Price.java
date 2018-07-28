@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Price {
     /**
-     * currency_code : ZAR
+     * currency_code : AUD
      * price : 2982
      * value : 7119
      */
@@ -17,8 +17,14 @@ public class Price {
     public String currencyCode;
 
     @SerializedName("price")
-    public int price;
+    public int min;
 
     @SerializedName("value")
-    public int value;
+    public int max;
+
+    public Price(String currencyCode, int min, int max) {
+        this.currencyCode = currencyCode;
+        this.min = min;
+        this.max = max;
+    }
 }

@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by weiyi on 27/7/18.
  * https://github.com/li2
@@ -85,5 +87,20 @@ public class Offer {
 
     public boolean isTour() {
         return type != null ? type.equals("tour") : false;
+    }
+
+    /**
+     * Get price of lowest package.
+     * @param currencyCode an ISO 4217 3-letter code
+     * @return Price which match the currency code
+     */
+    @Nullable
+    public Price getLowestPrice(String currencyCode) {
+        for (Price price : lowestPricePackage.prices) {
+            if (currencyCode.equals(price.currencyCode)) {
+                return price;
+            }
+        }
+        return new Price(currencyCode, -1, -1);
     }
 }

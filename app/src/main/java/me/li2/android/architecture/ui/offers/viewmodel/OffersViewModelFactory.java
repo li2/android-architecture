@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import me.li2.android.architecture.data.repository.OffersRepository;
 import me.li2.android.architecture.ui.offers.view.OffersNavigator;
-import me.li2.android.architecture.utils.BaseResourceProvider;
+import me.li2.android.architecture.utils.ResourceProvider;
 
 /**
  * Created by weiyi on 24/7/18.
@@ -28,7 +28,7 @@ public class OffersViewModelFactory extends ViewModelProvider.NewInstanceFactory
 
     @NonNull
     @Inject
-    BaseResourceProvider mResourceProvider;
+    ResourceProvider mResourceProvider;
 
     @Inject
     public OffersViewModelFactory() {

@@ -34,6 +34,7 @@ import me.li2.android.architecture.ui.offers.viewmodel.OfferItem;
 import me.li2.android.architecture.ui.offers.viewmodel.OffersFilterType;
 import me.li2.android.architecture.ui.offers.viewmodel.OffersUiModel;
 import me.li2.android.architecture.ui.offers.viewmodel.OffersViewModel;
+import me.li2.android.architecture.ui.offers.viewmodel.RegionType;
 import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
 
 public class OffersFragment extends BaseFragment {
@@ -186,10 +187,10 @@ public class OffersFragment extends BaseFragment {
             mRegionMenuItem.setIcon(item.getIcon());
             switch (item.getItemId()) {
                 case R.id.region_menu_cn:
+                    mViewModel.setRegion(RegionType.CNY);
                     break;
-
                 case R.id.region_menu_au:
-                default:
+                    mViewModel.setRegion(RegionType.AUD);
                     break;
             }
             return true;

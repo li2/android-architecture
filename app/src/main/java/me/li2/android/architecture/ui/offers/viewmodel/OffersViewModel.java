@@ -7,8 +7,6 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.google.common.base.Strings;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +18,10 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Offer;
+import me.li2.android.architecture.data.model.Price;
 import me.li2.android.architecture.data.repository.OffersRepository;
 import me.li2.android.architecture.ui.offers.view.OffersNavigator;
-import me.li2.android.architecture.utils.BaseResourceProvider;
+import me.li2.android.architecture.utils.ResourceProvider;
 
 /**
  * ViewModel to expose states for the list of offers view, and handle all user actions.
@@ -48,22 +47,21 @@ public class OffersViewModel extends ViewModel {
     private static final String TAG = OffersViewModel.class.getSimpleName();
 
     private static final OffersFilterType DEFAULT_OFFERS_FILTER_TYPE = OffersFilterType.ALL_OFFER;
+    private static final RegionType DEFAULT_REGION_TYPE = RegionType.AUD;
 
-    private static final String LOCATION_FORMAT = "%s, %s";
-    private static final String NIGHTS_RANGE_FORMAT = "%d - %d Nights";
     private static final String OFFER_ENDS_IN_FORMAT = "OFFER ENDS IN %d DAYS";
     // TODO list item should not contains so many data {Offer}; 从数据库中选取部分字段填充 ListOffer
-    // TODO $299/room $3499/pers 涉及货币单位、offer类型，最好在ViewModel中打包好传给 view
-    private static final String HOTEL_PRICE_FROM_FORMAT = "";
 
     @NonNull
     private OffersRepository mRepository;
 
     @NonNull
-    private BaseResourceProvider mResourceProvider;
+    private ResourceProvider mResourceProvider;
 
     @NonNull
     private OffersNavigator mNavigator;
+
+    private MutableLiveData<RegionType> mRegion = new MutableLiveData<>();
 
     private MutableLiveData<OffersFilterType> mFilter = new MutableLiveData<>();
 
@@ -72,13 +70,14 @@ public class OffersViewModel extends ViewModel {
     private MutableLiveData<String> mSnackbarText = new MutableLiveData<>();
 
     public OffersViewModel(@NonNull OffersRepository repository,
-                           @NonNull BaseResourceProvider resourceProvider,
+                           @NonNull ResourceProvider resourceProvider,
                            @NonNull OffersNavigator navigator
                              ) {
         mRepository = repository;
         mResourceProvider = resourceProvider;
         mNavigator = navigator;
         mFilter.setValue(DEFAULT_OFFERS_FILTER_TYPE);
+        mRegion.setValue(DEFAULT_REGION_TYPE);
     }
 
     /**
@@ -86,6 +85,14 @@ public class OffersViewModel extends ViewModel {
      */
     public void filter(OffersFilterType filter) {
         mFilter.setValue(filter);
+    }
+
+    /**
+     * Sets the current region
+     * @param region
+     */
+    public void setRegion(RegionType region) {
+        mRegion.setValue(region);
     }
 
     /**
@@ -97,7 +104,9 @@ public class OffersViewModel extends ViewModel {
          This mechanism allows lower levels of the app to create LiveData objects that are lazily calculated on demand.
          https://developer.android.com/topic/libraries/architecture/livedata */
         LiveData<Resource<List<OfferItem>>> filteredOfferItems  =
-                Transformations.switchMap(mFilter, filterType -> getOfferItems(filterType));
+                Transformations.switchMap(mFilter, filterType ->
+                        Transformations.switchMap(mRegion, regionType ->
+                                getOfferItems(filterType, regionType)));
 
         return Transformations.map(filteredOfferItems, resource -> {
                     mLoadingIndicator.setValue(resource.status == Status.LOADING);
@@ -139,9 +148,9 @@ public class OffersViewModel extends ViewModel {
      * Convert {@link Resource<List<>>} of {@link Offer} (data model) to {@link OfferItem} (view data model)
      * @return
      */
-    private LiveData<Resource<List<OfferItem>>> getOfferItems(OffersFilterType filterType) {
+    private LiveData<Resource<List<OfferItem>>> getOfferItems(OffersFilterType filterType, RegionType regionType) {
         return Transformations.map(mRepository.loadOffers(), resource ->
-                new Resource<>(resource.status, constructOfferItemList(resource.data, filterType), resource.errorMessage, resource.code, resource.throwable));
+                new Resource<>(resource.status, constructOfferItemList(resource.data, filterType, regionType), resource.errorMessage, resource.code, resource.throwable));
     }
 
     private OffersUiModel constructOffersUiModel(List<OfferItem> offerItems) {
@@ -151,7 +160,7 @@ public class OffersViewModel extends ViewModel {
                 isNoOffersViewVisible, mResourceProvider.getString(R.string.no_offers_all));
     }
 
-    private List<OfferItem> constructOfferItemList(List<Offer> offers, OffersFilterType filterType) {
+    private List<OfferItem> constructOfferItemList(List<Offer> offers, OffersFilterType filterType, RegionType regionType) {
         if (offers == null) {
             return null; // notebyweiyi: init as null coz the resource.data might be null
         }
@@ -160,34 +169,39 @@ public class OffersViewModel extends ViewModel {
             switch (filterType) {
                 case HOTEL_OFFER:
                     if(offer.isHotel()) {
-                        result.add(constructOfferItem(offer));
+                        result.add(constructOfferItem(offer, regionType));
                     }
                     break;
                 case TOUR_OFFER:
                     if (offer.isTour()) {
-                        result.add(constructOfferItem(offer));
+                        result.add(constructOfferItem(offer, regionType));
                     }
                     break;
                 default:
-                    result.add(constructOfferItem(offer));
+                    result.add(constructOfferItem(offer, regionType));
                     break;
             }
         }
         return result;
     }
 
-    private OfferItem constructOfferItem(final Offer offer) {
+    // notebyweiyi: $299/room $3499/pers 涉及货币单位、offer类型，最好在ViewModel中打包好传给View
+
+    private OfferItem constructOfferItem(final Offer offer, final RegionType regionType) {
+        String currencyCode = regionType.name();
+        Price lowestPrice = offer.getLowestPrice(currencyCode);
+
         return new OfferItem(
                 offer.idSalesforceExternal,
                 offer.images != null && offer.images.size() > 0 ? offer.images.get(0).cloudinaryId : null,
                 offer.name,
-                !Strings.isNullOrEmpty(offer.locationSubheading) ? String.format(LOCATION_FORMAT, offer.locationHeading, offer.locationSubheading) : offer.locationHeading,
+                mResourceProvider.offerLocation(offer.locationHeading, offer.locationSubheading),
                 offer.isHotel(),
-                offer.location,
-                String.format(NIGHTS_RANGE_FORMAT, offer.minNumNights, offer.maxNumNights),
+                offer.location, // hotel location
+                mResourceProvider.nightsRange(offer.minNumNights, offer.maxNumNights),
                 OFFER_ENDS_IN_FORMAT,
-                "0",
-                "0",
+                mResourceProvider.minPackagePrice(currencyCode, lowestPrice.min, offer.isHotel()),
+                mResourceProvider.maxPackagePrice(currencyCode, lowestPrice.max),
                 view -> handleOfferTaped(offer, view)
                 );
     }

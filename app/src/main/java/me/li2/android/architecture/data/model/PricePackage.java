@@ -45,10 +45,10 @@ public class PricePackage {
     public String description;
 
     @SerializedName("price")
-    public int price;
+    public int minPrice;
 
     @SerializedName("value")
-    public int value;
+    public int maxPrice;
 
     @SerializedName("trackingPrice")
     public int trackingPrice;

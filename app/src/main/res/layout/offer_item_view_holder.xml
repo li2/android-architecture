@@ -15,8 +15,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="@dimen/list_minimum_height">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/offer_item_image_view"
@@ -38,6 +37,7 @@
             android:layout_marginEnd="@dimen/arch_default_margin"
             android:layout_marginStart="@dimen/arch_default_margin"
             android:layout_marginTop="@dimen/arch_small_margin"
+            android:textSize="@dimen/arch_title_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/offer_item_image_view"
@@ -90,23 +90,31 @@
 
         <TextView
             android:id="@+id/offer_item_price_from_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/arch_small_margin"
             android:layout_marginEnd="@dimen/arch_default_margin"
-            android:layout_marginTop="@dimen/arch_small_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/arch_small_margin"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/eastern_blue"
+            android:textSize="@dimen/arch_title_font"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/offer_item_price_upto_view"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/offer_item_price_upto_view"
+            app:layout_constraintStart_toEndOf="@+id/offer_item_ends_view"
+            app:layout_constraintTop_toTopOf="@+id/offer_item_ends_view"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="$299/room"/>
 
+        <!-- notebyweiyi: chain to fix layout issue that this view top margin is not correct -->
         <TextView
             android:id="@+id/offer_item_price_upto_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="@dimen/arch_default_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/offer_item_ends_view"
+            app:layout_constraintTop_toBottomOf="@+id/offer_item_price_from_view"
             tools:text="Valued up to $714"/>
 
     </android.support.constraint.ConstraintLayout>

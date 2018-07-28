@@ -38,10 +38,10 @@ public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View
     TextView mOfferEndView;
 
     @BindView(R.id.offer_item_price_from_view)
-    TextView mPriceMinView;
+    TextView mMinPriceView;
 
     @BindView(R.id.offer_item_price_upto_view)
-    TextView mPriceMaxView;
+    TextView mMaxPriceView;
 
     @BindView(R.id.offer_item_image_view)
     ImageView mImageView;
@@ -76,6 +76,10 @@ public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View
         }
 
         mOfferEndView.setText(item.offerEnds);
+
+        mMinPriceView.setText(item.minPrice);
+
+        mMaxPriceView.setText(item.maxPrice);
 
         mImageLoader.loadImage(mImageView, Config.photoUrl(item.photoCloudinaryId), null);
         // shared element transition between RecyclerView and Fragment. notebyweiyi

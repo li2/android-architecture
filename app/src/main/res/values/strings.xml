@@ -14,4 +14,19 @@
     <string name="filter_hotel">Hotel &amp; Resorts</string>
     <string name="filter_tours">Tours</string>
 
+    <string name="price_unit_room">room</string>
+    <string name="price_unit_pers">pers</string>
+
+    <!--currency symbol, price, unit-->
+    <string name="min_price_format">%1$s%2$s/%3$s</string>
+
+    <!--currency symbol, price-->
+    <string name="max_price_format">Valued up to %1$s%2$s</string>
+
+    <!--heading, subheading-->
+    <string name="offer_location_format">%1$s, %2$s</string>
+
+    <!--from, to-->
+    <string name="nights_range_format">%1$d - %2$d Nights</string>
+
 </resources>

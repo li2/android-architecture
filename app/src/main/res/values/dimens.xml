@@ -8,9 +8,9 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="arch_title_font">32sp</dimen>
-    <dimen name="arch_subtitle_font">24sp</dimen>
-    <dimen name="arch_body_font">16sp</dimen>
+    <dimen name="arch_title_font">22sp</dimen>
+    <dimen name="arch_subtitle_font">16sp</dimen>
+    <dimen name="arch_body_font">12sp</dimen>
 
     <dimen name="arch_tiny_margin">4dp</dimen>
     <dimen name="arch_small_margin">8dp</dimen>
