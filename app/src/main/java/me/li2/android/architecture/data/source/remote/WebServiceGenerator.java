@@ -13,12 +13,8 @@ import arch.LiveDataCallAdapterFactory;
 import arch.NetworkConnectivityInterceptor;
 import dagger.Module;
 import dagger.Provides;
-import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.model.Offer;
-import me.li2.android.architecture.data.source.remote.deserializer.ArticleDeserializer;
-import me.li2.android.architecture.data.source.remote.deserializer.ArticlesDeserializer;
 import me.li2.android.architecture.data.source.remote.deserializer.OfferArrayDeserializer;
-import me.li2.android.architecture.data.source.remote.deserializer.OfferDeserializer;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -42,19 +38,12 @@ public class WebServiceGenerator {
 
     @Provides
     @Singleton
-    Gson provideGson(ArticlesDeserializer articlesDeserializer,
-                     ArticleDeserializer articleDeserializer,
-                     OfferDeserializer offerDeserializer,
-                     OfferArrayDeserializer offerArrayDeserializer) {
-
+    Gson provideGson(OfferArrayDeserializer offerArrayDeserializer) {
         //registerTypeAdapter with list https://stackoverflow.com/a/7668766/2722270
-        Type type = new TypeToken<List<Article>>() {}.getType();
         Type offerArrayType = new TypeToken<List<Offer>>() {}.getType();
 
         return new GsonBuilder()
                 .setLenient()
-                .registerTypeAdapter(type, articlesDeserializer)
-                .registerTypeAdapter(Article.class, articleDeserializer)
                 .registerTypeAdapter(offerArrayType, offerArrayDeserializer)
                 .create();
     }
@@ -90,12 +79,6 @@ public class WebServiceGenerator {
     @Singleton
     Retrofit provideRetrofit(Retrofit.Builder builder) {
         return builder.build();
-    }
-
-    @Provides
-    @Singleton
-    ArticlesServiceApi provideDemoWebService(Retrofit retrofit) {
-        return retrofit.create(ArticlesServiceApi.class);
     }
 
     @Provides

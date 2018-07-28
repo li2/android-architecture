@@ -13,6 +13,7 @@ import java.util.List;
  * Created by weiyi on 27/7/18.
  * https://github.com/li2
  *
+ * https://li2.gitbooks.io/android-programming-journey/content/assets/demo-le-offers.json
  * https://jsonformatter.org/
  * view-source:https://luxuryescapes.com/au/offer/rendezvous-hotel-christchurch-new-zealand/0060I00000UJ3cyQAD
  */

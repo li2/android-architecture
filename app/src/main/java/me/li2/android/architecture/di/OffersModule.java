@@ -18,15 +18,15 @@ import me.li2.android.architecture.utils.Navigator;
  */
 
 @Module
-public class ArticlesModule {
+public class OffersModule {
     @Provides
-    OffersViewModel provideArticlesViewModel(OffersFragment fragment, OffersViewModelFactory factory) {
+    OffersViewModel provideOffersViewModel(OffersFragment fragment, OffersViewModelFactory factory) {
         return ViewModelProviders.of(fragment, factory).get(OffersViewModel.class);
     }
 
     // Fix BaseNavigator cannot be provided without an @Provides-annotated method.
     @Provides
-    @ArticlesScope
+    @OffersScope
     BaseNavigator provideNavigator(OffersFragment fragment) {
         return new Navigator((AppCompatActivity) fragment.getActivity());
     }

@@ -12,7 +12,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.source.local.AppDatabase;
-import me.li2.android.architecture.data.source.local.ArticlesDao;
 import me.li2.android.architecture.data.source.local.OffersDao;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.BaseImageLoader;
@@ -63,12 +62,6 @@ public class AppModule {
     AppDatabase provideAppDatabase(Context context) {
         return Room.databaseBuilder(context.getApplicationContext(),
                 AppDatabase.class, AppDatabase.DATABASE_NAME).build();
-    }
-
-    @Provides
-    @Singleton
-    ArticlesDao provideArticlesDao(AppDatabase database) {
-        return database.articlesDao();
     }
 
     @Provides

@@ -83,7 +83,7 @@ public class OfferDetailFragment extends BaseFragment {
     private void bindOffer(Offer offer) {
         mTitleView.setText(offer.name);
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, getOfferId());
+        ViewUtils.setOfferTransitionName(mImageView.getContext(), mImageView, getOfferId());
         // TODO need check null
         mImageLoader.loadImage(mImageView, offer.images.get(0).cloudinaryId, null, succeed -> startPostponedEnterTransition());
     }

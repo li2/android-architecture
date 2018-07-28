@@ -14,11 +14,8 @@ import javax.inject.Singleton;
 import arch.ApiResponse;
 import arch.NetworkBoundResource;
 import arch.Resource;
-import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.model.Offer;
-import me.li2.android.architecture.data.source.local.ArticlesDao;
 import me.li2.android.architecture.data.source.local.OffersDao;
-import me.li2.android.architecture.data.source.remote.ArticlesServiceApi;
 import me.li2.android.architecture.data.source.remote.OffersServiceApi;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.RateLimiter;
@@ -35,13 +32,7 @@ public class OffersRepository {
     private static final String LOG_TAG = OffersRepository.class.getSimpleName();
 
     @Inject
-    ArticlesDao mArticlesDao;
-
-    @Inject
     OffersDao mOffersDao;
-
-    @Inject
-    ArticlesServiceApi mArticlesServiceApi;
 
     @Inject
     OffersServiceApi mOffersServiceApi;
@@ -57,44 +48,6 @@ public class OffersRepository {
 
     @Inject
     public OffersRepository(){
-    }
-
-    /**
-     *
-     * @return
-     */
-    public LiveData<Resource<List<Article>>> loadArticles() {
-        return new NetworkBoundResource<List<Article>, List<Article>>(mExecutors) {
-            @NonNull
-            @Override
-            protected LiveData<List<Article>> loadFromDb() {
-                return mArticlesDao.getArticles();
-            }
-
-            @Override
-            protected boolean shouldFetch(@Nullable List<Article> data) {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(LOG_TAG);
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<List<Article>>> createCall() {
-                return mArticlesServiceApi.getArticles();
-            }
-
-            @Override
-            protected void saveCallResult(@NonNull List<Article> articles) {
-                // Insert new article data into the database
-                mArticlesDao.bulkInsert(articles.toArray(new Article[articles.size()]));
-                Log.d(LOG_TAG, "new values inserted");
-            }
-
-            @Override
-            protected void onFetchFailed() {
-                repoListRateLimit.reset(LOG_TAG);
-                
-            }
-        }.asLiveData();
     }
 
     public LiveData<Offer> loadOffer(String id) {

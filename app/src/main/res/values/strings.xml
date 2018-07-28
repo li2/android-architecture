@@ -7,8 +7,8 @@
     <string name="status_loading">Is loading</string>
     <string name="status_success">Loading succeed</string>
 
-    <string name="loading_articles_error">Error while loading articles</string>
-    <string name="no_articles_all">You have no Articles!</string>
+    <string name="loading_offers_error">Error while loading offers</string>
+    <string name="no_offers_all">You have no Offers!</string>
 
     <string name="filter_all">All</string>
     <string name="filter_hotel">Hotel &amp; Resorts</string>

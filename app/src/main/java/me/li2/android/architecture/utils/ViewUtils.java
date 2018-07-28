@@ -11,8 +11,8 @@ import me.li2.android.architecture.R;
  */
 public class ViewUtils {
 
-    public static void setArticleTransitionName(Context context, View sharedElement, String id) {
-        String transitionName = context.getString(R.string.transition_article_cover_image) + "." + id;
+    public static void setOfferTransitionName(Context context, View sharedElement, String id) {
+        String transitionName = context.getString(R.string.transition_offer_cover_image) + "." + id;
         ViewCompat.setTransitionName(sharedElement, transitionName);
     }
 }

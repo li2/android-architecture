@@ -21,7 +21,7 @@ import me.li2.android.architecture.utils.ViewUtils;
  * https://github.com/li2
  */
 public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    
+
     @BindView(R.id.offer_item_name_view)
     TextView mTitleView;
 
@@ -79,7 +79,7 @@ public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View
 
         mImageLoader.loadImage(mImageView, Config.photoUrl(item.photoCloudinaryId), null);
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, item.idSalesforceExternal);
+        ViewUtils.setOfferTransitionName(mImageView.getContext(), mImageView, item.idSalesforceExternal);
 
         mOnItemClickAction = item.onClickAction;
     }

@@ -41,8 +41,8 @@ public class OffersAdapter extends RecyclerView.Adapter<OfferItemViewHolder> {
     }
 
 
-    public void refreshData(List<OfferItem> articles) {
-        mOffers = articles;
+    public void refreshData(List<OfferItem> offerItems) {
+        mOffers = offerItems;
         notifyDataSetChanged();
     }
 

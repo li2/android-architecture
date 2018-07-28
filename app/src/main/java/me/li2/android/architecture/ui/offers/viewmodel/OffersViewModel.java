@@ -25,7 +25,7 @@ import me.li2.android.architecture.ui.offers.view.OffersNavigator;
 import me.li2.android.architecture.utils.BaseResourceProvider;
 
 /**
- * ViewModel to expose states for the list of articles view, and handle all user actions.
+ * ViewModel to expose states for the list of offers view, and handle all user actions.
  *
  * - Ask data from repository {@link OffersViewModel#mRepository}, and then
  *     construct the source data to view data which contains all UI state.
@@ -89,7 +89,7 @@ public class OffersViewModel extends ViewModel {
     }
 
     /**
-     * @return the model for the articles list screen.
+     * @return the model for the offers list screen.
      */
     @NonNull
     public LiveData<OffersUiModel> getUiModel() {
@@ -112,7 +112,7 @@ public class OffersViewModel extends ViewModel {
                     }
 
                     if (resource.data != null) {
-                        return constructArticlesUiModel(resource.data);
+                        return constructOffersUiModel(resource.data);
                     } else {
                         return null;
                     }
@@ -144,11 +144,11 @@ public class OffersViewModel extends ViewModel {
                 new Resource<>(resource.status, constructOfferItemList(resource.data, filterType), resource.errorMessage, resource.code, resource.throwable));
     }
 
-    private OffersUiModel constructArticlesUiModel(List<OfferItem> offerItems) {
-        boolean isArticlesListVisible = !offerItems.isEmpty();
-        boolean isNoArticlesViewVisible = !isArticlesListVisible;
-        return new OffersUiModel(isArticlesListVisible, offerItems,
-                isNoArticlesViewVisible, mResourceProvider.getString(R.string.no_articles_all));
+    private OffersUiModel constructOffersUiModel(List<OfferItem> offerItems) {
+        boolean isOffersListVisible = !offerItems.isEmpty();
+        boolean isNoOffersViewVisible = !isOffersListVisible;
+        return new OffersUiModel(isOffersListVisible, offerItems,
+                isNoOffersViewVisible, mResourceProvider.getString(R.string.no_offers_all));
     }
 
     private List<OfferItem> constructOfferItemList(List<Offer> offers, OffersFilterType filterType) {
@@ -193,11 +193,11 @@ public class OffersViewModel extends ViewModel {
     }
 
     private void handleOfferTaped(Offer offer, View sharedElement) {
-        mNavigator.openArticleDetails(offer.idSalesforceExternal, sharedElement);
+        mNavigator.openOfferDetails(offer.idSalesforceExternal, sharedElement);
     }
 
     /**
-     * Trigger a force update of the articles.
+     * Trigger a force update of the offers.
      */
     public Completable forceUpdateOffers() {
         mLoadingIndicator.setValue(true);

@@ -11,7 +11,7 @@ import me.li2.android.architecture.ui.offerdetail.view.OfferDetailFragment;
 import me.li2.android.architecture.utils.BaseNavigator;
 
 /**
- * Defines the navigation actions that can be called from the articles list screen.
+ * Defines the navigation actions that can be called from the offer list screen.
  */
 public class OffersNavigator {
 
@@ -24,9 +24,9 @@ public class OffersNavigator {
     }
 
     /**
-     * Open the details of an article.
+     * Open the details of an offer.
      */
-    public void openArticleDetails(String id, @NonNull View sharedElement) {
+    public void openOfferDetails(String id, @NonNull View sharedElement) {
         mNavigator.addFragment(OfferDetailFragment.newInstance(id), R.id.fragmentContainer, sharedElement);
     }
 }

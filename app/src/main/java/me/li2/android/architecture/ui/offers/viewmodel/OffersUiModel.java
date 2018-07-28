@@ -3,7 +3,7 @@ package me.li2.android.architecture.ui.offers.viewmodel;
 import java.util.List;
 
 /**
- * Model stores view's states for the list of articles screen,
+ * Model stores view's states for the list of offers screen,
  * then we can use this model to update list view screen.
  *
  * @author Weiyi Li on 14/7/18 | https://github.com/li2

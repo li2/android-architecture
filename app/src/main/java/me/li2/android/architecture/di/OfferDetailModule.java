@@ -15,10 +15,10 @@ import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModel
  */
 
 @Module
-public class ArticleDetailModule {
+public class OfferDetailModule {
 
     @Provides
-    OfferDetailViewModel provideArticleDetailViewModel(OfferDetailFragment fragment, OfferDetailViewModelFactory factory) {
+    OfferDetailViewModel provideOfferDetailViewModel(OfferDetailFragment fragment, OfferDetailViewModelFactory factory) {
         return ViewModelProviders.of(fragment, factory).get(OfferDetailViewModel.class);
     }
 }
