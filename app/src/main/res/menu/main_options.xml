@@ -17,4 +17,9 @@
           android:icon="@drawable/ic_flag_au"
           app:showAsAction="always"/>
 
+    <item android:id="@+id/main_option_filter"
+          android:title="filter"
+          android:icon="@drawable/ic_filter_list"
+          app:showAsAction="always"/>
+
 </menu>

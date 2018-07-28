@@ -31,6 +31,7 @@ import butterknife.BindView;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.ui.basic.BaseFragment;
 import me.li2.android.architecture.ui.offers.viewmodel.OfferItem;
+import me.li2.android.architecture.ui.offers.viewmodel.OffersFilterType;
 import me.li2.android.architecture.ui.offers.viewmodel.OffersUiModel;
 import me.li2.android.architecture.ui.offers.viewmodel.OffersViewModel;
 import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
@@ -93,10 +94,6 @@ public class OffersFragment extends BaseFragment {
         mViewModel.getLoadingIndicatorVisibility().observe(this, visible -> setLoadingIndicatorVisibility(visible));
 
         mViewModel.getSnackbarMessage().observe(this, message -> showSnackBar(message));
-
-        mViewModel.getOffers().observe(this, offers -> {
-
-        });
     }
 
     private void updateView(OffersUiModel uiModel) {
@@ -171,6 +168,10 @@ public class OffersFragment extends BaseFragment {
             case R.id.main_option_region:
                 showRegionFilteringPopUpMenu();
                 break;
+
+            case R.id.main_option_filter:
+                showOffersFilterPopupMenu();
+                break;
         }
         return true;
     }
@@ -197,6 +198,29 @@ public class OffersFragment extends BaseFragment {
         MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popup.getMenu(), anchorView);
         menuHelper.setForceShowIcon(true);
         menuHelper.show();
+    }
+
+    private void showOffersFilterPopupMenu() {
+        View anchorView = getActivity().findViewById(R.id.main_option_filter);
+        PopupMenu popup = new PopupMenu(getContext(), anchorView);
+        popup.getMenuInflater().inflate(R.menu.filter_offers, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.filter_hotel:
+                    mViewModel.filter(OffersFilterType.HOTEL_OFFER);
+                    break;
+                case R.id.filter_tours:
+                    mViewModel.filter(OffersFilterType.TOUR_OFFER);
+                    break;
+                default:
+                    mViewModel.filter(OffersFilterType.ALL_OFFER);
+                    break;
+            }
+            return true;
+        });
+
+        popup.show();
     }
 
     private SpannableStringBuilder constructActionBarTitle() {

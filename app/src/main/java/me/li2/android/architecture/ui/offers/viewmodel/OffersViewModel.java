@@ -47,6 +47,8 @@ public class OffersViewModel extends ViewModel {
 
     private static final String TAG = OffersViewModel.class.getSimpleName();
 
+    private static final OffersFilterType DEFAULT_OFFERS_FILTER_TYPE = OffersFilterType.ALL_OFFER;
+
     private static final String LOCATION_FORMAT = "%s, %s";
     private static final String NIGHTS_RANGE_FORMAT = "%d - %d Nights";
     private static final String OFFER_ENDS_IN_FORMAT = "OFFER ENDS IN %d DAYS";
@@ -63,6 +65,8 @@ public class OffersViewModel extends ViewModel {
     @NonNull
     private OffersNavigator mNavigator;
 
+    private MutableLiveData<OffersFilterType> mFilter = new MutableLiveData<>();
+
     private MutableLiveData<Boolean> mLoadingIndicator = new MutableLiveData<>();
 
     private MutableLiveData<String> mSnackbarText = new MutableLiveData<>();
@@ -74,6 +78,14 @@ public class OffersViewModel extends ViewModel {
         mRepository = repository;
         mResourceProvider = resourceProvider;
         mNavigator = navigator;
+        mFilter.setValue(DEFAULT_OFFERS_FILTER_TYPE);
+    }
+
+    /**
+     * Sets the current offers filtering type.
+     */
+    public void filter(OffersFilterType filter) {
+        mFilter.setValue(filter);
     }
 
     /**
@@ -81,14 +93,20 @@ public class OffersViewModel extends ViewModel {
      */
     @NonNull
     public LiveData<OffersUiModel> getUiModel() {
-        return Transformations.map(getOfferItems(),
-                resource -> {
+        /* notebyweiyi: switchMap means that the getOfferItems(filterType) method is called when mFilter changes.
+         This mechanism allows lower levels of the app to create LiveData objects that are lazily calculated on demand.
+         https://developer.android.com/topic/libraries/architecture/livedata */
+        LiveData<Resource<List<OfferItem>>> filteredOfferItems  =
+                Transformations.switchMap(mFilter, filterType -> getOfferItems(filterType));
+
+        return Transformations.map(filteredOfferItems, resource -> {
                     mLoadingIndicator.setValue(resource.status == Status.LOADING);
 
                     if (resource.status == Status.ERROR) {
                         if (resource.throwable instanceof NoNetworkException) {
                             mSnackbarText.setValue(mResourceProvider.getString(R.string.status_no_connect));
                         } else {
+                            // TODO display meaningful string to user
                             mSnackbarText.setValue(resource.errorMessage);
                         }
                     }
@@ -121,22 +139,9 @@ public class OffersViewModel extends ViewModel {
      * Convert {@link Resource<List<>>} of {@link Offer} (data model) to {@link OfferItem} (view data model)
      * @return
      */
-    private LiveData<Resource<List<OfferItem>>> getOfferItems() {
-        return Transformations.map(mRepository.loadOffers(),
-                resource -> {
-                    List<OfferItem> offerItems = null;
-                    if (resource.data != null) {
-                        offerItems = new ArrayList<>();
-                        for (Offer offer : resource.data) {
-                            offerItems.add(constructOfferItem(offer));
-                        }
-                    }
-                    return new Resource<>(resource.status, offerItems, resource.errorMessage, resource.code, resource.throwable);
-                });
-    }
-
-    public LiveData<Resource<List<Offer>>> getOffers() {
-        return mRepository.loadOffers();
+    private LiveData<Resource<List<OfferItem>>> getOfferItems(OffersFilterType filterType) {
+        return Transformations.map(mRepository.loadOffers(), resource ->
+                new Resource<>(resource.status, constructOfferItemList(resource.data, filterType), resource.errorMessage, resource.code, resource.throwable));
     }
 
     private OffersUiModel constructArticlesUiModel(List<OfferItem> offerItems) {
@@ -144,6 +149,31 @@ public class OffersViewModel extends ViewModel {
         boolean isNoArticlesViewVisible = !isArticlesListVisible;
         return new OffersUiModel(isArticlesListVisible, offerItems,
                 isNoArticlesViewVisible, mResourceProvider.getString(R.string.no_articles_all));
+    }
+
+    private List<OfferItem> constructOfferItemList(List<Offer> offers, OffersFilterType filterType) {
+        if (offers == null) {
+            return null; // notebyweiyi: init as null coz the resource.data might be null
+        }
+        List<OfferItem> result = new ArrayList<>();
+        for (Offer offer :  offers) {
+            switch (filterType) {
+                case HOTEL_OFFER:
+                    if(offer.isHotel()) {
+                        result.add(constructOfferItem(offer));
+                    }
+                    break;
+                case TOUR_OFFER:
+                    if (offer.isTour()) {
+                        result.add(constructOfferItem(offer));
+                    }
+                    break;
+                default:
+                    result.add(constructOfferItem(offer));
+                    break;
+            }
+        }
+        return result;
     }
 
     private OfferItem constructOfferItem(final Offer offer) {
