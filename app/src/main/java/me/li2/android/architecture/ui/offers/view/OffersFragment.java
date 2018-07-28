@@ -72,7 +72,7 @@ public class OffersFragment extends BaseFragment {
     @Override
     public void setupView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        setActionBarTitle(constructActionBarTile());
+        setActionBarTitle(constructActionBarTitle());
         setupOffersListView();
         setupSwipeRefreshLayout();
     }
@@ -199,7 +199,7 @@ public class OffersFragment extends BaseFragment {
         menuHelper.show();
     }
 
-    private SpannableStringBuilder constructActionBarTile() {
+    private SpannableStringBuilder constructActionBarTitle() {
         String title = "LUXURY\nESCAPES";
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(title);
         ssBuilder.setSpan(

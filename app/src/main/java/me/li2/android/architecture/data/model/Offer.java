@@ -113,4 +113,12 @@ public class Offer {
         this.maxNumNights = maxNumNights;
         this.minNumNights = minNumNights;
     }
+
+    public boolean isHotel() {
+        return type != null ? type.equals("hotel") : false;
+    }
+
+    public boolean isTour() {
+        return type != null ? type.equals("tour") : false;
+    }
 }

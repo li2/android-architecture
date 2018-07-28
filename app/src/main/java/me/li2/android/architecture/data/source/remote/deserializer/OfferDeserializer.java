@@ -48,6 +48,7 @@ public class OfferDeserializer implements JsonDeserializer {
         String bookingGuarantee = JsonUtils.getJsonMemberAsString(jsonObject, "bookingGuarantee");
         String runDate = JsonUtils.getJsonMemberAsString(jsonObject, "runDate");
         String endDate = JsonUtils.getJsonMemberAsString(jsonObject, "endDate");
+        //notebyweiyi: Data Deserialization of Arrays/Lists which is part of JsonObject
         List<BannerImage> images = BannerImageListConverter.fromString(jsonObject.get("images").getAsJsonArray().toString());
         String locationHeading = JsonUtils.getJsonMemberAsString(jsonObject, "locationHeading");
         String locationSubheading = JsonUtils.getJsonMemberAsString(jsonObject, "locationSubheading");
