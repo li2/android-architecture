@@ -1,7 +1,10 @@
 package me.li2.android.architecture.ui.offers.view;
 
 import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.menu.MenuBuilder;
@@ -9,6 +12,9 @@ import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,15 +28,14 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import dagger.android.support.DaggerFragment;
 import me.li2.android.architecture.R;
+import me.li2.android.architecture.ui.basic.BaseFragment;
 import me.li2.android.architecture.ui.offers.viewmodel.OfferItem;
 import me.li2.android.architecture.ui.offers.viewmodel.OffersUiModel;
 import me.li2.android.architecture.ui.offers.viewmodel.OffersViewModel;
 import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
 
-public class OffersFragment extends DaggerFragment {
+public class OffersFragment extends BaseFragment {
 
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
 
@@ -60,15 +65,16 @@ public class OffersFragment extends DaggerFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.offers_fragment, container, false);
-        ButterKnife.bind(this, view);
+    public int getLayout() {
+        return R.layout.offers_fragment;
+    }
 
+    @Override
+    public void setupView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        setActionBarTitle(constructActionBarTile());
         setupOffersListView();
         setupSwipeRefreshLayout();
-
-        return view;
     }
 
     @Override
@@ -115,7 +121,9 @@ public class OffersFragment extends DaggerFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setScrollContainer(false);
-        recyclerView.setNestedScrollingEnabled(false);
+        // notebyweiyi: set true to allows your Toolbar and other views (such as tabs provided by TabLayout) to react to scroll events
+        // [CoordinatorLayout and the app bar](https://android-developers.googleblog.com/2015/05/android-design-support-library.html)
+        recyclerView.setNestedScrollingEnabled(true);
         // setup RecyclerView item margin
         int margin = (int)getResources().getDimension(R.dimen.default_margin);
         recyclerView.addItemDecoration(new RecyclerViewMarginDecoration(margin));
@@ -189,5 +197,17 @@ public class OffersFragment extends DaggerFragment {
         MenuPopupHelper menuHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popup.getMenu(), anchorView);
         menuHelper.setForceShowIcon(true);
         menuHelper.show();
+    }
+
+    private SpannableStringBuilder constructActionBarTile() {
+        String title = "LUXURY\nESCAPES";
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(title);
+        ssBuilder.setSpan(
+                new StyleSpan(Typeface.BOLD),
+                title.indexOf("ESCAPES"),
+                title.indexOf("ESCAPES") + String.valueOf("ESCAPES").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return ssBuilder;
     }
 }
