@@ -59,6 +59,6 @@ public class OffersAdapter extends RecyclerView.Adapter<OfferItemViewHolder> {
 
     @Override
     public void onBindViewHolder(OfferItemViewHolder holder, int position) {
-        holder.bindArticle(mOffers.get(position));
+        holder.bindOffer(mOffers.get(position));
     }
 }

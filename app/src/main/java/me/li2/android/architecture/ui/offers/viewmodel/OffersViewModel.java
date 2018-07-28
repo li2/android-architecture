@@ -7,6 +7,8 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.google.common.base.Strings;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,6 @@ import io.reactivex.Completable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
-import me.li2.android.architecture.data.model.Article;
 import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.data.repository.OffersRepository;
 import me.li2.android.architecture.ui.offers.view.OffersNavigator;
@@ -37,14 +38,21 @@ import me.li2.android.architecture.utils.BaseResourceProvider;
  *
  * - For user action in the sub-view, such as click or check in the list view item,
  *      implement {@link Action} or {@link Consumer} in the ViewModel
- *      {@link OffersViewModel#handleOfferTaped(Article, View)}, and then
- *      pass it as parameter to ViewHolder constructor {@link OfferItem#OfferItem(Article, Consumer)}.
+ *      {@link OffersViewModel#handleOfferTaped(Offer, View)}, and then
+ *      pass it as parameter to ViewHolder constructor {@link OfferItem)}.
  *
  * @author Weiyi Li on 13/7/18 | https://github.com/li2
  */
 public class OffersViewModel extends ViewModel {
 
     private static final String TAG = OffersViewModel.class.getSimpleName();
+
+    private static final String LOCATION_FORMAT = "%s, %s";
+    private static final String NIGHTS_RANGE_FORMAT = "%d - %d Nights";
+    private static final String OFFER_ENDS_IN_FORMAT = "OFFER ENDS IN %d DAYS";
+    // TODO list item should not contains so many data {Offer}; 从数据库中选取部分字段填充 ListOffer
+    // TODO $299/room $3499/pers 涉及货币单位、offer类型，最好在ViewModel中打包好传给 view
+    private static final String HOTEL_PRICE_FROM_FORMAT = "";
 
     @NonNull
     private OffersRepository mRepository;
@@ -139,7 +147,19 @@ public class OffersViewModel extends ViewModel {
     }
 
     private OfferItem constructOfferItem(final Offer offer) {
-        return new OfferItem(offer, view -> handleOfferTaped(offer, view));
+        return new OfferItem(
+                offer.idSalesforceExternal,
+                offer.images != null && offer.images.size() > 0 ? offer.images.get(0).cloudinaryId : null,
+                offer.name,
+                !Strings.isNullOrEmpty(offer.locationSubheading) ? String.format(LOCATION_FORMAT, offer.locationHeading, offer.locationSubheading) : offer.locationHeading,
+                offer.isHotel(),
+                offer.location,
+                String.format(NIGHTS_RANGE_FORMAT, offer.minNumNights, offer.maxNumNights),
+                OFFER_ENDS_IN_FORMAT,
+                "0",
+                "0",
+                view -> handleOfferTaped(offer, view)
+                );
     }
 
     private void handleOfferTaped(Offer offer, View sharedElement) {

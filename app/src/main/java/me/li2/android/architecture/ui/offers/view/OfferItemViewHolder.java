@@ -11,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
-import me.li2.android.architecture.data.model.Offer;
+import me.li2.android.architecture.ui.Config;
 import me.li2.android.architecture.ui.offers.viewmodel.OfferItem;
 import me.li2.android.architecture.utils.BaseImageLoader;
 import me.li2.android.architecture.utils.ViewUtils;
@@ -21,11 +21,7 @@ import me.li2.android.architecture.utils.ViewUtils;
  * https://github.com/li2
  */
 public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-    private static final String LOCATION_FORMAT = "%s, %s";
-    private static final String NIGHTS_RANGE_FORMAT = "%d - %d Nights";
-    private static final String OFFER_ENDS_IN_FORMAT = "OFFER ENDS IN %d DAYS";
-
+    
     @BindView(R.id.offer_item_name_view)
     TextView mTitleView;
 
@@ -64,21 +60,28 @@ public class OfferItemViewHolder extends RecyclerView.ViewHolder implements View
         mPlaceHolderDrawable = ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_image_holder);
     }
 
-    public void bindArticle(OfferItem offerItem) {
-        Offer offer = offerItem.getOffer();
-        mTitleView.setText(offer.name);
-        mLocationView.setText(String.format(LOCATION_FORMAT, offer.locationHeading, offer.locationSubheading));
-        mHotelView.setText(offer.location);
-        mNightsRangeView.setText(String.format(NIGHTS_RANGE_FORMAT, offer.minNumNights, offer.maxNumNights));
-        mOfferEndView.setText(OFFER_ENDS_IN_FORMAT);
-        mImageView.setVisibility(View.GONE);
-        // TODO need check null here
-        mImageLoader.loadImage(mImageView, offer.images.get(0).cloudinaryId, null, succeed -> {
-            mImageView.setVisibility(succeed ? View.VISIBLE : View.GONE);
-        });
-        mOnItemClickAction = offerItem.getOnClickAction();
+    public void bindOffer(OfferItem item) {
+        mTitleView.setText(item.name);
+
+        mLocationView.setText(item.location);
+
+        if (item.isHotelVisible) {
+            mHotelView.setText(item.hotelLocation);
+            mNightsRangeView.setText(item.hotelNightsRange);
+            mHotelView.setVisibility(View.VISIBLE);
+            mNightsRangeView.setVisibility(View.VISIBLE);
+        } else {
+            mHotelView.setVisibility(View.GONE);
+            mNightsRangeView.setVisibility(View.GONE);
+        }
+
+        mOfferEndView.setText(item.offerEnds);
+
+        mImageLoader.loadImage(mImageView, Config.photoUrl(item.photoCloudinaryId), null);
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, offer.idSalesforceExternal);
+        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, item.idSalesforceExternal);
+
+        mOnItemClickAction = item.onClickAction;
     }
 
     @Override

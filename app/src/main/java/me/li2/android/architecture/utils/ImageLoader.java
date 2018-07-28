@@ -22,52 +22,48 @@ import io.reactivex.functions.Consumer;
  */
 public class ImageLoader implements BaseImageLoader {
 
-    private static final String BASE_URL = "https://res.cloudinary.com/lux-group/image/upload/f_auto,fl_progressive,q_auto:eco,c_fill,g_auto,w_1920,ar_16:9/";
-
-    private String constructUrl(String cloudinaryId) {
-        return BASE_URL + cloudinaryId;
-    }
-
     @Inject
     public ImageLoader() {
     }
 
     @Override
     public void loadImage(ImageView view, String url, Drawable placeHolder) {
-        url = constructUrl(url);
         loadImage(view, url, placeHolder, null);
     }
 
     @Override
     public void loadImage(ImageView view, String url, Drawable placeHolder, Consumer<Boolean> onLoadedAction) {
-        url = constructUrl(url);
         if (Strings.isNullOrEmpty(url)) {
             url = null;
         }
-        Picasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view, new Callback() {
-            @Override
-            public void onSuccess() {
-                try {
-                    onLoadedAction.accept(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        // notebyweiyi: should check onLoadedAction null otherwise will goto onError callback
+        if (onLoadedAction != null) {
+            Picasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view, new Callback() {
+                @Override
+                public void onSuccess() {
+                    try {
+                        onLoadedAction.accept(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onError() {
-                try {
-                    onLoadedAction.accept(false);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                @Override
+                public void onError() {
+                    try {
+                        onLoadedAction.accept(false);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            Picasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view);
+        }
     }
 
     @Override
     public void loadImage(View view, String url, Drawable placeHolder) {
-        url = constructUrl(url);
         if (Strings.isNullOrEmpty(url)) {
             url = null;
         }
