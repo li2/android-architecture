@@ -31,13 +31,13 @@
 
         <TextView
             android:id="@+id/offer_item_name_view"
-            style="@style/ArticleTitleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/arch_default_margin"
             android:layout_marginStart="@dimen/arch_default_margin"
             android:layout_marginTop="@dimen/arch_small_margin"
             android:textSize="@dimen/arch_title_font"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/offer_item_image_view"

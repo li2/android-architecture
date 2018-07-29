@@ -36,6 +36,17 @@ public class VisibilityScheduleDeserializer implements JsonDeserializer<Visibili
             "brand": "luxuryescapes"
         }
     }
+
+    notebyweiyi: contains more than one object, workaround is to modify the demo json file to have same "world" !
+
+    "visibilitySchedules": {
+        "NZ": {
+            ....
+        },
+        "AU": {
+            ....
+        }
+    }
      */
 
     @Override

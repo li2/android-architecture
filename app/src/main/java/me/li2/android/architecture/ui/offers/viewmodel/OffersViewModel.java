@@ -202,7 +202,7 @@ public class OffersViewModel extends ViewModel {
                 offer.isHotel(),
                 offer.location, // hotel location
                 mResourceProvider.nightsRange(offer.minNumNights, offer.maxNumNights),
-                mResourceProvider.offerEndsInDays(offer.visibilitySchedule.getRemainingDays()),
+                mResourceProvider.offerEndsInDays(offer.visibilitySchedule != null ? offer.visibilitySchedule.getRemainingDays() : 0),
                 mResourceProvider.minPackagePrice(currencyCode, lowestPrice.min, offer.isHotel()),
                 mResourceProvider.maxPackagePrice(currencyCode, lowestPrice.max),
                 view -> handleOfferTaped(offer, view)

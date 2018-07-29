@@ -8,7 +8,7 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="arch_title_font">22sp</dimen>
+    <dimen name="arch_title_font">20sp</dimen>
     <dimen name="arch_subtitle_font">16sp</dimen>
     <dimen name="arch_body_font">12sp</dimen>
 
@@ -18,7 +18,7 @@
     <dimen name="arch_large_margin">24dp</dimen>
     <dimen name="arch_huge_margin">32dp</dimen>
 
-    <dimen name="arch_card_corner_radius">8dp</dimen>
+    <dimen name="arch_card_corner_radius">16dp</dimen>
 
     <dimen name="article_card_height">256dp</dimen>
 
