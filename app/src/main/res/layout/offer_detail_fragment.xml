@@ -54,6 +54,7 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -107,6 +108,16 @@
                 tools:text="description"/>
 
         </android.support.constraint.ConstraintLayout>
+
+        <fragment
+            android:id="@+id/offer_expandable_list"
+            android:name="me.li2.android.architecture.ui.widget.ExpandableListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"/>
 
     </android.support.constraint.ConstraintLayout>
 

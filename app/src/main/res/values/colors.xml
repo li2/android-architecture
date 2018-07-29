@@ -13,4 +13,6 @@
 
     <color name="arch_white_background">@color/white</color>
 
+    <color name="expandable_item_indicator_color">@color/eastern_blue</color>
+
 </resources>

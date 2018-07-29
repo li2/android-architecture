@@ -22,6 +22,9 @@ public class OfferDetailItem {
 
     public Action onShareAction;
 
+    /* notebyweiyi: tour has json member "itinerary", hotel has json member "facilities"
+       the common parts for tour & hotel are highlights, finePrint, gettingThere */
+
     public OfferDetailItem(String photoCloudinaryId,
                            String name,
                            String description,

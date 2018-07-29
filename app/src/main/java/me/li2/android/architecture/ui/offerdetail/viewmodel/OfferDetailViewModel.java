@@ -45,7 +45,7 @@ public class OfferDetailViewModel extends ViewModel {
     }
 
     private OfferDetailItem constructOfferDetailItem(Offer offer) {
-        String currencyCode = RegionType.AUD.name();
+        String currencyCode = RegionType.AUD.name(); // TODO remove hardcoding
         Price lowestPrice = offer.getLowestPrice(currencyCode);
 
         return new OfferDetailItem(
