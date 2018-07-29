@@ -26,12 +26,13 @@
     android:paddingEnd="@dimen/arch_default_margin"
     android:background="@color/white">
 
-    <TextView
-        android:id="@android:id/text1"
+    <us.feras.mdv.MarkdownView
+        android:id="@+id/markdownView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="top|left"
-        android:gravity="center"
+        android:background="@color/transparent"
+        android:gravity="left"
         tools:ignore="RtlHardcoded"/>
 
 </FrameLayout>

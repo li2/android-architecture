@@ -15,30 +15,39 @@
        limitations under the License.
 -->
 <!-- NOTE: should use FrameLayout or RelativeLayout for parent of the "@id/container" view (for Android 2.3 compatibility) -->
-<FrameLayout
+<android.support.constraint.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frameLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/porcelain_white"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:paddingStart="@dimen/arch_default_margin"
-    android:paddingEnd="@dimen/arch_default_margin"
-    android:background="@color/porcelain_white">
+    android:foreground="?attr/selectableItemBackground">
 
-    <TextView
-        android:id="@android:id/text1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top|left"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center"/>
+    <us.feras.mdv.MarkdownView
+        android:id="@+id/markdownView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/indicator"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <me.li2.android.architecture.ui.widget.ExpandableItemIndicator
         android:id="@+id/indicator"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="left|center_vertical"
-        android:layout_marginRight="16dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

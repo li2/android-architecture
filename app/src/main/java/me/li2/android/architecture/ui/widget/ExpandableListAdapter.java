@@ -16,17 +16,18 @@
 
 package me.li2.android.architecture.ui.widget;
 
+import android.graphics.Color;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.h6ah4i.android.widget.advrecyclerview.expandable.ExpandableItemConstants;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemViewHolder;
 
 import me.li2.android.architecture.R;
+import us.feras.mdv.MarkdownView;
 
 class ExpandableListAdapter
         extends AbstractExpandableItemAdapter<ExpandableListAdapter.MyGroupViewHolder, ExpandableListAdapter.MyChildViewHolder> {
@@ -39,11 +40,11 @@ class ExpandableListAdapter
     private ArrayMap<String, String> mContentMap;
 
     public static abstract class MyBaseViewHolder extends AbstractExpandableItemViewHolder {
-        public TextView mTextView;
+        public MarkdownView mTextView;
 
         public MyBaseViewHolder(View v) {
             super(v);
-            mTextView = v.findViewById(android.R.id.text1);
+            mTextView = v.findViewById(R.id.markdownView);
         }
     }
 
@@ -68,6 +69,11 @@ class ExpandableListAdapter
         // ExpandableItemAdapter requires stable ID, and also
         // have to implement the getGroupItemId()/getChildItemId() methods appropriately.
         setHasStableIds(true);
+    }
+
+    public void refreshContentMap(ArrayMap<String, String> contentMap) {
+        mContentMap = contentMap;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -117,7 +123,8 @@ class ExpandableListAdapter
     @Override
     public void onBindGroupViewHolder(MyGroupViewHolder holder, int groupPosition, int viewType) {
         // set text
-        holder.mTextView.setText(mContentMap.keyAt(groupPosition));
+        holder.mTextView.loadMarkdown(mContentMap.keyAt(groupPosition));
+        holder.mTextView.setBackgroundColor(Color.parseColor("#EFF2F3"));
 
         // mark as clickable
         holder.itemView.setClickable(true);
@@ -141,7 +148,7 @@ class ExpandableListAdapter
     @Override
     public void onBindChildViewHolder(MyChildViewHolder holder, int groupPosition, int childPosition, int viewType) {
         // set text
-        holder.mTextView.setText(mContentMap.valueAt(groupPosition));
+        holder.mTextView.loadMarkdown(mContentMap.valueAt(groupPosition));
     }
 
     @Override

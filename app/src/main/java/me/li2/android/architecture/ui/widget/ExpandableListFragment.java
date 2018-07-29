@@ -43,6 +43,7 @@ public class ExpandableListFragment
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ExpandableListAdapter myItemAdapter;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewExpandableItemManager mRecyclerViewExpandableItemManager;
 
@@ -51,15 +52,13 @@ public class ExpandableListFragment
 
     public ExpandableListFragment() {
         super();
-        mContentMap = composeFakeData();
     }
 
-    private ArrayMap<String, String> composeFakeData() { // TODO remove hardcoding fake data
-        ArrayMap<String, String> result = new ArrayMap<>();
-        result.put("1", "c1");
-        result.put("2", "c2");
-        result.put("3", "c3");
-        return result;
+    public void setContentMap(ArrayMap<String, String> contentMap) {
+        mContentMap = contentMap;
+        if (myItemAdapter != null) {
+            myItemAdapter.refreshContentMap(contentMap);
+        }
     }
 
     @Override
@@ -81,7 +80,7 @@ public class ExpandableListFragment
         mRecyclerViewExpandableItemManager.setOnGroupCollapseListener(this);
 
         //adapter
-        final ExpandableListAdapter myItemAdapter = new ExpandableListAdapter(mContentMap);
+        myItemAdapter = new ExpandableListAdapter(mContentMap);
 
         mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(myItemAdapter);       // wrap for expanding
 
@@ -95,6 +94,9 @@ public class ExpandableListFragment
         mRecyclerView.setAdapter(mWrappedAdapter);  // requires *wrapped* adapter
         mRecyclerView.setItemAnimator(animator);
         mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setVerticalScrollBarEnabled(true);
+
+        mRecyclerView.setNestedScrollingEnabled(false);// notebyweiyi: Fix issue that Recyclerview inside Nested Scrollview scroll not smooth
 
         mRecyclerViewExpandableItemManager.attachRecyclerView(mRecyclerView);
     }

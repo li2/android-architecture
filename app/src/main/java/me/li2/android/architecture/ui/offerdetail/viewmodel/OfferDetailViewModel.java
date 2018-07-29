@@ -4,7 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.util.ArrayMap;
 
+import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.data.model.Price;
 import me.li2.android.architecture.data.repository.OffersRepository;
@@ -48,6 +50,11 @@ public class OfferDetailViewModel extends ViewModel {
         String currencyCode = RegionType.AUD.name(); // TODO remove hardcoding
         Price lowestPrice = offer.getLowestPrice(currencyCode);
 
+        ArrayMap<String, String> expandableContent = new ArrayMap<>();
+        expandableContent.put(mResourceProvider.getString(R.string.offer_highlights), offer.highlights);
+        expandableContent.put(mResourceProvider.getString(R.string.offer_finePrint), offer.finePrint);
+        expandableContent.put(mResourceProvider.getString(R.string.offer_gettingThere), offer.gettingThere);
+
         return new OfferDetailItem(
                 offer.getFirstPhotoCloudinaryId(),
                 offer.name,
@@ -55,7 +62,8 @@ public class OfferDetailViewModel extends ViewModel {
                 offer.getLocationName(),
                 mResourceProvider.minPackagePrice(currencyCode, lowestPrice.min, offer.isHotel()),
                 mResourceProvider.maxPackagePrice(currencyCode, lowestPrice.max),
-                () -> handleShareClicked()
+                () -> handleShareClicked(),
+                expandableContent
         );
     }
 

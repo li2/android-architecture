@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import me.li2.android.architecture.ui.Config;
 import me.li2.android.architecture.ui.basic.BaseFragment;
 import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailItem;
 import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModel;
+import me.li2.android.architecture.ui.widget.ExpandableListFragment;
 import me.li2.android.architecture.utils.BaseImageLoader;
 import me.li2.android.architecture.utils.ViewUtils;
 
@@ -49,6 +51,8 @@ public class OfferDetailFragment extends BaseFragment {
     @BindView(R.id.offer_price_upto_view)
     TextView mOfferMaxPriceView;
 
+    private ExpandableListFragment mExpandableListFragment;
+
     public static OfferDetailFragment newInstance(String offerId) {
         Bundle args = new Bundle();
         args.putString(EXTRA_OFFER_ID, offerId);
@@ -68,6 +72,14 @@ public class OfferDetailFragment extends BaseFragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
         }
+    }
+
+    /* notebyweiyi: onViewCreated(...) Called immediately after onCreateView(...) has returned
+     Fragment added in fragment xml layout, then they will be available after calling fragments onViewCreated method */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mExpandableListFragment = (ExpandableListFragment) getChildFragmentManager().findFragmentById(R.id.offer_expandable_list);
     }
 
     @Override
@@ -101,6 +113,7 @@ public class OfferDetailFragment extends BaseFragment {
         mOfferLocationView.setText(item.location);
         mOfferMinPriceView.setText(item.minPrice);
         mOfferMaxPriceView.setText(item.maxPrice);
+        mExpandableListFragment.setContentMap(item.expandableContent);
     }
 
     private String getOfferId() {

@@ -1,5 +1,7 @@
 package me.li2.android.architecture.ui.offerdetail.viewmodel;
 
+import android.util.ArrayMap;
+
 import io.reactivex.functions.Action;
 
 /**
@@ -23,7 +25,9 @@ public class OfferDetailItem {
     public Action onShareAction;
 
     /* notebyweiyi: tour has json member "itinerary", hotel has json member "facilities"
-       the common parts for tour & hotel are highlights, finePrint, gettingThere */
+       the common parts for tour & hotel are highlights, finePrint, gettingThere.
+       store them in ArrayMap<Title, Content> */
+    public ArrayMap<String, String> expandableContent;
 
     public OfferDetailItem(String photoCloudinaryId,
                            String name,
@@ -31,7 +35,8 @@ public class OfferDetailItem {
                            String location,
                            String minPrice,
                            String maxPrice,
-                           Action onShareAction) {
+                           Action onShareAction,
+                           ArrayMap<String, String> expandableContent) {
         this.photoCloudinaryId = photoCloudinaryId;
         this.name = name;
         this.description = description;
@@ -39,5 +44,6 @@ public class OfferDetailItem {
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.onShareAction = onShareAction;
+        this.expandableContent = expandableContent;
     }
 }
