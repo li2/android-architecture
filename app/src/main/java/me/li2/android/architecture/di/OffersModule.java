@@ -24,7 +24,6 @@ public class OffersModule {
         return ViewModelProviders.of(fragment, factory).get(OffersViewModel.class);
     }
 
-    // Fix BaseNavigator cannot be provided without an @Provides-annotated method.
     @Provides
     @OffersScope
     BaseNavigator provideNavigator(OffersFragment fragment) {

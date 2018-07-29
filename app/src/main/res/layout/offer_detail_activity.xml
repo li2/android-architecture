@@ -23,7 +23,7 @@
             app:toolbarId="@+id/toolbar">
 
             <ImageView
-                android:id="@+id/article_image_view"
+                android:id="@+id/offer_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/app_bar_height"
                 android:scaleType="centerCrop"

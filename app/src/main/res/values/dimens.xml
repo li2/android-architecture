@@ -10,7 +10,7 @@
 
     <dimen name="arch_title_font">20sp</dimen>
     <dimen name="arch_subtitle_font">16sp</dimen>
-    <dimen name="arch_body_font">12sp</dimen>
+    <dimen name="arch_body_font">14sp</dimen>
 
     <dimen name="arch_tiny_margin">4dp</dimen>
     <dimen name="arch_small_margin">8dp</dimen>

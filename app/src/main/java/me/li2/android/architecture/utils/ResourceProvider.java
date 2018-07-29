@@ -85,6 +85,7 @@ public class ResourceProvider implements BaseResourceProvider {
                 integerToStringWithCommas(max));
     }
 
+    // TODO remove
     /**
      * @return Christchurch, New Zealand
      */

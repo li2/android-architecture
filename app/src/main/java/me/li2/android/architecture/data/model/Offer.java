@@ -5,10 +5,12 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.google.common.base.Strings;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -84,6 +86,10 @@ public class Offer {
     @SerializedName("minNumNights")
     public int minNumNights;
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public boolean isHotel() {
         return type != null ? type.equals("hotel") : false;
     }
@@ -97,7 +103,7 @@ public class Offer {
      * @param currencyCode an ISO 4217 3-letter code
      * @return Price which match the currency code
      */
-    @Nullable
+    @Nonnull
     public Price getLowestPrice(String currencyCode) {
         for (Price price : lowestPricePackage.prices) {
             if (currencyCode.equals(price.currencyCode)) {
@@ -105,5 +111,17 @@ public class Offer {
             }
         }
         return new Price(currencyCode, -1, -1);
+    }
+
+    @Nullable
+    public String getFirstPhotoCloudinaryId() {
+        return images != null && images.size() > 0 ? images.get(0).cloudinaryId : null;
+    }
+
+    @Nonnull
+    public String getLocationName() {
+        return !Strings.isNullOrEmpty(locationSubheading)
+                ? (locationHeading + ", " + locationSubheading)
+                : locationHeading;
     }
 }

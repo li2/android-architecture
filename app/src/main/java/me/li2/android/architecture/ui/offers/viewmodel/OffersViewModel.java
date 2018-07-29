@@ -196,9 +196,9 @@ public class OffersViewModel extends ViewModel {
 
         return new OfferItem(
                 offer.idSalesforceExternal,
-                offer.images != null && offer.images.size() > 0 ? offer.images.get(0).cloudinaryId : null,
+                offer.getFirstPhotoCloudinaryId(),
                 offer.name,
-                mResourceProvider.offerLocation(offer.locationHeading, offer.locationSubheading),
+                offer.getLocationName(),
                 offer.isHotel(),
                 offer.location, // hotel location
                 mResourceProvider.nightsRange(offer.minNumNights, offer.maxNumNights),

@@ -18,9 +18,11 @@ import me.li2.android.architecture.ui.offers.view.OffersFragment;
 public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = OfferDetailModule.class)
+    @OfferDetailScope
     abstract OfferDetailFragment bindOfferDetailFragment();
 
     @ContributesAndroidInjector()
+    @OffersScope
     abstract OffersActivity bindOffersActivity();
 
     @ContributesAndroidInjector(modules = OffersModule.class)

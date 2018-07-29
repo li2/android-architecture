@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/arch_white_background"
+    android:background="@color/porcelain_white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -14,38 +14,99 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/article_image_view"
+            android:id="@+id/offer_image_view"
             android:transitionName="@string/transition_offer_cover_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/article_card_height"
+            android:layout_height="@dimen/photo_height"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/article_title_view"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="0dp"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
-            android:layout_marginEnd="8dp"
-            android:textSize="@dimen/arch_title_font"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/article_image_view"
-            tools:text="title"/>
+            app:layout_constraintTop_toBottomOf="@+id/offer_image_view">
 
-        <TextView
-            android:id="@+id/article_description_view"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/offer_price_from_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="From $299/room"/>
+
+            <TextView
+                android:id="@+id/offer_price_upto_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valued Up To $714"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
-            android:textSize="@dimen/arch_body_font"
-            app:layout_constraintEnd_toEndOf="@+id/article_title_view"
-            app:layout_constraintStart_toStartOf="@+id/article_title_view"
-            app:layout_constraintTop_toBottomOf="@+id/article_title_view"
-            tools:text="subtitle"/>
+            android:background="@color/white"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <TextView
+                android:id="@+id/offer_location_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_location"
+                android:drawablePadding="@dimen/arch_tiny_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Christchurch, New Zealand"/>
+
+            <ImageButton
+                android:id="@+id/offer_share_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:foreground="?selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_share"/>
+
+            <TextView
+                android:id="@+id/offer_name_view"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="@dimen/arch_title_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/offer_location_view"
+                tools:text="name"/>
+
+            <TextView
+                android:id="@+id/offer_description_view"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="@dimen/arch_body_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/offer_name_view"
+                tools:text="description"/>
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 
