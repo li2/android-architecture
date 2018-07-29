@@ -11,6 +11,7 @@ import me.li2.android.architecture.data.source.local.converter.BannerImageConver
 import me.li2.android.architecture.data.source.local.converter.BannerImageListConverter;
 import me.li2.android.architecture.data.source.local.converter.PriceConverter;
 import me.li2.android.architecture.data.source.local.converter.PricePackageConverter;
+import me.li2.android.architecture.data.source.local.converter.VisibilityScheduleConverter;
 
 /**
  * Create a singleton Database
@@ -30,7 +31,8 @@ import me.li2.android.architecture.data.source.local.converter.PricePackageConve
         BannerImageConverter.class,
         BannerImageListConverter.class,
         PricePackageConverter.class,
-        PriceConverter.class
+        PriceConverter.class,
+        VisibilityScheduleConverter.class,
 })
 
 public abstract class AppDatabase extends RoomDatabase {

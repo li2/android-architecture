@@ -48,9 +48,6 @@ public class OffersViewModel extends ViewModel {
     private static final OffersFilterType DEFAULT_OFFERS_FILTER_TYPE = OffersFilterType.ALL_OFFER;
     private static final RegionType DEFAULT_REGION_TYPE = RegionType.AUD;
 
-    private static final String OFFER_ENDS_IN_FORMAT = "OFFER ENDS IN %d DAYS";
-    // TODO list item should not contains so many data {Offer}; 从数据库中选取部分字段填充 ListOffer
-
     @NonNull
     private OffersRepository mRepository;
 
@@ -164,6 +161,8 @@ public class OffersViewModel extends ViewModel {
                 isNoOffersViewVisible, mResourceProvider.getString(R.string.no_offers_all));
     }
 
+    // TODO list item should not contains so many data {Offer}; 从数据库中选取部分字段填充 ListOffer
+
     private List<OfferItem> constructOfferItemList(List<Offer> offers, OffersFilterType filterType, RegionType regionType) {
         if (offers == null) {
             return null; // notebyweiyi: init as null coz the resource.data might be null
@@ -203,7 +202,7 @@ public class OffersViewModel extends ViewModel {
                 offer.isHotel(),
                 offer.location, // hotel location
                 mResourceProvider.nightsRange(offer.minNumNights, offer.maxNumNights),
-                OFFER_ENDS_IN_FORMAT,
+                mResourceProvider.offerEndsInDays(offer.visibilitySchedule.getRemainingDays()),
                 mResourceProvider.minPackagePrice(currencyCode, lowestPrice.min, offer.isHotel()),
                 mResourceProvider.maxPackagePrice(currencyCode, lowestPrice.max),
                 view -> handleOfferTaped(offer, view)

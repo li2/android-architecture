@@ -14,7 +14,9 @@ import arch.NetworkConnectivityInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import me.li2.android.architecture.data.model.Offer;
+import me.li2.android.architecture.data.model.VisibilitySchedule;
 import me.li2.android.architecture.data.source.remote.deserializer.OfferArrayDeserializer;
+import me.li2.android.architecture.data.source.remote.deserializer.VisibilityScheduleDeserializer;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -45,6 +47,7 @@ public class WebServiceGenerator {
         return new GsonBuilder()
                 .setLenient()
                 .registerTypeAdapter(offerArrayType, offerArrayDeserializer)
+                .registerTypeAdapter(VisibilitySchedule.class, new VisibilityScheduleDeserializer())
                 .create();
     }
 

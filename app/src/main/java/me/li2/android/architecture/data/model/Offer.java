@@ -69,6 +69,9 @@ public class Offer {
     @SerializedName("images")
     public List<BannerImage> images;
 
+    @SerializedName("visibilitySchedules")
+    public VisibilitySchedule visibilitySchedule;
+
     @SerializedName("locationHeading")
     public String locationHeading;
 

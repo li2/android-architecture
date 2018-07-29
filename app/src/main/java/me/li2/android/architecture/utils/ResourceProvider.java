@@ -64,6 +64,9 @@ public class ResourceProvider implements BaseResourceProvider {
         return NumberFormat.getNumberInstance(Locale.getDefault()).format(number);
     }
 
+    /**
+     * @return $299/room
+     */
     public String minPackagePrice(String currencyCode, int min, boolean isHotel) {
         return String.format(
                 Locale.getDefault(), getString(R.string.min_price_format),
@@ -72,6 +75,9 @@ public class ResourceProvider implements BaseResourceProvider {
                 getString(isHotel ? R.string.price_unit_room : R.string.price_unit_pers));
     }
 
+    /**
+     * @return Valued up to $714
+     */
     public String maxPackagePrice(String currencyCode, int max) {
         return String.format(
                 getString(R.string.max_price_format),
@@ -79,12 +85,25 @@ public class ResourceProvider implements BaseResourceProvider {
                 integerToStringWithCommas(max));
     }
 
+    /**
+     * @return Christchurch, New Zealand
+     */
     public String offerLocation(String locationHeading, String locationSubheading) {
         return !Strings.isNullOrEmpty(locationSubheading)
                 ? String.format(getString(R.string.offer_location_format), locationHeading, locationSubheading)
                 : locationHeading;
     }
 
+    /**
+     * @return OFFER ENDS IN 2 DAYS
+     */
+    public String offerEndsInDays(long days) {
+        return String.format(getString(R.string.offer_ends_in_days), days);
+    }
+
+    /**
+     * @return 5-7 Nights
+     */
     public String nightsRange(int from, int to) {
         return String.format(getString(R.string.nights_range_format, from, to));
     }
