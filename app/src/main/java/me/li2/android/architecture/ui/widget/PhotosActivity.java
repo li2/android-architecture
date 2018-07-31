@@ -2,9 +2,17 @@ package me.li2.android.architecture.ui.widget;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -26,6 +34,18 @@ public class PhotosActivity extends DaggerAppCompatActivity {
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
 
+    @BindView(R.id.toolbar_layout)
+    AppBarLayout mToolbarLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.toolbar_title)
+    TextView mToolbarTitleView;
+
+    @BindView(R.id.toolbar_icon)
+    ImageView mToolbarIcon;
+
     private String mTitle;
     private int mIndex;
     private ArrayList<String> mPhotoCloudinaryIds = new ArrayList<>();
@@ -33,8 +53,12 @@ public class PhotosActivity extends DaggerAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.photos_activity);
-        ButterKnife.bind(this);
 
         if (getIntent().hasExtra(EXTRA_PHOTOS_TITLE)) {
             mTitle = getIntent().getExtras().getString(EXTRA_PHOTOS_TITLE);
@@ -45,6 +69,10 @@ public class PhotosActivity extends DaggerAppCompatActivity {
         if (getIntent().hasExtra(EXTRA_PHOTOS_CLOUDINARYIDS)) {
             mPhotoCloudinaryIds = getIntent().getExtras().getStringArrayList(EXTRA_PHOTOS_CLOUDINARYIDS);
         }
+
+        ButterKnife.bind(this);
+
+        setupToolbar();
 
         setupViewPager();
 
@@ -63,5 +91,14 @@ public class PhotosActivity extends DaggerAppCompatActivity {
                 return mPhotoCloudinaryIds.size();
             }
         });
+    }
+
+    private void setupToolbar() {
+        mToolbarLayout.setBackground(null);
+        // notebyweiyi: change app:elevation programmatically, not works for android:elevation
+        ViewCompat.setElevation(mToolbarLayout, 0);
+        mToolbarTitleView.setText(mTitle);
+        mToolbarIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_back));
+        mToolbarIcon.setOnClickListener(view -> finish());
     }
 }
