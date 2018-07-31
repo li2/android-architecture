@@ -5,6 +5,7 @@ import android.util.ArrayMap;
 import java.util.List;
 
 import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by weiyi on 29/7/18.
@@ -13,6 +14,9 @@ import io.reactivex.functions.Action;
 public class OfferDetailItem {
 
     public List<String> photoCloudinaryIds;
+
+    /** Rx Callback contains photo's cloudinaryId index */
+    public Consumer<Integer> onPhotoClickAction;
 
     public String name;
 
@@ -32,6 +36,7 @@ public class OfferDetailItem {
     public ArrayMap<String, String> expandableContent;
 
     public OfferDetailItem(List<String> photoCloudinaryIds,
+                           Consumer<Integer> onPhotoClickAction,
                            String name,
                            String description,
                            String location,
@@ -40,6 +45,7 @@ public class OfferDetailItem {
                            Action onShareAction,
                            ArrayMap<String, String> expandableContent) {
         this.photoCloudinaryIds = photoCloudinaryIds;
+        this.onPhotoClickAction = onPhotoClickAction;
         this.name = name;
         this.description = description;
         this.location = location;

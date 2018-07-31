@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.util.ArrayMap;
 
+import java.util.List;
+
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.data.model.Offer;
 import me.li2.android.architecture.data.model.Price;
@@ -49,6 +51,7 @@ public class OfferDetailViewModel extends ViewModel {
     private OfferDetailItem constructOfferDetailItem(Offer offer) {
         String currencyCode = RegionType.AUD.name(); // TODO remove hardcoding
         Price lowestPrice = offer.getLowestPrice(currencyCode);
+        List<String> photoCloudinaryIds = offer.getBannerCloudinaryIds();
 
         ArrayMap<String, String> expandableContent = new ArrayMap<>();
         expandableContent.put(mResourceProvider.getString(R.string.offer_highlights), offer.highlights);
@@ -56,7 +59,8 @@ public class OfferDetailViewModel extends ViewModel {
         expandableContent.put(mResourceProvider.getString(R.string.offer_gettingThere), offer.gettingThere);
 
         return new OfferDetailItem(
-                offer.getBannerCloudinaryIds(),
+                photoCloudinaryIds,
+                position -> handlePhotoClicked(offer.name, position, photoCloudinaryIds),
                 offer.name,
                 offer.description,
                 offer.getLocationName(),
@@ -69,5 +73,9 @@ public class OfferDetailViewModel extends ViewModel {
 
     private void handleShareClicked() {
 
+    }
+
+    private void handlePhotoClicked(String name, int position, List<String> photoCloudinaryIds) {
+        mNavigator.openPhoto(name, position, photoCloudinaryIds);
     }
 }

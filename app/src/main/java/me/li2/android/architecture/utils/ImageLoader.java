@@ -63,14 +63,29 @@ public class ImageLoader implements BaseImageLoader {
     }
 
     @Override
-    public void loadImage(View view, String url, Drawable placeHolder) {
+    public void loadImageIntoTarget(View view, String url, Drawable placeHolder) {
+        loadImageIntoTarget(view, url, placeHolder, null);
+    }
+
+    @Override
+    public void loadImageIntoTarget(View view, String url, Drawable placeHolder, Consumer<Bitmap> onBitmapLoaded) {
         if (Strings.isNullOrEmpty(url)) {
             url = null;
         }
         Picasso.with(view.getContext()).load(url).placeholder(placeHolder).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                view.setBackground(new BitmapDrawable(view.getContext().getResources(), bitmap));
+                if (onBitmapLoaded != null) {
+                    try {
+                        onBitmapLoaded.accept(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    /** notebyweiyi: Some special image has its own method to set drawable, such as
+                      {@link SubsamplingScaleImageView.setImage} */
+                    view.setBackground(new BitmapDrawable(view.getContext().getResources(), bitmap));
+                }
             }
 
             @Override

@@ -1,5 +1,6 @@
 package me.li2.android.architecture.utils;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,5 +16,7 @@ public interface BaseImageLoader {
 
     void loadImage(ImageView view, String url, Drawable placeHolder, Consumer<Boolean> onLoadedAction);
 
-    void loadImage(View view, String url, Drawable placeHolder);
+    void loadImageIntoTarget(View view, String url, Drawable placeHolder);
+
+    void loadImageIntoTarget(View view, String url, Drawable placeHolder, Consumer<Bitmap> onBitmapLoaded);
 }

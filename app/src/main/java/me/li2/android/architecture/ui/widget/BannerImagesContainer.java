@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import io.reactivex.functions.Consumer;
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.ui.Config;
 import me.li2.android.architecture.utils.BaseImageLoader;
@@ -36,6 +37,8 @@ public class BannerImagesContainer extends FrameLayout {
     private BaseImageLoader mImageLoader;
 
     private BannerImageAdapter mAdapter;
+
+    private Consumer<Integer> mOnPhotoClick;
 
     public BannerImagesContainer(@NonNull Context context) {
         this(context, null, 0);
@@ -60,6 +63,10 @@ public class BannerImagesContainer extends FrameLayout {
         mCloudinaryIds = cloudinaryIds;
         mImageLoader = imageLoader;
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void setPhotoClickAction(Consumer<Integer> action) {
+        mOnPhotoClick = action;
     }
 
     private void initView() {
@@ -94,7 +101,7 @@ public class BannerImagesContainer extends FrameLayout {
 
         @Override
         public void onBindViewHolder(BannerImageViewHolder holder, int position) {
-            holder.bindImageCloudinaryId(mCloudinaryIds.get(position));
+            holder.bindImageCloudinaryId(mCloudinaryIds.get(position), position);
         }
 
         @Override
@@ -114,10 +121,19 @@ public class BannerImagesContainer extends FrameLayout {
             mProgressBar = itemView.findViewById(R.id.progress_bar);
         }
 
-        public void bindImageCloudinaryId(String cloudinaryId) {
+        public void bindImageCloudinaryId(String cloudinaryId, int position) {
             mProgressBar.setVisibility(VISIBLE);
             mImageLoader.loadImage(mImageView, Config.photoUrl(cloudinaryId), null,
                     succeed -> mProgressBar.setVisibility(GONE));
+            mImageView.setOnClickListener(view -> {
+                if (mOnPhotoClick != null) {
+                    try {
+                        mOnPhotoClick.accept(position);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
 }

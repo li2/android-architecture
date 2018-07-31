@@ -107,6 +107,7 @@ public class OfferDetailFragment extends BaseFragment {
 //                succeed -> startPostponedEnterTransition());
         
         mBannerImagesContainer.setCloudinaryIds(item.photoCloudinaryIds, mImageLoader);
+        mBannerImagesContainer.setPhotoClickAction(item.onPhotoClickAction);
         mNameView.setText(item.name);
         mDescriptionView.setText(item.description);
         mOfferLocationView.setText(item.location);

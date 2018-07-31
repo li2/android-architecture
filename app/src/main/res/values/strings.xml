@@ -17,9 +17,9 @@
     <string name="price_unit_room">room</string>
     <string name="price_unit_pers">pers</string>
 
-    <string name="offer_highlights">**Highlights**</string>
-    <string name="offer_finePrint">**Fine Print**</string>
-    <string name="offer_gettingThere">**Location &amp; Getting There**</string>
+    <string name="offer_highlights">Highlights</string>
+    <string name="offer_finePrint">Fine Print</string>
+    <string name="offer_gettingThere">Location &amp; Getting There</string>
 
     <!--currency symbol, price, unit-->
     <string name="min_price_format">%1$s%2$s/%3$s</string>
