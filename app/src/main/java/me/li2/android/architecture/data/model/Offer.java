@@ -38,6 +38,7 @@ public class Offer {
     @SerializedName("name")
     public String name;
 
+    /** it's hotel location */
     @SerializedName("location")
     public String location;
 
@@ -74,6 +75,7 @@ public class Offer {
     @SerializedName("visibilitySchedules")
     public VisibilitySchedule visibilitySchedule;
 
+    /** Destination location */
     @SerializedName("locationHeading")
     public String locationHeading;
 
@@ -118,10 +120,15 @@ public class Offer {
         return images != null && images.size() > 0 ? images.get(0).cloudinaryId : null;
     }
 
+    /** Get destination location */
     @Nonnull
     public String getLocationName() {
         return !Strings.isNullOrEmpty(locationSubheading)
                 ? (locationHeading + ", " + locationSubheading)
                 : locationHeading;
+    }
+
+    public long getScheduleRemainingDays() {
+        return visibilitySchedule != null ? visibilitySchedule.getRemainingDays() : 0;
     }
 }

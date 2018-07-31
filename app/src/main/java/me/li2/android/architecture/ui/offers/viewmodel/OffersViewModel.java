@@ -111,7 +111,7 @@ public class OffersViewModel extends ViewModel {
                         if (resource.throwable instanceof NoNetworkException) {
                             mSnackbarText.setValue(mResourceProvider.getString(R.string.status_no_connect));
                         } else {
-                            // TODO display meaningful string to user
+                            // TODO display meaningful string to user according to resource.code
                             mSnackbarText.setValue(resource.errorMessage);
                         }
                     }
@@ -188,8 +188,10 @@ public class OffersViewModel extends ViewModel {
         return result;
     }
 
-    // notebyweiyi: $299/room $3499/pers 涉及货币单位、offer类型，最好在ViewModel中打包好传给View
-
+    /** Convert raw data from server to view data which contains all the UI state,
+     for example, the minimum package price is displaying as $299/room, which contains 3 data source:
+     the currency symbol, the price value, the unit, we don't want UI to know so much details,
+     so we construct a string for UI. notebyweiyi */
     private OfferItem constructOfferItem(final Offer offer, final RegionType regionType) {
         String currencyCode = regionType.name();
         Price lowestPrice = offer.getLowestPrice(currencyCode);
@@ -200,13 +202,13 @@ public class OffersViewModel extends ViewModel {
                 offer.name,
                 offer.getLocationName(),
                 offer.isHotel(),
-                offer.location, // hotel location
+                offer.location,
                 mResourceProvider.nightsRange(offer.minNumNights, offer.maxNumNights),
-                mResourceProvider.offerEndsInDays(offer.visibilitySchedule != null ? offer.visibilitySchedule.getRemainingDays() : 0),
+                mResourceProvider.offerEndsInDays(offer.getScheduleRemainingDays()),
                 mResourceProvider.minPackagePrice(currencyCode, lowestPrice.min, offer.isHotel()),
                 mResourceProvider.maxPackagePrice(currencyCode, lowestPrice.max),
                 view -> handleOfferTaped(offer, view)
-                );
+        );
     }
 
     private void handleOfferTaped(Offer offer, View sharedElement) {

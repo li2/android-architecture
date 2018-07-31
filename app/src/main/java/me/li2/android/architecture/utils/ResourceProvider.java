@@ -19,8 +19,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
-import com.google.common.base.Strings;
-
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
@@ -83,16 +81,6 @@ public class ResourceProvider implements BaseResourceProvider {
                 getString(R.string.max_price_format),
                 Currency.getInstance(currencyCode).getSymbol(),
                 integerToStringWithCommas(max));
-    }
-
-    // TODO remove
-    /**
-     * @return Christchurch, New Zealand
-     */
-    public String offerLocation(String locationHeading, String locationSubheading) {
-        return !Strings.isNullOrEmpty(locationSubheading)
-                ? String.format(getString(R.string.offer_location_format), locationHeading, locationSubheading)
-                : locationHeading;
     }
 
     /**

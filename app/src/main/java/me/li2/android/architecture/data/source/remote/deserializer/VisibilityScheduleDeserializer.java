@@ -37,8 +37,6 @@ public class VisibilityScheduleDeserializer implements JsonDeserializer<Visibili
         }
     }
 
-    notebyweiyi: contains more than one object, workaround is to modify the demo json file to have same "world" !
-
     "visibilitySchedules": {
         "NZ": {
             ....
@@ -47,6 +45,9 @@ public class VisibilityScheduleDeserializer implements JsonDeserializer<Visibili
             ....
         }
     }
+
+    notebyweiyi: contains more than one object, workaround is to modify the demo json file to have same "world" !
+    but i think the best solution is to use JsonArray [] instead of {}
      */
 
     @Override

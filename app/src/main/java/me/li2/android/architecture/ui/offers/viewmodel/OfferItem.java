@@ -11,29 +11,29 @@ import io.reactivex.functions.Consumer;
  */
 public class OfferItem {
 
-    public String idSalesforceExternal;
+    public final String idSalesforceExternal;
 
-    public String photoCloudinaryId;
+    public final String photoCloudinaryId;
 
-    public String name;
+    public final String name;
 
-    public String location;
+    public final String location;
 
-    public boolean isHotelVisible;
+    public final boolean isHotelVisible;
 
-    public String hotelLocation;
+    public final String hotelLocation;
 
-    public String hotelNightsRange;
+    public final String hotelNightsRange;
 
-    public String offerEnds;
+    public final String offerEnds;
 
-    public String minPrice;
+    public final String minPrice;
 
-    public String maxPrice;
+    public final String maxPrice;
 
-    // shared element transition between RecyclerView and Fragment
-    // list item click listen, accept the shared element view as para to perform transition later
-    public Consumer<View> onClickAction;
+    /** shared element transition between RecyclerView and Fragment
+     list item click listen, accept the shared element view as para to perform transition later */
+    public final Consumer<View> onClickAction;
 
     public OfferItem(String idSalesforceExternal, String photoCloudinaryId, String name, String location, boolean isHotelVisible, String hotelLocation, String hotelNightsRange, String offerEnds, String minPrice, String maxPrice, Consumer<View> onClickAction) {
         this.idSalesforceExternal = idSalesforceExternal;
