@@ -71,7 +71,7 @@ public class BannerImagesContainer extends FrameLayout {
 
     private void initView() {
         // notebyweiyi: set attacheToRoot to true otherwise the list will not show
-        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.banner_images_container_widget, this, true);
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.banner_images_container, this, true);
         RecyclerView recyclerView = rootView.findViewById(R.id.banner_images_list_view);
         IndefinitePagerIndicator indicator = rootView.findViewById(R.id.banner_images_indicator);
         indicator.attachToRecyclerView(recyclerView);

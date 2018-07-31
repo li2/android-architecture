@@ -109,14 +109,14 @@ class ExpandableListAdapter
     @Override
     public MyGroupViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View v = inflater.inflate(R.layout.list_group_item, parent, false);
+        final View v = inflater.inflate(R.layout.expandable_list_item_group, parent, false);
         return new MyGroupViewHolder(v);
     }
 
     @Override
     public MyChildViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View v = inflater.inflate(R.layout.list_item, parent, false);
+        final View v = inflater.inflate(R.layout.expandable_list_item_child, parent, false);
         return new MyChildViewHolder(v);
     }
 

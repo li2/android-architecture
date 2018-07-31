@@ -63,7 +63,7 @@ public class ExpandableListFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_recycler_list_view, container, false);
+        return inflater.inflate(R.layout.expandable_list_fragment, container, false);
     }
 
     @Override
