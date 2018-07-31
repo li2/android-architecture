@@ -8,20 +8,18 @@ import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import me.li2.android.architecture.R;
-import me.li2.android.architecture.ui.Config;
 import me.li2.android.architecture.ui.basic.BaseFragment;
 import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailItem;
 import me.li2.android.architecture.ui.offerdetail.viewmodel.OfferDetailViewModel;
+import me.li2.android.architecture.ui.widget.BannerImagesContainer;
 import me.li2.android.architecture.ui.widget.ExpandableListFragment;
 import me.li2.android.architecture.utils.BaseImageLoader;
-import me.li2.android.architecture.utils.ViewUtils;
 
 public class OfferDetailFragment extends BaseFragment {
 
@@ -33,8 +31,8 @@ public class OfferDetailFragment extends BaseFragment {
     @Inject
     BaseImageLoader mImageLoader;
 
-    @BindView(R.id.offer_image_view)
-    ImageView mImageView;
+    @BindView(R.id.offer_images_container)
+    BannerImagesContainer mBannerImagesContainer;
 
     @BindView(R.id.offer_name_view)
     TextView mNameView;
@@ -104,10 +102,11 @@ public class OfferDetailFragment extends BaseFragment {
 
     private void bindOfferDetailItem(OfferDetailItem item) {
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils.setOfferTransitionName(mImageView.getContext(), mImageView, getOfferId());
-        mImageLoader.loadImage(mImageView, Config.photoUrl(item.photoCloudinaryId), null,
-                succeed -> startPostponedEnterTransition());
-
+//        ViewUtils.setOfferTransitionName(mImageView.getContext(), mImageView, getOfferId());
+//        mImageLoader.loadImage(mImageView, Config.photoUrl(item.photoCloudinaryId), null,
+//                succeed -> startPostponedEnterTransition());
+        
+        mBannerImagesContainer.setCloudinaryIds(item.photoCloudinaryIds, mImageLoader);
         mNameView.setText(item.name);
         mDescriptionView.setText(item.description);
         mOfferLocationView.setText(item.location);

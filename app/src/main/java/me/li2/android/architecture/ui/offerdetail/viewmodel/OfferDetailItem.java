@@ -2,6 +2,8 @@ package me.li2.android.architecture.ui.offerdetail.viewmodel;
 
 import android.util.ArrayMap;
 
+import java.util.List;
+
 import io.reactivex.functions.Action;
 
 /**
@@ -10,7 +12,7 @@ import io.reactivex.functions.Action;
  */
 public class OfferDetailItem {
 
-    public String photoCloudinaryId;
+    public List<String> photoCloudinaryIds;
 
     public String name;
 
@@ -29,7 +31,7 @@ public class OfferDetailItem {
        store them in ArrayMap<Title, Content> */
     public ArrayMap<String, String> expandableContent;
 
-    public OfferDetailItem(String photoCloudinaryId,
+    public OfferDetailItem(List<String> photoCloudinaryIds,
                            String name,
                            String description,
                            String location,
@@ -37,7 +39,7 @@ public class OfferDetailItem {
                            String maxPrice,
                            Action onShareAction,
                            ArrayMap<String, String> expandableContent) {
-        this.photoCloudinaryId = photoCloudinaryId;
+        this.photoCloudinaryIds = photoCloudinaryIds;
         this.name = name;
         this.description = description;
         this.location = location;

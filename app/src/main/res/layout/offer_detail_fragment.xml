@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/offer_image_view"
+        <me.li2.android.architecture.ui.widget.BannerImagesContainer
+            android:id="@+id/offer_images_container"
             android:transitionName="@string/transition_offer_cover_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/photo_height"
@@ -33,7 +33,7 @@
             android:paddingTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/offer_image_view">
+            app:layout_constraintTop_toBottomOf="@+id/offer_images_container">
 
             <TextView
                 android:id="@+id/offer_price_from_view"

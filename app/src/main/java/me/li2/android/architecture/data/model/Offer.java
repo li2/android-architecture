@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.google.common.base.Strings;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -116,8 +117,18 @@ public class Offer {
     }
 
     @Nullable
-    public String getFirstPhotoCloudinaryId() {
+    public String getFirstBannerImageCloudinaryId() {
         return images != null && images.size() > 0 ? images.get(0).cloudinaryId : null;
+    }
+
+    public List<String> getBannerCloudinaryIds() {
+        List<String> result = new ArrayList<>();
+        if (images != null) {
+            for (BannerImage bannerImage : images) {
+                result.add(bannerImage.cloudinaryId);
+            }
+        }
+        return result;
     }
 
     /** Get destination location */

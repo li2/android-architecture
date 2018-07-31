@@ -1,0 +1,23 @@
+<FrameLayout
+    android:id="@+id/banner_images_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/banner_images_list_view"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+        android:id="@+id/banner_images_indicator"
+        android:layout_gravity="center_horizontal|bottom"
+        app:dotColor="@color/porcelain_white"
+        app:selectedDotColor="@color/eastern_blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/arch_default_margin"/>
+
+</FrameLayout>

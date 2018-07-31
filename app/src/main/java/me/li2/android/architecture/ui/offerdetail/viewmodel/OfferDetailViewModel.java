@@ -56,7 +56,7 @@ public class OfferDetailViewModel extends ViewModel {
         expandableContent.put(mResourceProvider.getString(R.string.offer_gettingThere), offer.gettingThere);
 
         return new OfferDetailItem(
-                offer.getFirstPhotoCloudinaryId(),
+                offer.getBannerCloudinaryIds(),
                 offer.name,
                 offer.description,
                 offer.getLocationName(),

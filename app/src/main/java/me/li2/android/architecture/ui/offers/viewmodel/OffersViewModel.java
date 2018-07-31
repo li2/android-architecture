@@ -198,7 +198,7 @@ public class OffersViewModel extends ViewModel {
 
         return new OfferItem(
                 offer.idSalesforceExternal,
-                offer.getFirstPhotoCloudinaryId(),
+                offer.getFirstBannerImageCloudinaryId(),
                 offer.name,
                 offer.getLocationName(),
                 offer.isHotel(),
