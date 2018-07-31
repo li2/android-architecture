@@ -98,6 +98,7 @@ public class PhotosActivity extends DaggerAppCompatActivity {
         // notebyweiyi: change app:elevation programmatically, not works for android:elevation
         ViewCompat.setElevation(mToolbarLayout, 0);
         mToolbarTitleView.setText(mTitle);
+        mToolbarTitleView.setAllCaps(false);
         mToolbarIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_back));
         mToolbarIcon.setOnClickListener(view -> finish());
     }
