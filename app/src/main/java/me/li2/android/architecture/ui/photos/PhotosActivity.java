@@ -34,6 +34,9 @@ public class PhotosActivity extends DaggerAppCompatActivity {
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
 
+    @BindView(R.id.viewpager_index_view)
+    TextView mViewPagerIndexView;
+
     @BindView(R.id.toolbar_layout)
     AppBarLayout mToolbarLayout;
 
@@ -77,6 +80,7 @@ public class PhotosActivity extends DaggerAppCompatActivity {
         setupViewPager();
 
         mViewPager.setCurrentItem(mIndex);
+        updatePageIndex(mIndex);
     }
 
     private void setupViewPager() {
@@ -91,6 +95,22 @@ public class PhotosActivity extends DaggerAppCompatActivity {
                 return mPhotoCloudinaryIds.size();
             }
         });
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updatePageIndex(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void setupToolbar() {
@@ -101,5 +121,9 @@ public class PhotosActivity extends DaggerAppCompatActivity {
         mToolbarTitleView.setAllCaps(false);
         mToolbarIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_back));
         mToolbarIcon.setOnClickListener(view -> finish());
+    }
+
+    private void updatePageIndex(int position) {
+        mViewPagerIndexView.setText("" + (position + 1) + "/" + mPhotoCloudinaryIds.size());
     }
 }
