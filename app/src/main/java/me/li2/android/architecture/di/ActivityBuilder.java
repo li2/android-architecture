@@ -5,8 +5,8 @@ import dagger.android.ContributesAndroidInjector;
 import me.li2.android.architecture.ui.offerdetail.view.OfferDetailFragment;
 import me.li2.android.architecture.ui.offers.view.OffersActivity;
 import me.li2.android.architecture.ui.offers.view.OffersFragment;
-import me.li2.android.architecture.ui.widget.PhotoFragment;
-import me.li2.android.architecture.ui.widget.PhotosActivity;
+import me.li2.android.architecture.ui.photos.PhotoFragment;
+import me.li2.android.architecture.ui.photos.PhotosActivity;
 
 /**
  * This is a given module to dagger.

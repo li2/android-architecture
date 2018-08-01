@@ -1,4 +1,4 @@
-package me.li2.android.architecture.ui.widget;
+package me.li2.android.architecture.ui.photos;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

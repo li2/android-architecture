@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import me.li2.android.architecture.R;
 import me.li2.android.architecture.ui.offerdetail.view.OfferDetailFragment;
-import me.li2.android.architecture.ui.widget.PhotosActivity;
+import me.li2.android.architecture.ui.photos.PhotosActivity;
 import me.li2.android.architecture.utils.BaseNavigator;
 
 /**
