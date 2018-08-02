@@ -32,7 +32,7 @@ public class OffersNavigator {
      * Open the details of an offer.
      */
     public void openOfferDetails(String id, @NonNull View sharedElement) {
-        mNavigator.addFragment(OfferDetailFragment.newInstance(id), R.id.fragmentContainer, sharedElement);
+        mNavigator.addFragment(OfferDetailFragment.newInstance(id), R.id.fragmentContainer);
     }
 
     public void openPhoto(String title, int position, List<String> photoCloudinaryIds) {
