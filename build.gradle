@@ -21,13 +21,13 @@ ext {
     appVersionCode = 1
     appVersionName = "1.0"
 
-    // Build versions
+    // SDK and build tools
     androidCompileSdkVersion = 27
     androidMinSdkVersion = 21
     androidTargetSdkVersion = 27
     androidBuildToolsVersion = "27.0.3"
 
-    // Libraries
+    // App dependencies
     arch_lifecycle_version = "1.0.0"
     butterknife_version="8.4.0"
     constraint_layout_version = "1.0.2"
@@ -36,6 +36,7 @@ ext {
     google_guava_version = "24.1-android"
     junit_version = "4.12"
     markdownview_version = "1.1.0"
+    mockito_version = '2.21.0'
     okhttp3_version = "3.11.0"
     okhttp3_logging_interceptor_version = "3.6.0"
     picasso_version = "2.5.2"

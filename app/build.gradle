@@ -35,7 +35,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+    // Dependencies for local unit tests
     testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
 
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:design:$support_version"
@@ -82,6 +84,8 @@ dependencies {
     implementation "android.arch.lifecycle:runtime:$arch_lifecycle_version"
     implementation "android.arch.lifecycle:extensions:$arch_lifecycle_version"
     implementation "android.arch.lifecycle:common-java8:$arch_lifecycle_version"
+    // optional - Test helpers for LiveData
+    testImplementation "android.arch.core:core-testing:$arch_lifecycle_version"
     annotationProcessor "android.arch.lifecycle:compiler:$arch_lifecycle_version"
 
     implementation 'com.jakewharton.timber:timber:4.6.1'

@@ -108,9 +108,11 @@ public class Offer {
      */
     @Nonnull
     public Price getLowestPrice(String currencyCode) {
-        for (Price price : lowestPricePackage.prices) {
-            if (currencyCode.equals(price.currencyCode)) {
-                return price;
+        if (lowestPricePackage != null && lowestPricePackage.prices != null) { // NullPointerException found by UT notebyweiyi
+            for (Price price : lowestPricePackage.prices) {
+                if (currencyCode.equals(price.currencyCode)) {
+                    return price;
+                }
             }
         }
         return new Price(currencyCode, -1, -1);
