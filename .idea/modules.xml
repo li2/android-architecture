@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android-architecture.iml" filepath="$PROJECT_DIR$/android-architecture.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hikotlin/hikotlin.iml" filepath="$PROJECT_DIR$/hikotlin/hikotlin.iml" />
     </modules>
   </component>
 </project>
