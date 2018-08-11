@@ -1,5 +1,7 @@
 package me.li2.android.hikotlin.kotlin
 
+import me.li2.android.hikotlin.java.JavaMoney
+
 
 // Introduction to Kotlin (Google I/O '17)
 // https://www.youtube.com/watch?v=X1RVYt2QKQE
@@ -22,4 +24,7 @@ fun main(args: Array<String>) {
         println("They are different")
     }
     
+    /* tip: for consuming Java from Kotlin, IDE replace the getter/setter method with property. */
+    val javaMoney = JavaMoney(100, "$")
+    println("JavaMoney amount=${javaMoney.amount}")
 }
