@@ -13,6 +13,7 @@
     <string name="filter_all">All</string>
     <string name="filter_hotel">Hotel &amp; Resorts</string>
     <string name="filter_tours">Tours</string>
+    <string name="filter_toggle">Toggle Layout</string>
 
     <string name="price_unit_room">room</string>
     <string name="price_unit_pers">pers</string>

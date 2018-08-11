@@ -23,4 +23,7 @@
     <item
         android:id="@+id/filter_tours"
         android:title="@string/filter_tours" />
+    <item
+        android:id="@+id/filter_toggle"
+        android:title="@string/filter_toggle" />
 </menu>

@@ -1,15 +1,26 @@
-<android.support.design.widget.CoordinatorLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/offer_list_swiperefresh"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_scrollFlags="scroll|enterAlways"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/offer_list_swiperefresh"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@+id/mapFragmentContainer"
+        app:layout_constraintTop_toBottomOf="@+id/include">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/offer_list_view"
@@ -36,6 +47,13 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/toolbar"/>
+    <FrameLayout
+        android:id="@+id/mapFragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></FrameLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
@@ -22,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.List;
 
@@ -40,9 +43,15 @@ import me.li2.android.architecture.ui.widget.RecyclerViewMarginDecoration;
 public class OffersFragment extends BaseFragment {
 
     private static final String BUNDLE_RECYCLER_POSITION = "recycler_position";
+    private static final String MAP_FRAGMENT_TAG = "map";
 
     @BindView(R.id.offer_list_view)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.mapFragmentContainer)
+    View mMapFragmentContainer;
+
+    private LinearLayoutManager mLinearLayoutManager;
 
     @BindView(R.id.offer_list_swiperefresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -57,6 +66,8 @@ public class OffersFragment extends BaseFragment {
 
     @Inject
     OffersAdapter mAdapter;
+
+    private SupportMapFragment mMapFragment;
 
     @Inject
     OffersViewModel mViewModel;
@@ -76,6 +87,7 @@ public class OffersFragment extends BaseFragment {
         setHasOptionsMenu(true);
         setActionBarTitle(constructActionBarTitle());
         setupOffersListView();
+        setupOffersMapFragment();
         setupSwipeRefreshLayout();
     }
 
@@ -120,8 +132,8 @@ public class OffersFragment extends BaseFragment {
 
     private void setupOffersListView() {
         final RecyclerView recyclerView = mRecyclerView;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setScrollContainer(false);
         // notebyweiyi: set true to allows your Toolbar and other views (such as tabs provided by TabLayout) to react to scroll events
         // [CoordinatorLayout and the app bar](https://android-developers.googleblog.com/2015/05/android-design-support-library.html)
@@ -131,6 +143,28 @@ public class OffersFragment extends BaseFragment {
         recyclerView.addItemDecoration(new RecyclerViewMarginDecoration(margin));
         // setup adapter
         recyclerView.setAdapter(mAdapter);
+    }
+
+    private void setupOffersMapFragment() {
+        // setup Google Map fragment
+        SupportMapFragment mapFragment = (SupportMapFragment)
+                getActivity().getSupportFragmentManager().findFragmentByTag(MAP_FRAGMENT_TAG);
+        if (mapFragment == null) {
+            // NOTE21: find returns null if use SupportMapFragment.
+            mapFragment = SupportMapFragment.newInstance();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.add(R.id.mapFragmentContainer, mapFragment, MAP_FRAGMENT_TAG);
+            ft.commit();
+        }
+        mMapFragment = mapFragment;
+    }
+
+    private void toggerOffersListLayout() {
+        int orientation = mLinearLayoutManager.getOrientation();
+        orientation = (orientation == LinearLayoutManager.VERTICAL) ? LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL;
+        mMapFragmentContainer.setVisibility(orientation == LinearLayoutManager.VERTICAL ? View.GONE : View.VISIBLE);
+        mLinearLayoutManager.setOrientation(orientation);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void setupSwipeRefreshLayout() {
@@ -218,8 +252,11 @@ public class OffersFragment extends BaseFragment {
                 case R.id.filter_tours:
                     mViewModel.filter(OffersFilterType.TOUR_OFFER);
                     break;
-                default:
+                case R.id.filter_all:
                     mViewModel.filter(OffersFilterType.ALL_OFFER);
+                    break;
+                case R.id.filter_toggle:
+                    toggerOffersListLayout();
                     break;
             }
             return true;
