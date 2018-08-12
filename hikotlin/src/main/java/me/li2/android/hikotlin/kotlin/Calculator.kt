@@ -48,6 +48,10 @@ fun operatorShift(input: Int): Int {
     return input / 10
 }
 
+fun operatorInsert(input: Int): Int {
+    return input * 10 + 1
+}
+
 /**
  * THE METHOD THAT TAKES AN ARRAY OF STRINGS AND PRINTS THE
  * POSSIBLE COMBINATIONS.
@@ -62,20 +66,20 @@ fun genOperatorsCombinations(operators: Array<Operator>): List<List<Operator>> {
             for (k in operators.indices) {
                 for (l in operators.indices) {
                     for (m in operators.indices) {
-                        for (n in operators.indices) {
-                            for (o in operators.indices) {
+//                        for (n in operators.indices) {
+//                            for (o in operators.indices) {
                                 val element = ArrayList<Operator>()
                                 element.add(operators[i])
                                 element.add(operators[j])
                                 element.add(operators[k])
                                 element.add(operators[l])
                                 element.add(operators[m])
-                                element.add(operators[n])
-                                element.add(operators[o])
+//                                element.add(operators[n])
+//                                element.add(operators[o])
                                 results.add(element)
                             }
-                        }
-                    }
+//                        }
+//                    }
                 }
             }
         }
@@ -91,7 +95,8 @@ enum class Operator(val alias: String) {
     DIVIDE("/"),
     REVERSE("Reverse"),
     CONVERT("+/-"),
-    SHIFT("<<");
+    SHIFT("<<"),
+    INSERT("1");
 }
 
 fun calculate(input: Int, operator: Operator): Int {
@@ -102,6 +107,7 @@ fun calculate(input: Int, operator: Operator): Int {
         Operator.REVERSE -> operatorReverse(input)
         Operator.CONVERT -> operatorConvert(input)
         Operator.SHIFT -> operatorShift(input)
+        Operator.INSERT -> operatorInsert(input)
         else -> {
             0
         }
@@ -126,11 +132,12 @@ fun printGoal(operators: List<Operator>) {
 
 var MY_MOVES: Int = 7
 var MY_INIT: Int = 0
-var MY_GOAL: Int = 28
-var MY_OPERATORS: Array<Operator> = arrayOf(PLUS, MINUS, REVERSE, SHIFT)
-var MY_PLUS: Int = 6
+var MY_GOAL: Int = 136
+var MY_OPERATORS: Array<Operator> = arrayOf(PLUS, MULTIPLY, REVERSE, INSERT)
+
+var MY_PLUS: Int = 2
 var MY_MINUS: Int = -3
-var MY_MULTIPLY: Int = 2
+var MY_MULTIPLY: Int = 3
 var MY_DIVIDER: Int = 2
 
 // Goal 28 achieved with operators:  + + << + + Reverse -
