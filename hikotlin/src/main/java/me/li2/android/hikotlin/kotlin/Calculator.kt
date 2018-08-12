@@ -1,20 +1,27 @@
 package me.li2.android.hikotlin.kotlin
 
+import me.li2.android.hikotlin.kotlin.Operator.*
 import java.util.*
+
 
 /** + */
 fun operatorPlus(input: Int): Int {
-    return input + 6
+    return input + MY_PLUS
 }
 
 /** - */
 fun operatorMinus(input: Int): Int {
-    return input - 3
+    return input + MY_MINUS
 }
 
-/** * */
+/** x */
 fun operatorMultiply(input: Int): Int {
-    return input * 3
+    return input * MY_MULTIPLY
+}
+
+/** / */
+fun operatorDivider(input: Int): Int {
+    return input / MY_DIVIDER
 }
 
 /** reverse : 12 to 21 */
@@ -45,9 +52,9 @@ fun operatorShift(input: Int): Int {
  * THE METHOD THAT TAKES AN ARRAY OF STRINGS AND PRINTS THE
  * POSSIBLE COMBINATIONS.
  */
-fun genOperatorsCombinations(operators: Array<String>): List<List<String>> {
+fun genOperatorsCombinations(operators: Array<Operator>): List<List<Operator>> {
 
-    val results = ArrayList<List<String>>()
+    val results = ArrayList<List<Operator>>()
 
     /*COMBINATIONS OF LENGTH THREE*/
     for (i in operators.indices) {
@@ -57,7 +64,7 @@ fun genOperatorsCombinations(operators: Array<String>): List<List<String>> {
                     for (m in operators.indices) {
                         for (n in operators.indices) {
                             for (o in operators.indices) {
-                                val element = ArrayList<String>()
+                                val element = ArrayList<Operator>()
                                 element.add(operators[i])
                                 element.add(operators[j])
                                 element.add(operators[k])
@@ -77,23 +84,31 @@ fun genOperatorsCombinations(operators: Array<String>): List<List<String>> {
     return results
 }
 
-//fun combination(operators: List<Operator>): List<List<Operator>> {
-//    List<>
-//}
+enum class Operator(val alias: String) {
+    PLUS("+"),
+    MINUS("-"),
+    MULTIPLY("x"),
+    DIVIDE("/"),
+    REVERSE("Reverse"),
+    CONVERT("+/-"),
+    SHIFT("<<");
+}
 
-fun calculate(input: Int, operator: String): Int {
+fun calculate(input: Int, operator: Operator): Int {
     return when(operator) {
-        "+" -> operatorPlus(input)
-        "-" -> operatorMinus(input)
-        "r" -> operatorReverse(input)
-        "<<" -> operatorShift(input)
+        Operator.PLUS -> operatorPlus(input)
+        Operator.MINUS-> operatorMinus(input)
+        Operator.MULTIPLY -> operatorMultiply(input)
+        Operator.REVERSE -> operatorReverse(input)
+        Operator.CONVERT -> operatorConvert(input)
+        Operator.SHIFT -> operatorShift(input)
         else -> {
             0
         }
     }
 }
 
-fun chainCalculate(input: Int, operators: List<String>): Int {
+fun chainCalculate(input: Int, operators: List<Operator>): Int {
     var result = input
     for (operator in operators) {
         result = calculate(result, operator)
@@ -101,18 +116,35 @@ fun chainCalculate(input: Int, operators: List<String>): Int {
     return result
 }
 
-fun main(args: Array<String>) {
-//    var moves = 7
-    var input = 0
-    var goal = 28
-    var result: Int
-    var operators = arrayOf("+", "-", "r", "<<")
+fun printGoal(operators: List<Operator>) {
+    var result = ""
+    for (operator in operators) {
+        result += " ${operator.alias}"
+    }
+    println("Goal $MY_GOAL achieved with operators: $result")
+}
 
-    var combinations = genOperatorsCombinations(operators)
+var MY_MOVES: Int = 7
+var MY_INIT: Int = 0
+var MY_GOAL: Int = 28
+var MY_OPERATORS: Array<Operator> = arrayOf(PLUS, MINUS, REVERSE, SHIFT)
+var MY_PLUS: Int = 6
+var MY_MINUS: Int = -3
+var MY_MULTIPLY: Int = 2
+var MY_DIVIDER: Int = 2
+
+// Goal 28 achieved with operators:  + + << + + Reverse -
+
+fun main(args: Array<String>) {
+
+    var result: Int
+    var combinations = genOperatorsCombinations(MY_OPERATORS)
+
     for (operators in combinations) {
-        result = chainCalculate(input, operators)
-        if (result == goal) {
-            println("Goal $goal achieved with operators $operators")
+        result = chainCalculate(MY_INIT, operators)
+        if (result == MY_GOAL) {
+            printGoal(operators)
+            break
         }
     }
 }
