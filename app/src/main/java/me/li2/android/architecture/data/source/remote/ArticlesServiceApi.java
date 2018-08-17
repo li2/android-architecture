@@ -15,6 +15,7 @@ import retrofit2.http.GET;
 
 public interface ArticlesServiceApi {
 
+    // https://li2.gitbooks.io/android-programming-journey/content/assets/demo-articles.json
     @GET("demo-articles.json")
     LiveData<ApiResponse<List<Article>>> getArticles();
 }

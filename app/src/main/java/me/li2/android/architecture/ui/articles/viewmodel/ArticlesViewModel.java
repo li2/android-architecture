@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -80,6 +81,7 @@ public class ArticlesViewModel extends ViewModel {
                         if (resource.throwable instanceof NoNetworkException) {
                             mSnackbarText.setValue(mResourceProvider.getString(R.string.status_no_connect));
                         } else {
+                            Log.d(TAG, "failed to get UI model : " + resource.errorMessage);
                             mSnackbarText.setValue(resource.errorMessage);
                         }
                     }

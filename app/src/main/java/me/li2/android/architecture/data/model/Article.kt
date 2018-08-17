@@ -36,7 +36,7 @@ class Article {
     var imageHref: String? = null
         private set
 
-    constructor(id: Int, title: String, description: String, imageHref: String) {
+    constructor(id: Int, title: String?, description: String?, imageHref: String?) {
         this.id = id
         this.title = title
         this.description = description
@@ -44,7 +44,7 @@ class Article {
     }
 
     @Ignore
-    constructor(title: String, description: String, imageHref: String) {
+    constructor(title: String?, description: String?, imageHref: String?) {
         this.title = title
         this.description = description
         this.imageHref = imageHref
