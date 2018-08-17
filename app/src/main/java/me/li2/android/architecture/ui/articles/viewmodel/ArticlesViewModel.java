@@ -133,6 +133,8 @@ public class ArticlesViewModel extends ViewModel {
                 isNoArticlesViewVisible, mResourceProvider.getString(R.string.no_articles_all));
     }
 
+    /** Convert raw data from server to view data which contains all the UI state.
+     because UI doesn't care too much details about the raw data. notebyweiyi */
     private ArticleItem constructArticleItem(final Article article) {
         return new ArticleItem(article, view -> handleArticleTaped(article, view));
     }

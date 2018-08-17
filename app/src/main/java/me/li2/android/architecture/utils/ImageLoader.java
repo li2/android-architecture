@@ -37,25 +37,30 @@ public class ImageLoader implements BaseImageLoader {
         if (Strings.isNullOrEmpty(url)) {
             url = null;
         }
-        mPicasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view, new Callback() {
-            @Override
-            public void onSuccess() {
-                try {
-                    onLoadedAction.accept(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        // notebyweiyi: should check onLoadedAction null otherwise will goto onError callback
+        if (onLoadedAction != null) {
+            mPicasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view, new Callback() {
+                @Override
+                public void onSuccess() {
+                    try {
+                        onLoadedAction.accept(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onError() {
-                try {
-                    onLoadedAction.accept(false);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                @Override
+                public void onError() {
+                    try {
+                        onLoadedAction.accept(false);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            Picasso.with(view.getContext()).load(url).placeholder(placeHolder).into(view);
+        }
     }
 
     @Override

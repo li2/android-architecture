@@ -32,6 +32,14 @@ public abstract class BaseFragment extends DaggerFragment {
         return rootView;
     }
 
+
+    /* notebyweiyi: onViewCreated(...) Called immediately after onCreateView(...) has returned
+     Fragment added in fragment xml layout, then they will be available after calling fragments onViewCreated method */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     public abstract int getLayout();
 
     public abstract void setupView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);

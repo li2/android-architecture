@@ -101,6 +101,8 @@ public class ArticlesFragment extends DaggerFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setScrollContainer(false);
+        // notebyweiyi: setNestedScrollingEnabled true to allows your Toolbar and other views (such as tabs provided by TabLayout) to react to scroll events
+        // [CoordinatorLayout and the app bar](https://android-developers.googleblog.com/2015/05/android-design-support-library.html)
         recyclerView.setNestedScrollingEnabled(false);
         // setup RecyclerView item margin
         int margin = (int)getResources().getDimension(R.dimen.default_margin);
