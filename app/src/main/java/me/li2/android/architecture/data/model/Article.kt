@@ -4,7 +4,6 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
-
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -18,39 +17,24 @@ import com.google.gson.annotations.SerializedName
  * Sample Json: https://li2.gitbooks.io/android-programming-journey/content/assets/demo-articles.json
  */
 
-@Entity(tableName = "ArticleTable", indices = arrayOf(Index(value = *arrayOf("title"), unique = true)))
-class Article {
+// TODO what's the purpose of indices?
+@Entity(tableName = "ArticleTable", indices = [Index(value = *arrayOf("title"), unique = true)])
+data class Article (
 
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    val id: Int,
 
     @SerializedName("title")
-    var title: String? = null
-        private set
+    val title: String?,
 
     @SerializedName("description")
-    var description: String? = null
-        private set
+    val description: String?,
 
     @SerializedName("imageHref")
-    var imageHref: String? = null
-        private set
-
-    constructor(id: Int, title: String?, description: String?, imageHref: String?) {
-        this.id = id
-        this.title = title
-        this.description = description
-        this.imageHref = imageHref
-    }
-
+    val imageHref: String?
+) {
+    // TODO this constructor is only for ArticleDeserializer, might be able to remove it when refactor the deserializer to kotlin
     @Ignore
-    constructor(title: String?, description: String?, imageHref: String?) {
-        this.title = title
-        this.description = description
-        this.imageHref = imageHref
-    }
-
-    override fun toString(): String {
-        return "title: " + this.title + ", description: " + this.description + ", imageHref: " + this.imageHref
-    }
+    constructor(title: String?, description: String?, imageHref: String?) : this(0, title, description, imageHref)
 }
+
