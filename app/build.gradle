@@ -5,14 +5,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
     defaultConfig {
-        applicationId "me.li2.android.architecture"
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        applicationId appPackageName
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode appVersionCode
+        versionName appVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,67 +34,81 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    // Dependencies for local unit tests
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:design:$support_version"
-    implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
     implementation "com.android.support:support-v4:$support_version"
-    testImplementation "junit:junit:$junit_version"
+    // Card View
+    implementation "com.android.support:cardview-v7:$support_version"
+    implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
     // OkHttp
-    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_logging_interceptor_version"
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.2.0'
-
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     // Retrofit GSON converter
-    implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_converter_gson_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_adapter_rxjava2_version"
 
     // GSON
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation "com.google.code.gson:gson:$gson_version"
 
     // Picasso
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+    implementation "com.jakewharton.picasso:picasso2-okhttp3-downloader:$picasso_okhttp3_downloader"
 
     // Picasso Transformations
     implementation 'jp.wasabeef:picasso-transformations:2.1.2'
 
     // Butter Knife
-    implementation 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation "com.jakewharton:butterknife:$butterknife_version"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
 
     // RecyclerView
-    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.10.2@aar') {
-        transitive = true
+    implementation ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar'){
+        transitive=true
     }
-
-    // Card View
-    implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.9'
 
     // Architecture Components
     // Room
-    implementation 'android.arch.persistence.room:runtime:' + rootProject.arch_lifecycle_version
-    annotationProcessor "android.arch.persistence.room:compiler:" + rootProject.arch_lifecycle_version
+    implementation "android.arch.persistence.room:runtime:$arch_lifecycle_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$arch_lifecycle_version"
     // LifeCycle
-    implementation 'android.arch.lifecycle:runtime:' + rootProject.arch_lifecycle_version
-    implementation 'android.arch.lifecycle:extensions:' + rootProject.arch_lifecycle_version
-    annotationProcessor "android.arch.lifecycle:compiler:" + rootProject.arch_lifecycle_version
+    implementation "android.arch.lifecycle:runtime:$arch_lifecycle_version"
+    implementation "android.arch.lifecycle:extensions:$arch_lifecycle_version"
+    implementation "android.arch.lifecycle:common-java8:$arch_lifecycle_version"
+    // optional - Test helpers for LiveData
+    testImplementation "android.arch.core:core-testing:$arch_lifecycle_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$arch_lifecycle_version"
 
     implementation 'com.jakewharton.timber:timber:4.6.1'
 
     // Dagger
-    implementation 'com.google.dagger:dagger:2.13'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
-    implementation 'com.google.dagger:dagger-android-support:2.13'
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
 
     // Google core libraries for Java
-    implementation 'com.google.guava:guava:24.1-android'
+    implementation "com.google.guava:guava:$google_guava_version"
 
     // RX
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
+
+    // Markdown
+    implementation "us.feras.mdv:markdownview:$markdownview_version"
+
+    // Scalable ImageView
+    implementation "com.davemorrissey.labs:subsampling-scale-image-view:$scale_image_view"
+
+    // Google Maps
+    implementation "com.google.android.gms:play-services-maps:$google_maps_version"
 }
