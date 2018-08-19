@@ -84,7 +84,7 @@ public class ArticleDetailFragment extends BaseFragment {
         mTitleView.setText(article.getTitle());
         mDescriptionView.setText(article.getDescription());
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, getArticleId());
+        ViewUtils.setArticleTransitionName(mImageView.getContext(), mImageView, article.getTitle());
         mImageLoader.loadImage(mImageView, article.getImageHref(), null, succeed -> startPostponedEnterTransition());
     }
 

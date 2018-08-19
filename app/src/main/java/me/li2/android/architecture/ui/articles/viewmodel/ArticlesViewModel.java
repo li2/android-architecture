@@ -138,7 +138,12 @@ public class ArticlesViewModel extends ViewModel {
     /** Convert raw data from server to view data which contains all the UI state.
      because UI doesn't care too much details about the raw data. notebyweiyi */
     private ArticleItem constructArticleItem(final Article article) {
-        return new ArticleItem(article, view -> handleArticleTaped(article, view));
+        return new ArticleItem(
+                article.getTitle(),
+                article.getDescription(),
+                article.getImageHref(),
+                view -> handleArticleTaped(article, view)
+        );
     }
 
     private void handleArticleTaped(Article article, View sharedElement) {
