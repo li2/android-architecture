@@ -30,13 +30,13 @@ public class ArticleDetailFragment extends BaseFragment {
     @Inject
     BaseImageLoader mImageLoader;
 
-    @BindView(R.id.article_image_view)
+    @BindView(R.id.articleImageView)
     ImageView mImageView;
 
-    @BindView(R.id.article_title_view)
+    @BindView(R.id.articleTitleView)
     TextView mTitleView;
     
-    @BindView(R.id.article_description_view)
+    @BindView(R.id.articleDescriptionView)
     TextView mDescriptionView;
 
     public static ArticleDetailFragment newInstance(int articleId) {
