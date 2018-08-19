@@ -49,7 +49,7 @@ class ArticlesFragment : DaggerFragment() {
 
         mViewModel.uiModel.observe(this, Observer { uiModel -> updateView(uiModel) })
 
-        mViewModel.loadingIndicatorVisibility.observe(this, Observer { visible -> setLoadingIndicatorVisibility(visible!!) }) // TODO why Found String?
+        mViewModel.loadingIndicator.observe(this, Observer { visible -> setLoadingIndicatorVisibility(visible!!) }) // TODO why Found String?
 
         mViewModel.snackbarMessage.observe(this, Observer { message -> showSnackBar(message!!) }) // TODO why Found String?
     }
