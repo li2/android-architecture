@@ -2,7 +2,6 @@ package me.li2.android.architecture.ui.articles.view
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import butterknife.ButterKnife
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.article_list_view_holder.view.*
 import me.li2.android.architecture.ui.articles.viewmodel.ArticleItem
@@ -19,7 +18,6 @@ class ArticleItemViewHolder(private val mItemView: View, private val mImageLoade
     private var mOnItemClickAction: Consumer<View>? = null
 
     init {
-        ButterKnife.bind(this, itemView)
         itemView.setOnClickListener {
             mOnItemClickAction?.accept(mItemView.articleImageView)
         }
