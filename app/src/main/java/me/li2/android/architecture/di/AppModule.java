@@ -19,6 +19,7 @@ import me.li2.android.architecture.data.source.local.AppDatabase;
 import me.li2.android.architecture.utils.AppExecutors;
 import me.li2.android.architecture.utils.BaseImageLoader;
 import me.li2.android.architecture.utils.BaseResourceProvider;
+import me.li2.android.architecture.utils.AppConstantsKt;
 import me.li2.android.architecture.utils.ImageLoader;
 import me.li2.android.architecture.utils.RateLimiter;
 import me.li2.android.architecture.utils.ResourceProvider;
@@ -64,7 +65,7 @@ public class AppModule {
     @Singleton
     AppDatabase provideAppDatabase(Context context) {
         return Room.databaseBuilder(context.getApplicationContext(),
-                AppDatabase.class, AppDatabase.DATABASE_NAME).build();
+                AppDatabase.class, AppConstantsKt.DATABASE_NAME).build();
     }
 
     @Provides

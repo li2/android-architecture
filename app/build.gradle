@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -68,7 +70,7 @@ dependencies {
 
     // Butter Knife
     implementation "com.jakewharton:butterknife:$butterknife_version"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
+    kapt "com.jakewharton:butterknife-compiler:$butterknife_version"
 
     // RecyclerView
     implementation ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar'){
@@ -79,21 +81,21 @@ dependencies {
     // Architecture Components
     // Room
     implementation "android.arch.persistence.room:runtime:$arch_lifecycle_version"
-    annotationProcessor "android.arch.persistence.room:compiler:$arch_lifecycle_version"
+    kapt "android.arch.persistence.room:compiler:$arch_lifecycle_version"
     // LifeCycle
     implementation "android.arch.lifecycle:runtime:$arch_lifecycle_version"
     implementation "android.arch.lifecycle:extensions:$arch_lifecycle_version"
     implementation "android.arch.lifecycle:common-java8:$arch_lifecycle_version"
     // optional - Test helpers for LiveData
     testImplementation "android.arch.core:core-testing:$arch_lifecycle_version"
-    annotationProcessor "android.arch.lifecycle:compiler:$arch_lifecycle_version"
+    kapt "android.arch.lifecycle:compiler:$arch_lifecycle_version"
 
     implementation 'com.jakewharton.timber:timber:4.6.1'
 
     // Dagger
     implementation "com.google.dagger:dagger:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
 
     // Google core libraries for Java
