@@ -13,30 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.li2.android.architecture.utils;
+package me.li2.android.architecture.utils
 
-import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.view.View;
+import android.os.Bundle
+import android.support.annotation.IdRes
+import android.support.v4.app.Fragment
+import android.view.View
 
 /**
  * Handles navigation between Activities in the app.
  */
-public interface BaseNavigator {
+interface BaseNavigator {
 
     /**
      * Finish an Activity
      */
-    void finishActivity();
+    fun finishActivity()
 
     /**
      * Finish an Activity with a result.
      *
      * @param resultCode the result code to be set when finishing the Activity.
      */
-    void finishActivityWithResult(int resultCode);
+    fun finishActivityWithResult(resultCode: Int)
 
     /**
      * Start a new Activity for a result.
@@ -44,7 +43,7 @@ public interface BaseNavigator {
      * @param cls         the Activity class to be opened.
      * @param requestCode the request code that will be passed to the opened Activity.
      */
-    void startActivityForResult(Class cls, int requestCode);
+    fun startActivityForResult(cls: Class<*>, requestCode: Int)
 
     /**
      * Start a new Activity for a result with an extra
@@ -54,9 +53,9 @@ public interface BaseNavigator {
      * @param extraKey   the key for the extra that is passed in the Intent.
      * @param extraValue the value for the extra that is passed in the Intent.
      */
-    void startActivityForResultWithExtra(Class cls, int requestCode, String extraKey, String extraValue);
+    fun startActivityForResultWithExtra(cls: Class<*>, requestCode: Int, extraKey: String, extraValue: String)
 
-    void startActivityForResultWithExtra(Class cls, int requestCode, String extraKey, int extraValue);
+    fun startActivityForResultWithExtra(cls: Class<*>, requestCode: Int, extraKey: String, extraValue: Int)
 
     /**
      * Start a new Activity for a result with an extras
@@ -65,9 +64,9 @@ public interface BaseNavigator {
      * @param requestCode the request code that will be passed to the opened Activity.
      * @param extras the Bundle of extras that is passed in the Intent.
      */
-    void startActivityForResultWithExtra(Class cls, int requestCode, Bundle extras);
+    fun startActivityForResultWithExtra(cls: Class<*>, requestCode: Int, extras: Bundle)
 
-    void addFragment(@NonNull Fragment fragment, @IdRes int containerId);
+    fun addFragment(fragment: Fragment, @IdRes containerId: Int)
 
-    void addFragment(@NonNull Fragment fragment, @IdRes int containerId, @NonNull View sharedElement);
+    fun addFragment(fragment: Fragment, @IdRes containerId: Int, sharedElement: View)
 }

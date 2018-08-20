@@ -26,7 +26,7 @@ public class NetworkConnectivityInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        if (!NetworkUtils.isConnected()) {
+        if (!new NetworkUtils().isConnected()) {
             throw new NoNetworkException();
         }
 

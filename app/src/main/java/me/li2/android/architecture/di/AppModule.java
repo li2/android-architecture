@@ -56,9 +56,11 @@ public class AppModule {
     @Provides
     @Singleton
     AppExecutors provideAppExecutors() {
-        return new AppExecutors(Executors.newSingleThreadExecutor(),
+        return new AppExecutors(
+                Executors.newSingleThreadExecutor(),
                 Executors.newFixedThreadPool(3),
-                new AppExecutors.MainThreadExecutor());
+                new AppExecutors.MainThreadExecutor()
+        );
     }
 
     @Provides

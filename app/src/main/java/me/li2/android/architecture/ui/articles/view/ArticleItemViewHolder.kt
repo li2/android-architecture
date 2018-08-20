@@ -27,11 +27,14 @@ class ArticleItemViewHolder(private val mItemView: View, private val mImageLoade
         mItemView.articleTitleView.text = articleItem.title
         mItemView.articleDescriptionView.text = articleItem.description
         mItemView.articleImageView.visibility = View.GONE
-        mImageLoader.loadImage(mItemView.articleImageView, articleItem.imageHref, null) {
-            succeed -> mItemView.articleImageView.visibility = if (succeed) View.VISIBLE else View.GONE
-        }
+        mImageLoader.loadImage(
+                mItemView.articleImageView,
+                articleItem.imageHref,
+                null,
+                Consumer { succeed -> mItemView.articleImageView.visibility = if (succeed) View.VISIBLE else View.GONE }
+        )
         mOnItemClickAction = articleItem.onClickAction
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils.setArticleTransitionName(mItemView.context, mItemView.articleImageView, articleItem.title)
+        ViewUtils().setArticleTransitionName(mItemView.context, mItemView.articleImageView, articleItem.title)
     }
 }

@@ -83,9 +83,9 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     @MainThread
     private void saveResultAndReInit(ApiResponse<RequestType> response) {
-        appExecutors.diskIO().execute(() -> {
+        appExecutors.getDiskIO().execute(() -> {
             saveCallResult(processResponse(response));
-            appExecutors.mainThread().execute(() ->
+            appExecutors.getMainThread().execute(() ->
                     // we specially request a new live data,
                     // otherwise we will get immediately last cached value,
                     // which may not be updated with latest results received from network.
