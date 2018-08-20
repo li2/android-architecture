@@ -4,9 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.article_list_view_holder.view.*
+import me.li2.android.architecture.ui.articledetail.view.setArticleTransitionName
 import me.li2.android.architecture.ui.articles.viewmodel.ArticleItem
 import me.li2.android.architecture.utils.BaseImageLoader
-import me.li2.android.architecture.utils.ViewUtils
 
 /**
  * Created by weiyi on 19/08/2018.
@@ -35,6 +35,6 @@ class ArticleItemViewHolder(private val mItemView: View, private val mImageLoade
         )
         mOnItemClickAction = articleItem.onClickAction
         // shared element transition between RecyclerView and Fragment. notebyweiyi
-        ViewUtils().setArticleTransitionName(mItemView.context, mItemView.articleImageView, articleItem.title)
+        setArticleTransitionName(mItemView.context, mItemView.articleImageView, articleItem.title)
     }
 }
