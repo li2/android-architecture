@@ -37,6 +37,6 @@ class ArticleDeserializer @Inject constructor(): JsonDeserializer<Article> {
             return null
         }
 
-        return Article(title, description, imageHref)
+        return Article(title = title, description = description, imageHref = imageHref)
     }
 }

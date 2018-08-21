@@ -1,7 +1,6 @@
 package me.li2.android.architecture.data.model
 
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -22,7 +21,7 @@ import com.google.gson.annotations.SerializedName
 data class Article (
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
 
     @SerializedName("title")
     val title: String?,
@@ -32,9 +31,4 @@ data class Article (
 
     @SerializedName("imageHref")
     val imageHref: String?
-) {
-    // TODO this constructor is only for ArticleDeserializer, might be able to remove it when refactor the deserializer to kotlin
-    @Ignore
-    constructor(title: String?, description: String?, imageHref: String?) : this(0, title, description, imageHref)
-}
-
+)
