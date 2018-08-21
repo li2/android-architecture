@@ -7,12 +7,11 @@ package me.li2.android.architecture.utils
 import android.content.Context
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import me.li2.android.architecture.app.DemoApplication
+import me.li2.android.architecture.app.appContext
 
-// TODO is this the right approach to convert Java static method to Kotlin?
 val isNetworkConnected: Boolean
     get() {
-        val cm = DemoApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
         return activeNetwork != null && activeNetwork.isConnected
     }
