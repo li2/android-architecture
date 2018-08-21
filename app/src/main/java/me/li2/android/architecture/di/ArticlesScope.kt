@@ -1,10 +1,10 @@
-package me.li2.android.architecture.di;
+package me.li2.android.architecture.di
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Documented
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
 
-import javax.inject.Scope;
+import javax.inject.Scope
 
 /**
  * Q: Why Dagger2 inject the same object but with 2 different instances?
@@ -19,5 +19,4 @@ import javax.inject.Scope;
 @Scope
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ArticlesScope {
-}
+annotation class ArticlesScope
