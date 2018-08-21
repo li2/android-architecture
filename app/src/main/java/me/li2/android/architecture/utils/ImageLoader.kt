@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
-import com.google.common.base.Strings
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
@@ -26,7 +25,7 @@ constructor() : BaseImageLoader {
     }
 
     override fun loadImage(view: ImageView, url: String?, placeHolder: Drawable?, onLoadedAction: Consumer<Boolean>?) {
-        var url = if (Strings.isNullOrEmpty(url)) null else url
+        var url = if (url.isNullOrEmpty()) null else url
 
         mPicasso.load(url).placeholder(placeHolder).into(view, object : Callback {
             override fun onSuccess() {
@@ -40,7 +39,7 @@ constructor() : BaseImageLoader {
     }
 
     override fun loadImage(view: View, url: String?, placeHolder: Drawable?) {
-        var url = if (Strings.isNullOrEmpty(url)) null else url
+        var url = if (url.isNullOrEmpty()) null else url
 
         mPicasso.load(url).placeholder(placeHolder).into(object : Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {

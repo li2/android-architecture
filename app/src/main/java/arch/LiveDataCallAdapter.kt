@@ -53,11 +53,11 @@ internal class LiveDataCallAdapter<R>(private val responseType: Type) : CallAdap
             if (started.compareAndSet(false, true)) {
                 call.enqueue(object : Callback<R> {
                     override fun onResponse(call: Call<R>, response: Response<R>) {
-                        postValue(ApiResponse(response))
+                        postValue(ApiResponse.create(response))
                     }
 
                     override fun onFailure(call: Call<R>, throwable: Throwable) {
-                        postValue(ApiResponse(throwable))
+                        postValue(ApiResponse.create(throwable))
                     }
                 })
             }

@@ -34,7 +34,8 @@ import me.li2.android.architecture.utils.AppExecutors
  * Guide](https://developer.android.com/arch).
  * @param <ResultType> Type for the Resource data (normally represents db)
  * @param <RequestType> Type for the web service API response
-</RequestType></ResultType> */
+ * </RequestType></ResultType>
+ */
 
 abstract class NetworkBoundResource<ResultType, RequestType> @MainThread
 constructor(private val appExecutors: AppExecutors) {
@@ -50,7 +51,9 @@ constructor(private val appExecutors: AppExecutors) {
                 fetchFromNetwork(dbSource)
             } else {
                 // TODO this data is cached, but it will be considered to fetch from network
-                result.addSource(dbSource) { newData -> setValue(Resource.success(newData)) }
+                result.addSource(dbSource) { newData ->
+                    setValue(Resource.success(newData))
+                }
             }
         }
     }
@@ -70,27 +73,41 @@ constructor(private val appExecutors: AppExecutors) {
             result.removeSource(apiResponse)
             result.removeSource(dbSource)
 
-            if (response!!.isSuccessful) {
-                saveResultAndReInit(response)
-            } else {
-                onFetchFailed()
-                result.addSource(dbSource) { newData ->
-                    setValue(
-                            Resource.error(newData, response.errorMessage!!, response.code, response.throwable!!))
+            when(response) {
+                is ApiResponse.ApiSuccessResponse -> {
+                    saveResultAndReInit(response)
+                }
+
+                is ApiResponse.ApiEmptyResponse -> {
+                    // reload from disk whatever we had
+                    appExecutors.mainThread.execute {
+                        result.addSource(loadFromDb()) { newData ->
+                            setValue(Resource.success(newData))
+                        }
+                    }
+                }
+
+                is ApiResponse.ApiErrorResponse -> {
+                    onFetchFailed()
+                    result.addSource(dbSource) { newData ->
+                        setValue(Resource.error(newData, response.errorMessage, response.code, response.throwable))
+                    }
                 }
             }
         }
     }
 
     @MainThread
-    private fun saveResultAndReInit(response: ApiResponse<RequestType>) {
+    private fun saveResultAndReInit(response: ApiResponse.ApiSuccessResponse<RequestType>) {
         appExecutors.diskIO.execute {
-            saveCallResult(processResponse(response)!!)
+            saveCallResult(processResponse(response))
             appExecutors.mainThread.execute {
                 // we specially request a new live data,
                 // otherwise we will get immediately last cached value,
                 // which may not be updated with latest results received from network.
-                result.addSource(loadFromDb()) { newData -> setValue(Resource.success(newData)) }
+                result.addSource(loadFromDb()) { newData ->
+                    setValue(Resource.success(newData))
+                }
             }
         }
     }
@@ -104,7 +121,7 @@ constructor(private val appExecutors: AppExecutors) {
     }
 
     @WorkerThread
-    protected open fun processResponse(response: ApiResponse<RequestType>)= response.body
+    protected open fun processResponse(response: ApiResponse.ApiSuccessResponse<RequestType>)= response.body
 
     /**
      * Called to get the cached data from the database

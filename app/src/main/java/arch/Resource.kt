@@ -24,7 +24,7 @@ import java.net.HttpURLConnection
 /**
  * A generic class that holds a value with its loading status. The value is from [ApiResponse].
  * @param <T>
-</T> */
+ */
 data class Resource<T>(val status: Status, val data: T?, val code: Int, val errorMessage: String?, val throwable: Throwable?) {
     companion object {
 
@@ -34,7 +34,7 @@ data class Resource<T>(val status: Status, val data: T?, val code: Int, val erro
         }
 
         // add two more fields to let client know the error code / throwable (especially for custom Throwable). notebyweiyi
-        fun <T> error(data: T?, errorMessage: String, code: Int, throwable: Throwable): Resource<T> {
+        fun <T> error(data: T?, errorMessage: String, code: Int, throwable: Throwable?): Resource<T> {
             return Resource(Status.ERROR, data, code, errorMessage, throwable)
         }
 

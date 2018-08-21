@@ -20,65 +20,57 @@
 package arch
 
 import retrofit2.Response
-import timber.log.Timber
-import java.io.IOException
 import java.net.HttpURLConnection
 
 /**
  * Common class used by API responses.
  * @param <T>
  */
-class ApiResponse<T> {
+@Suppress("unused") // T is used in extending classes
+sealed class ApiResponse<T> {
+    companion object {
+        fun <T> create(error: Throwable): ApiErrorResponse<T> {
+            return ApiErrorResponse(HttpURLConnection.HTTP_INTERNAL_ERROR, error.message ?: "unknown error", error)
+        }
 
-    /**
-     * HTTP Status Codes
-     * https://www.restapitutorial.com/httpstatuscodes.html
-     */
-    val code: Int
-
-    val body: T?
-
-    val errorMessage: String?
-
-    /**
-     * [retrofit2.Callback.onFailure]} invoked when a network exception occurred without response,
-     * for example, by creating a custom Exception class [NoNetworkException] allows us
-     * to catch it for error handling. notebyweiyi
-     */
-    val throwable: Throwable?
-
-    val isSuccessful: Boolean
-        get() = code >= HttpURLConnection.HTTP_OK && code < HttpURLConnection.HTTP_MULT_CHOICE
-
-    constructor(error: Throwable) {
-        throwable = error
-        code = HttpURLConnection.HTTP_INTERNAL_ERROR
-        body = null
-        errorMessage = error.message
-    }
-
-    constructor(response: Response<T>) {
-        throwable = null
-        code = response.code()
-        if (response.isSuccessful) {
-            body = response.body()
-            errorMessage = null
-        } else {
-            var message: String? = null
-            if (response.errorBody() != null) {
-                try {
-                    message = response.errorBody()!!.string()
-                } catch (ignored: IOException) {
-                    Timber.e(ignored, "error while parsing response")
+        fun <T> create(response: Response<T>): ApiResponse<T> {
+            return if (response.isSuccessful) {
+                val body = response.body()
+                if (body == null || response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
+                    ApiEmptyResponse()
+                } else {
+                    ApiSuccessResponse(body)
                 }
+            } else {
+                val msg = response.errorBody()?.string()
+                val errorMsg = if (msg.isNullOrEmpty()) {
+                    response.message()
+                } else {
+                    msg
+                }
+                ApiErrorResponse(response.code(), errorMsg ?: "unknown error", null)
             }
-            if (message == null || message.trim().isEmpty()) {
-                message = response.message()
-            }
-            errorMessage = message
-            body = null
         }
     }
 
-    // TODO ApiEmptyResponse ApiSuccessResponse ApiErrorResponse
+    /**
+     * separate class for HTTP 204 responses so that we can make ApiSuccessResponse's body non-null.
+     */
+    class ApiEmptyResponse<T> : ApiResponse<T>()
+
+    data class ApiErrorResponse<T>(
+            /** HTTP Status Codes, see https://www.restapitutorial.com/httpstatuscodes.html */
+            val code: Int,
+
+            val errorMessage: String,
+
+            /**
+             * [retrofit2.Callback.onFailure]} invoked when a network exception occurred without response,
+             * for example, by creating a custom Exception class [NoNetworkException] allows us
+             * to catch it for error handling. notebyweiyi
+             */
+            val throwable: Throwable?
+    ) : ApiResponse<T>()
+
+    data class ApiSuccessResponse<T>(val body: T) : ApiResponse<T>()
 }
