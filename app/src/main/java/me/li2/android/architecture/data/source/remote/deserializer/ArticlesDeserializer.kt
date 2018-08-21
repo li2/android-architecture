@@ -7,7 +7,6 @@ import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import me.li2.android.architecture.data.model.Article
 import java.lang.reflect.Type
-import java.util.*
 import javax.inject.Inject
 
 /**

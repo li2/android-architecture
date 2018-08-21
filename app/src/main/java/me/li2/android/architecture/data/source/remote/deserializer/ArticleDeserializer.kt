@@ -14,9 +14,7 @@ import javax.inject.Inject
  * https://github.com/li2
  */
 
-class ArticleDeserializer : JsonDeserializer<Article> {
-    @Inject
-    constructor()
+class ArticleDeserializer @Inject constructor(): JsonDeserializer<Article> {
 
     @Throws(JsonParseException::class)
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Article? { // null cannot be a value of non-null type
@@ -26,9 +24,9 @@ class ArticleDeserializer : JsonDeserializer<Article> {
 
         val jsonObject = json.asJsonObject
         if (!jsonObject.isJsonNull) {
-            title = JsonUtils().getJsonMemberAsString(jsonObject, "title")
-            description = JsonUtils().getJsonMemberAsString(jsonObject, "description")
-            imageHref = JsonUtils().getJsonMemberAsString(jsonObject, "imageHref")
+            title = getJsonMemberAsString(jsonObject, "title")
+            description = getJsonMemberAsString(jsonObject, "description")
+            imageHref = getJsonMemberAsString(jsonObject, "imageHref")
             if (TextUtils.isEmpty(imageHref)) {
                 // Picasso.load path must not be empty notebyweiyi
                 imageHref = null
