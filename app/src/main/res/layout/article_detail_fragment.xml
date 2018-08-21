@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/article_image_view"
+            android:id="@+id/articleImageView"
             android:transitionName="@string/transition_article_cover_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/article_card_height"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/article_title_view"
+            android:id="@+id/articleTitleView"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,19 +32,19 @@
             android:textSize="@dimen/arch_title_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/article_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/articleImageView"
             tools:text="title"/>
 
         <TextView
-            android:id="@+id/article_description_view"
+            android:id="@+id/articleDescriptionView"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
             android:textSize="@dimen/arch_body_font"
-            app:layout_constraintEnd_toEndOf="@+id/article_title_view"
-            app:layout_constraintStart_toStartOf="@+id/article_title_view"
-            app:layout_constraintTop_toBottomOf="@+id/article_title_view"
+            app:layout_constraintEnd_toEndOf="@+id/articleTitleView"
+            app:layout_constraintStart_toStartOf="@+id/articleTitleView"
+            app:layout_constraintTop_toBottomOf="@+id/articleTitleView"
             tools:text="subtitle"/>
 
     </android.support.constraint.ConstraintLayout>
