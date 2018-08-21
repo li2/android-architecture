@@ -16,7 +16,6 @@ import com.google.gson.annotations.SerializedName
  * Sample Json: https://li2.gitbooks.io/android-programming-journey/content/assets/demo-articles.json
  */
 
-// TODO what's the purpose of indices?
 @Entity(tableName = "ArticleTable", indices = [Index(value = *arrayOf("title"), unique = true)])
 data class Article (
 

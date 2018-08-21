@@ -37,14 +37,14 @@ class ArticlesRepository @Inject constructor() {
     lateinit var repoListRateLimit: RateLimiter<String>
 
 
-    fun loadArticles(): LiveData<Resource<List<Article>>> {
+    fun loadArticles(forceUpdate: Boolean): LiveData<Resource<List<Article>>> {
         return object : NetworkBoundResource<List<Article>, List<Article>>(mExecutors) {
             override fun loadFromDb(): LiveData<List<Article>> {
                 return mArticlesDao.getArticles()
             }
 
             override fun shouldFetch(data: List<Article>?): Boolean {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(TAG)
+                return forceUpdate || data == null || data.isEmpty() || repoListRateLimit.shouldFetch(TAG)
             }
 
             override fun createCall(): LiveData<ApiResponse<List<Article>>> {

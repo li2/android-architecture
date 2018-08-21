@@ -10,8 +10,6 @@ import javax.inject.Inject
 /**
  * Created by weiyi on 24/7/18.
  * https://github.com/li2
- *
- * TODO why cannot inject directly in the ViewModel
  */
 class ArticlesViewModelFactory @Inject
 constructor() : ViewModelProvider.NewInstanceFactory() {

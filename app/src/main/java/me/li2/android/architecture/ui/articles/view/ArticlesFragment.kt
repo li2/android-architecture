@@ -47,11 +47,11 @@ class ArticlesFragment : DaggerFragment() {
     override fun onResume() {
         super.onResume()
 
-        mViewModel.uiModel.observe(this, Observer { uiModel -> updateView(uiModel) })
+        mViewModel.getUiModel(false).observe(this, Observer { uiModel -> updateView(uiModel) })
 
-        mViewModel.loadingIndicator.observe(this, Observer { visible -> setLoadingIndicatorVisibility(visible!!) }) // TODO why Found String?
+        mViewModel.loadingIndicator.observe(this, Observer { visible -> setLoadingIndicatorVisibility(visible!!) })
 
-        mViewModel.snackbarMessage.observe(this, Observer { message -> showSnackBar(message!!) }) // TODO why Found String?
+        mViewModel.snackbarMessage.observe(this, Observer { message -> showSnackBar(message!!) })
     }
 
     private fun updateView(uiModel: ArticlesUiModel?) {
@@ -85,7 +85,9 @@ class ArticlesFragment : DaggerFragment() {
     }
 
     private fun setupSwipeRefreshLayout() {
-        articlesSwiperefreshLayout.setOnRefreshListener { mViewModel.forceUpdateArticles() }
+        articlesSwiperefreshLayout.setOnRefreshListener {
+            mViewModel.getUiModel(true).observe(this, Observer { uiModel -> updateView(uiModel) })
+        }
     }
 
     private fun setLoadingIndicatorVisibility(active: Boolean) {

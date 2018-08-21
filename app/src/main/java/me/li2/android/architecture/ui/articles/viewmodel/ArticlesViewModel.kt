@@ -9,7 +9,6 @@ import android.view.View
 import arch.NoNetworkException
 import arch.Resource
 import arch.Status
-import io.reactivex.Completable
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import me.li2.android.architecture.R
@@ -59,8 +58,8 @@ class ArticlesViewModel(private val mRepository: ArticlesRepository,
     /**
      * Live stream emits the [ArticlesUiModel] which is the model for the articles list screen.
      */
-    val uiModel: LiveData<ArticlesUiModel> =
-            Transformations.map(getArticleItems()) { resource ->
+    fun getUiModel(forceUpdate: Boolean): LiveData<ArticlesUiModel> =
+            Transformations.map(getArticleItems(forceUpdate)) { resource ->
                 loadingIndicator.value = resource.status == Status.LOADING
 
                 if (resource.status == Status.ERROR) {
@@ -83,8 +82,8 @@ class ArticlesViewModel(private val mRepository: ArticlesRepository,
      * Convert [Article] (raw data model) to [ArticleItem] (view data model)
      * @return
      */
-    private fun getArticleItems(): LiveData<Resource<List<ArticleItem>>> =
-            Transformations.map(mRepository.loadArticles()) { resource ->
+    private fun getArticleItems(forceUpdate: Boolean): LiveData<Resource<List<ArticleItem>>> =
+            Transformations.map(mRepository.loadArticles(forceUpdate)) { resource ->
                 var articleItems: MutableList<ArticleItem>? = null
                 if (resource.data != null) {
                     articleItems = ArrayList()
@@ -120,14 +119,5 @@ class ArticlesViewModel(private val mRepository: ArticlesRepository,
 
     private fun handleArticleTaped(article: Article, sharedElement: View) {
         mNavigator.openArticleDetails(article.id, sharedElement)
-    }
-
-    /**
-     * Trigger a force update of the articles.
-     */
-    fun forceUpdateArticles(): Completable? {
-        loadingIndicator.value = true
-        // TODO
-        return null
     }
 }
