@@ -92,7 +92,7 @@ class ArticlesViewModel(private val mRepository: ArticlesRepository,
                         articleItems.add(constructArticleItem(article))
                     }
                 }
-                Resource<List<ArticleItem>>(resource.status, articleItems, resource.errorMessage, resource.code, resource.throwable)
+                Resource<List<ArticleItem>>(resource.status, articleItems, resource.code, resource.errorMessage, resource.throwable)
             }
 
     private fun constructArticlesUiModel(articleItems: List<ArticleItem>): ArticlesUiModel {

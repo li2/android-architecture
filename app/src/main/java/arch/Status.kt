@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package arch;
+// https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample/app/src/main/java/com/android/example/github/vo/Status.java
 
-class Objects {
-    public static boolean equals(Object o1, Object o2) {
-        if (o1 == null) {
-            return o2 == null;
-        }
-        if (o2 == null) {
-            return false;
-        }
-        return o1.equals(o2);
-    }
+package arch
+
+/**
+ * Status of a resource that is provided to the UI.
+ *
+ *
+ * These are usually created by the Repository classes where they return
+ * `LiveData<Resource<T>>` to pass back the latest data to the UI with its fetch status.
+ */
+enum class Status {
+    SUCCESS,
+    ERROR,
+    LOADING
 }
