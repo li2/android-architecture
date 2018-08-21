@@ -6,9 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewCompat
 import android.transition.TransitionInflater
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.article_detail_fragment.*
 import me.li2.android.architecture.R
@@ -36,6 +34,8 @@ fun setArticleTransitionName(context: Context, sharedElement: View, id: String?)
 
 class ArticleDetailFragment : BaseFragment() {
 
+    override val layout: Int = R.layout.article_detail_fragment
+
     @Inject
     lateinit var mViewModel: ArticleDetailViewModel
 
@@ -59,12 +59,6 @@ class ArticleDetailFragment : BaseFragment() {
             sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         }
     }
-
-    override fun getLayout(): Int {
-        return R.layout.article_detail_fragment
-    }
-
-    override fun setupView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {}
 
     override fun onResume() {
         super.onResume()
