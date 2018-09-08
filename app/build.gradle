@@ -8,7 +8,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion androidCompileSdkVersion
-    buildToolsVersion androidBuildToolsVersion
     defaultConfig {
         applicationId appPackageName
         minSdkVersion androidMinSdkVersion
